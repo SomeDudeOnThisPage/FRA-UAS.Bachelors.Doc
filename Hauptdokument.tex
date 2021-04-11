@@ -69,13 +69,38 @@
 \chapter*{Abkürzungsverzeichnis}	
 \addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}		%ins Inhaltsverzeichnis schreiben
 \chaptermark{Abkürzungsverzeichnis}
-\begin{acronym}
+\begin{acronym}[TDMA]
+
+\acro{W3C}{World Wide Web Consortium}
+\acro{RTC}{Real-Time Communication}
+\acro{WebRTC}{Web Real-Time Communication}
+\acro{P2P}{Peer-To-Peer}
+\acro{HTTP}{Hypertext Transfer Protocol}
+\acro{NPM}{Node Package Manager}
+\acro{IETF}{Internet Engineering Task Force}
+\acro{RTP}{Real-Time Transport Protocol}
+\acro{SRTP}{Secure Real-Time Transport Protocol}
+\acro{JSEP}{JavaScript Session Establishment Protocol}
+\acro{ICE}{Interactive Connectivity Establishment}
+\acro{NAT}{Network Address Translation}
+\acro{STUN}{Session Traversal Utilities for NAT}
+\acro{TURN}{Traversal Using Relays around NAT}
+\acro{SCTP}{Stream Control Transport Protocol}
+\acro{DTLS}{Datagram Transport Layer Security}
+\acro{API}{Application Programming Interface}
+\acro{TCP}{Transmission Control Protocol}
+\acro{UDP}{User Datagram Protocol}
+\acro{OSI}{Open Systems Interconnection}
+\acro{IP}{Internet Protocol}
+\acro{SDK}{Source Development Kit}
+\acro{SIP}{Session Initialization Protocol}
+\acro{SDP}{Session Description Protocol}
 
 \end{acronym}
 
 
 
-\end{singlespace}
+
 \cleardoublepage
 \pagenumbering{arabic}			%ab hier arabische Seitenzahlen
 
@@ -83,7 +108,7 @@
 \chapter{Einleitung}
 \input{chapters/C00_Einleitung.tex}
 
-\chapter{Technische Grundlagen}
+\chapter{Grundlagen}
 \input{chapters/C01_Grundlagen.tex}
 
 \chapter{Design und Implementation der WebRTC--Infrastruktur}
@@ -103,11 +128,9 @@
 %\input{}
 
 \bibliography{30_Literaturverzeichnis.bib}
-
 \clearpage
 
 %\chapter{Anhang}
 
-
-
+\end{singlespace}
 \end{document}

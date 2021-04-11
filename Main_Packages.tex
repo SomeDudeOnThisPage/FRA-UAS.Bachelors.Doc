@@ -64,6 +64,8 @@
 \usetikzlibrary{arrows,positioning}
 \usetikzlibrary{decorations.pathmorphing}
 \usetikzlibrary{shapes.geometric}
+\usepackage{svg}
+\usepackage{caption}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%Stil des Literaturverzeichnisses%%%%
@@ -88,13 +90,38 @@ citecolor = black,
 breaklinks = true,
 allcolors = black] {hyperref}  
 
+% custom caption command thingy to cite if needed
+% vspace -11 to force effective single spacing between caption and src
+\newcommand{\source}[1]{\vspace{-11pt} \caption*{ Quelle: {#1}} }
+
 %\renewcommand{\labelitemi}{-}   %aufzählungszeichen strich statt punkt - beliebig anpassbar
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
-\lstdefinestyle{mystyle}{
+\definecolor{whitecolour}{rgb}{1.00,1.00,1.00}
+
+\lstdefinestyle{STYLE_COMMAND_LINE_ARGUMENT_SINGLE_LINE}{
+    backgroundcolor=\color{whitecolour},
+    keywordstyle=\color{backcolour},
+    basicstyle=\ttfamily\small,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=none,                    
+    numbersep=0pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    frame=tb,
+    xleftmargin=0.5cm,
+    xrightmargin=0.5cm,
+}
+
+\lstdefinestyle{STYLE_CODE_JS}{
     backgroundcolor=\color{backcolour},   
     commentstyle=\color{codegreen},
     keywordstyle=\color{magenta},
@@ -112,4 +139,12 @@ allcolors = black] {hyperref}
     showtabs=false,                  
     tabsize=2
 }
-\lstset{style=mystyle}
+\lstset{style=STYLE_CODE_JS}
+
+% \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+
+% nicht alle wörter breaken...
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000

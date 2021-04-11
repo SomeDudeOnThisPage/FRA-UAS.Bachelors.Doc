@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.3.23)  23 MAR 2021 02:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.3.23)  29 MAR 2021 08:52
 entering extended mode
 **./00_Deckblatt.tex
 (00_Deckblatt.tex
@@ -22,7 +22,7 @@ Overfull \hbox (20.0pt too wide) in paragraph at lines 2--2
  []
 
 ! Undefined control sequence.
-l.4 \includegraphics
+l.5 \includegraphics
                     [height=3cm]{bilder/frauaslogo.png}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -70,7 +70,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.5 \begin{figure}
+l.6 \begin{figure}
                   [h!]
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -87,8 +87,8 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.7 \end{figure}
-                %\\%[1,5cm]
+l.8 \end{figure}
+                \\[1,5cm]
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
@@ -100,89 +100,79 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9 \begin{Large}
-                 
+l.10 \begin{Large}
+                  
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Overfull \hbox (42.43076pt too wide) in paragraph at lines 10--11
+Overfull \hbox (42.43076pt too wide) in paragraph at lines 11--11
  []\OT1/cmss/bx/n/10 Frankfurt 
  []
 
 
-Overfull \hbox (19.4723pt too wide) in paragraph at lines 10--11
+Overfull \hbox (19.4723pt too wide) in paragraph at lines 11--11
  \OT1/cmss/bx/n/10 Uni- 
  []
 
 
-Overfull \hbox (17.50008pt too wide) in paragraph at lines 10--11
+Overfull \hbox (17.50008pt too wide) in paragraph at lines 11--11
  \OT1/cmss/bx/n/10 ver- 
  []
 
 
-Overfull \hbox (15.50839pt too wide) in paragraph at lines 10--11
+Overfull \hbox (15.50839pt too wide) in paragraph at lines 11--11
  \OT1/cmss/bx/n/10 sity 
  []
 
 
-Overfull \hbox (8.86116pt too wide) in paragraph at lines 10--11
+Overfull \hbox (8.86116pt too wide) in paragraph at lines 11--11
  \OT1/cmss/bx/n/10 of 
  []
 
 
-Overfull \hbox (16.61119pt too wide) in paragraph at lines 10--11
+Overfull \hbox (16.61119pt too wide) in paragraph at lines 11--11
  \OT1/cmss/bx/n/10 Ap- 
  []
 
 
-Overfull \hbox (21.4445pt too wide) in paragraph at lines 10--11
+Overfull \hbox (21.4445pt too wide) in paragraph at lines 11--11
  \OT1/cmss/bx/n/10 plied 
  []
 
 
-Overfull \hbox (17.2223pt too wide) in paragraph at lines 10--11
+Overfull \hbox (17.2223pt too wide) in paragraph at lines 11--11
  \OT1/cmss/bx/n/10 Sci- 
  []
 
 
-Overfull \hbox (24.939pt too wide) in paragraph at lines 10--11
+Overfull \hbox (24.939pt too wide) in paragraph at lines 11--11
  \OT1/cmss/bx/n/10 ences 
  []
 
 
-Overfull \hbox (25.22235pt too wide) in paragraph at lines 10--11
- \OT1/cmss/bx/n/10 Fach- 
+Overfull \hbox (54.47246pt too wide) in paragraph at lines 12--12
+ []\OT1/cmss/bx/n/10 Fachbereich 
  []
 
 
-Overfull \hbox (23.52788pt too wide) in paragraph at lines 10--11
- \OT1/cmss/bx/n/10 bere- 
- []
-
-
-Overfull \hbox (13.0556pt too wide) in paragraph at lines 10--11
- \OT1/cmss/bx/n/10 ich 
- []
-
-
-Overfull \hbox (8.5556pt too wide) in paragraph at lines 10--11
+Overfull \hbox (8.5556pt too wide) in paragraph at lines 12--12
  \OT1/cmss/bx/n/10 2: 
  []
 
 
-Overfull \hbox (12.58337pt too wide) in paragraph at lines 10--11
+Overfull \hbox (12.58337pt too wide) in paragraph at lines 12--12
  \OT1/cmss/bx/n/10 In- 
  []
 
 
-Overfull \hbox (15.94453pt too wide) in paragraph at lines 10--11
+Overfull \hbox (15.94453pt too wide) in paragraph at lines 12--12
  \OT1/cmss/bx/n/10 for- 
  []
 
 
-Overfull \hbox (25.81955pt too wide) in paragraph at lines 10--11
+Overfull \hbox (25.81955pt too wide) in paragraph at lines 12--12
  \OT1/cmss/bx/n/10 matik 
  []
 
@@ -193,7 +183,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.12 \end{Large}
+l.13 \end{Large}
                 
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -206,14 +196,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.15 \begin{LARGE}
+l.16 \begin{LARGE}
                   
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Overfull \hbox (65.41974pt too wide) in paragraph at lines 16--16
+Overfull \hbox (65.41974pt too wide) in paragraph at lines 17--17
  []\OT1/cmss/bx/n/10 Bachelorthesis 
  []
 
@@ -224,79 +214,79 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.17 \end{LARGE}
+l.18 \end{LARGE}
                 
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Overfull \hbox (12.93059pt too wide) in paragraph at lines 18--18
+Overfull \hbox (12.93059pt too wide) in paragraph at lines 19--19
  []\OT1/cmss/m/n/10 zur 
  []
 
 
-Overfull \hbox (12.72224pt too wide) in paragraph at lines 18--18
+Overfull \hbox (12.72224pt too wide) in paragraph at lines 19--19
  \OT1/cmss/m/n/10 Er- 
  []
 
 
-Overfull \hbox (15.69446pt too wide) in paragraph at lines 18--18
+Overfull \hbox (15.69446pt too wide) in paragraph at lines 19--19
  \OT1/cmss/m/n/10 lan- 
  []
 
 
-Overfull \hbox (20.33337pt too wide) in paragraph at lines 18--18
+Overfull \hbox (20.33337pt too wide) in paragraph at lines 19--19
  \OT1/cmss/m/n/10 gung 
  []
 
 
-Overfull \hbox (13.44444pt too wide) in paragraph at lines 18--18
+Overfull \hbox (13.44444pt too wide) in paragraph at lines 19--19
  \OT1/cmss/m/n/10 des 
  []
 
 
-Overfull \hbox (41.33339pt too wide) in paragraph at lines 18--18
+Overfull \hbox (41.33339pt too wide) in paragraph at lines 19--19
  \OT1/cmss/m/n/10 akademis- 
  []
 
 
-Overfull \hbox (19.22223pt too wide) in paragraph at lines 18--18
+Overfull \hbox (19.22223pt too wide) in paragraph at lines 19--19
  \OT1/cmss/m/n/10 chen 
  []
 
 
-Overfull \hbox (28.33339pt too wide) in paragraph at lines 18--18
+Overfull \hbox (28.33339pt too wide) in paragraph at lines 19--19
  \OT1/cmss/m/n/10 Grades 
  []
 
 
-Overfull \hbox (24.4167pt too wide) in paragraph at lines 18--18
+Overfull \hbox (24.4167pt too wide) in paragraph at lines 19--19
  \OT1/cmss/m/n/10 Bach- 
  []
 
 
-Overfull \hbox (7.77777pt too wide) in paragraph at lines 18--18
+Overfull \hbox (7.77777pt too wide) in paragraph at lines 19--19
  \OT1/cmss/m/n/10 e- 
  []
 
 
-Overfull \hbox (10.5278pt too wide) in paragraph at lines 18--18
+Overfull \hbox (10.5278pt too wide) in paragraph at lines 19--19
  \OT1/cmss/m/n/10 lor 
  []
 
 
-Overfull \hbox (8.05559pt too wide) in paragraph at lines 18--18
+Overfull \hbox (8.05559pt too wide) in paragraph at lines 19--19
  \OT1/cmss/m/n/10 of 
  []
 
 
-Overfull \hbox (15.72223pt too wide) in paragraph at lines 18--18
+Overfull \hbox (15.72223pt too wide) in paragraph at lines 19--19
  \OT1/cmss/m/n/10 Sci- 
  []
 
 
-Overfull \hbox (18.5pt too wide) in paragraph at lines 18--18
+Overfull \hbox (18.5pt too wide) in paragraph at lines 19--19
  \OT1/cmss/m/n/10 ence 
  []
 
@@ -307,104 +297,99 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.20 \begin{Large}
+l.21 \begin{Large}
                   
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Overfull \hbox (32.85571pt too wide) in paragraph at lines 21--21
+Overfull \hbox (32.85571pt too wide) in paragraph at lines 22--22
  []\OT1/cmss/bx/n/10 Einsatz 
  []
 
 
-Overfull \hbox (16.11118pt too wide) in paragraph at lines 21--21
+Overfull \hbox (16.11118pt too wide) in paragraph at lines 22--22
  \OT1/cmss/bx/n/10 von 
  []
 
 
-Overfull \hbox (18.8612pt too wide) in paragraph at lines 21--21
+Overfull \hbox (18.8612pt too wide) in paragraph at lines 22--22
  \OT1/cmss/bx/n/10 We- 
  []
 
 
-Overfull \hbox (27.00014pt too wide) in paragraph at lines 21--21
+Overfull \hbox (27.00014pt too wide) in paragraph at lines 22--22
  \OT1/cmss/bx/n/10 bRTC 
  []
 
 
-Overfull \hbox (12.6945pt too wide) in paragraph at lines 21--21
+Overfull \hbox (12.6945pt too wide) in paragraph at lines 22--22
  \OT1/cmss/bx/n/10 fur 
  []
 
 
-Overfull \hbox (21.91676pt too wide) in paragraph at lines 21--21
- \OT1/cmss/bx/n/10 Run- 
+Overfull \hbox (40.41132pt too wide) in paragraph at lines 22--22
+ \OT1/cmss/bx/n/10 Browser- 
  []
 
 
-Overfull \hbox (20.00008pt too wide) in paragraph at lines 21--21
- \OT1/cmss/bx/n/10 den- 
- []
-
-
-Overfull \hbox (35.6196pt too wide) in paragraph at lines 21--21
+Overfull \hbox (35.6196pt too wide) in paragraph at lines 22--22
  \OT1/cmss/bx/n/10 basierte 
  []
 
 
-Overfull \hbox (49.41132pt too wide) in paragraph at lines 21--21
+Overfull \hbox (49.41132pt too wide) in paragraph at lines 22--22
  \OT1/cmss/bx/n/10 Brettspiele 
  []
 
 
-Overfull \hbox (11.22226pt too wide) in paragraph at lines 21--21
+Overfull \hbox (11.22226pt too wide) in paragraph at lines 22--22
  \OT1/cmss/bx/n/10 im 
  []
 
 
-Overfull \hbox (19.52788pt too wide) in paragraph at lines 21--21
+Overfull \hbox (19.52788pt too wide) in paragraph at lines 22--22
  \OT1/cmss/bx/n/10 Ver- 
  []
 
 
-Overfull \hbox (16.8334pt too wide) in paragraph at lines 21--21
+Overfull \hbox (16.8334pt too wide) in paragraph at lines 22--22
  \OT1/cmss/bx/n/10 gle- 
  []
 
 
-Overfull \hbox (13.0556pt too wide) in paragraph at lines 21--21
+Overfull \hbox (13.0556pt too wide) in paragraph at lines 22--22
  \OT1/cmss/bx/n/10 ich 
  []
 
 
-Overfull \hbox (10.37505pt too wide) in paragraph at lines 21--21
+Overfull \hbox (10.37505pt too wide) in paragraph at lines 22--22
  \OT1/cmss/bx/n/10 zu 
  []
 
 
-Overfull \hbox (30.56956pt too wide) in paragraph at lines 21--21
+Overfull \hbox (30.56956pt too wide) in paragraph at lines 22--22
  \OT1/cmss/bx/n/10 Client- 
  []
 
 
-Overfull \hbox (28.77791pt too wide) in paragraph at lines 21--21
+Overfull \hbox (28.77791pt too wide) in paragraph at lines 22--22
  \OT1/cmss/bx/n/10 Server 
  []
 
 
-Overfull \hbox (14.7223pt too wide) in paragraph at lines 21--21
+Overfull \hbox (14.7223pt too wide) in paragraph at lines 22--22
  \OT1/cmss/bx/n/10 Ar- 
  []
 
 
-Overfull \hbox (31.18068pt too wide) in paragraph at lines 21--21
+Overfull \hbox (31.18068pt too wide) in paragraph at lines 22--22
  \OT1/cmss/bx/n/10 chitek- 
  []
 
 
-Overfull \hbox (13.52785pt too wide) in paragraph at lines 21--21
+Overfull \hbox (13.52785pt too wide) in paragraph at lines 22--22
  \OT1/cmss/bx/n/10 tur 
  []
 
@@ -415,7 +400,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.22 \end{Large}
+l.23 \end{Large}
                 
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -428,141 +413,11 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.25 \begin{large}
+l.26 \begin{large}
                   
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
-
-
-Overfull \hbox (46.36118pt too wide) in paragraph at lines 26--31
-[]\OT1/cmss/m/n/10 Autor:
- []
-
-
-Overfull \hbox (24.1806pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 Robin
- []
-
-
-Overfull \hbox (42.47229pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 Buhlmann 
- []
-
-
-Overfull \hbox (16.88895pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 Ma-
- []
-
-
-Overfull \hbox (24.19447pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 trikel-
- []
-
-
-Overfull \hbox (21.61113pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 num-
- []
-
-
-Overfull \hbox (21.36116pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 mer.:
- []
-
-
-Overfull \hbox (35.0001pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 1218574 
- []
-
-
-Overfull \hbox (17.2917pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 Ref-
- []
-
-
-Overfull \hbox (11.19446pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 er-
- []
-
-
-Overfull \hbox (16.00002pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 ent:
- []
-
-
-Overfull \hbox (20.63896pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 Prof.
- []
-
-
-Overfull \hbox (13.41673pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 Dr.
- []
-
-
-Overfull \hbox (21.86113pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 Eicke
- []
-
-
-Overfull \hbox (24.88893pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 Gode-
- []
-
-
-Overfull \hbox (21.88893pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 hardt 
- []
-
-
-Overfull \hbox (15.27782pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 Ko-
- []
-
-
-Overfull \hbox (6.75002pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 r-
- []
-
-
-Overfull \hbox (14.25003pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 ref-
- []
-
-
-Overfull \hbox (11.19446pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 er-
- []
-
-
-Overfull \hbox (16.00002pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 ent:
- []
-
-
-Overfull \hbox (20.63896pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 Prof.
- []
-
-
-Overfull \hbox (13.41673pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 Dr.
- []
-
-
-Overfull \hbox (24.5278pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 Chris-
- []
-
-
-Overfull \hbox (15.97224pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 tian
- []
-
-
-Overfull \hbox (21.8056pt too wide) in paragraph at lines 26--31
-\OT1/cmss/m/n/10 Baun 
- []
 
 ! Undefined control sequence.
 <argument> Version vom: \today 
@@ -602,5 +457,5 @@ Here is how much of TeX's memory you used:
  17582 multiletter control sequences out of 15000+200000
  404029 words of font info for 29 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 14i,1n,15p,179b,173s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 14i,1n,15p,180b,173s stack positions out of 5000i,500n,10000p,200000b,50000s
 !  ==> Fatal error occurred, no output PDF file produced!

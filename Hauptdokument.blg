@@ -2,53 +2,60 @@ This is BibTeX, Version 0.99d
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Hauptdokument.aux
 Reallocating 'name_of_file' (item size: 1) to 9 items.
-I couldn't open style file alphadin.bst
----line 25 of file Hauptdokument.aux
- : \bibstyle{alphadin
- :                   }
-I'm skipping whatever remains of this command
+The style file: alphadin.bst
 Reallocating 'name_of_file' (item size: 1) to 28 items.
-I found no \citation commands---while reading file Hauptdokument.aux
-I found no style file---while reading file Hauptdokument.aux
-You've used 0 entries,
-            0 wiz_defined-function locations,
-            85 strings with 535 characters,
-and the built_in function-call counts, 0 in all, are:
-= -- 0
-> -- 0
-< -- 0
-+ -- 0
-- -- 0
-* -- 0
-:= -- 0
-add.period$ -- 0
-call.type$ -- 0
-change.case$ -- 0
-chr.to.int$ -- 0
-cite$ -- 0
-duplicate$ -- 0
-empty$ -- 0
-format.name$ -- 0
-if$ -- 0
-int.to.chr$ -- 0
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'wiz_functions' (item size: 4) to 6000 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Database file #1: 30_Literaturverzeichnis.bib
+Warning--to sort, need author or key in webRTCWorkingGroup
+Warning--to sort, need author or key in nodejs
+Warning--to sort, need author or key in socketio
+Warning--empty number in rtcpeerconnection
+Warning--empty year in nodejs
+Warning--empty year in socketio
+Warning--empty year in webRTCWorkingGroup
+You've used 10 entries,
+            4793 wiz_defined-function locations,
+            955 strings with 7764 characters,
+and the built_in function-call counts, 4788 in all, are:
+= -- 546
+> -- 89
+< -- 78
++ -- 91
+- -- 30
+* -- 288
+:= -- 761
+add.period$ -- 16
+call.type$ -- 10
+change.case$ -- 39
+chr.to.int$ -- 10
+cite$ -- 20
+duplicate$ -- 147
+empty$ -- 400
+format.name$ -- 51
+if$ -- 1050
+int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 0
-newline$ -- 0
-num.names$ -- 0
-pop$ -- 0
-preamble$ -- 0
-purify$ -- 0
+missing$ -- 34
+newline$ -- 78
+num.names$ -- 21
+pop$ -- 56
+preamble$ -- 1
+purify$ -- 59
 quote$ -- 0
-skip$ -- 0
+skip$ -- 245
 stack$ -- 0
-substring$ -- 0
-swap$ -- 0
-text.length$ -- 0
-text.prefix$ -- 0
+substring$ -- 301
+swap$ -- 26
+text.length$ -- 18
+text.prefix$ -- 4
 top$ -- 0
-type$ -- 0
-warning$ -- 0
-while$ -- 0
-width$ -- 0
-write$ -- 0
-(There were 3 error messages)
+type$ -- 110
+warning$ -- 7
+while$ -- 29
+width$ -- 15
+write$ -- 157
+(There were 7 warnings)

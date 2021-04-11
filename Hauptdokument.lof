@@ -1,6 +1,12 @@
 \babel@toc {ngerman}{}
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Screenshots einiger Jocly-Spiele.\relax }}{2}{figure.caption.15}%
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Diagramm der WebRTC-Architektur.\relax }}{5}{figure.caption.24}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces \acs {JSEP}-Verbindungsaufbau.\relax }}{8}{figure.caption.38}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Aufbau eines \acs {SCTP}-Packets.\relax }}{9}{figure.caption.48}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Ein toller SVG-Export Test.\relax }}{12}{figure.caption.67}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
