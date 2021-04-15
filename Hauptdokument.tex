@@ -24,18 +24,17 @@
 %hier startet das eigentliche Dokument%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document} 					
-\pagenumbering{Roman}				%Seitennummerierung auf römisch geändert
 \begin{titlepage}					%gesondert formatierte Titelseite
 \input{00_Deckblatt.tex} 			%extrenes .tex Dokument als Titelblatt 
 \end{titlepage}
 \thispagestyle{empty}
 \cleardoublepage
+\pagenumbering{Roman}				%Seitennummerierung auf römisch geändert
 
-%\includepdf[pages=-]{} 					%Aufgabenstellung als PDF einbinden
+%\includepdf[pages=-]{} 					%Aufgabenstellung als PDF einbindenfile
 %\chapter*{Aufgabenstellung}
 %\addcontentsline{toc}{chapter}{Aufgabenstellung}
 %\pagebreak
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{01_Notwendiges.tex}%Vorwort, Editorial, Erklärungen, Vermerke%%
@@ -61,45 +60,16 @@
 \addcontentsline{toc}{chapter}{Tabellenverzeichnis}
 \chaptermark{Tabellenverzeichnis}
 \newpage
-%\lstlistoflistings
-%\addcontentsline{toc}{chapter}{Codeverzeichnis}
-%\chaptermark{Codeverzeichnis}
-%\newpage
+\lstlistoflistings
+\addcontentsline{toc}{chapter}{Codeverzeichnis}
+\chaptermark{Codeverzeichnis}
+\newpage
 
 \chapter*{Abkürzungsverzeichnis}	
-\addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}		%ins Inhaltsverzeichnis schreiben
+\addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
 \chaptermark{Abkürzungsverzeichnis}
-\begin{acronym}[TDMA]
-
-\acro{W3C}{World Wide Web Consortium}
-\acro{RTC}{Real-Time Communication}
-\acro{WebRTC}{Web Real-Time Communication}
-\acro{P2P}{Peer-To-Peer}
-\acro{HTTP}{Hypertext Transfer Protocol}
-\acro{NPM}{Node Package Manager}
-\acro{IETF}{Internet Engineering Task Force}
-\acro{RTP}{Real-Time Transport Protocol}
-\acro{SRTP}{Secure Real-Time Transport Protocol}
-\acro{JSEP}{JavaScript Session Establishment Protocol}
-\acro{ICE}{Interactive Connectivity Establishment}
-\acro{NAT}{Network Address Translation}
-\acro{STUN}{Session Traversal Utilities for NAT}
-\acro{TURN}{Traversal Using Relays around NAT}
-\acro{SCTP}{Stream Control Transport Protocol}
-\acro{DTLS}{Datagram Transport Layer Security}
-\acro{API}{Application Programming Interface}
-\acro{TCP}{Transmission Control Protocol}
-\acro{UDP}{User Datagram Protocol}
-\acro{OSI}{Open Systems Interconnection}
-\acro{IP}{Internet Protocol}
-\acro{SDK}{Source Development Kit}
-\acro{SIP}{Session Initialization Protocol}
-\acro{SDP}{Session Description Protocol}
-
-\end{acronym}
-
-
-
+\input{acronyms.tex}
+\end{singlespace}
 
 \cleardoublepage
 \pagenumbering{arabic}			%ab hier arabische Seitenzahlen
@@ -111,11 +81,11 @@
 \chapter{Grundlagen}
 \input{chapters/C01_Grundlagen.tex}
 
-\chapter{Design und Implementation der WebRTC--Infrastruktur}
-\input{chapters/C02_ImplWebRTC}
+\chapter{WebRTC in Mehrspieler-Spielen}
+\input{chapters/C01.5_WebRTCInGames.tex}
 
-\chapter{Mensch-Ärgere-Dich-Nicht}
-\input{chapters/C03_ImplMaedn}
+\chapter{Design und Implementation}
+\input{chapters/C02_ImplWebRTC}
 
 \chapter{Evaluation}
 %\input{}
@@ -131,6 +101,4 @@
 \clearpage
 
 %\chapter{Anhang}
-
-\end{singlespace}
 \end{document}

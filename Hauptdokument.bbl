@@ -7,6 +7,12 @@
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
+\bibitem[Bis14]{altanai2014}
+\textsc{Bisht}, Altanai:
+\newblock \emph{WebRTC Integrator's Guide}.
+\newblock Packt Publishing, 2014. --
+\newblock ISBN 978--1--78398--126--7
+
 \bibitem[Bur12]{bura2012}
 \textsc{Bura}, Juriy:
 \newblock \emph{Pro Android Web Game Apps}.
@@ -39,6 +45,16 @@
 \newblock RFC. --
 \newblock ISSN 2070--1721. --
 \newblock Abgerufen: 08.04.2021
+
+\bibitem[HS01]{natproblemsRFC}
+\textsc{Holdrege}, Matt ; \textsc{Srisuresh}, Pyda:
+\newblock Protocol Complications with the IP Network Address Translator / The
+  Internet Society.
+\newblock \,Version:\,January 2001.
+\newblock \url{https://tools.ietf.org/html/rfc3027}.
+\newblock Internet Engineering Task Force, January 2001 (3027). --
+\newblock RFC. --
+\newblock Abgerufen: 11.04.2021
 
 \bibitem[LL13]{jocly2013}
 \textsc{Levent-Levi}, Tsahi:

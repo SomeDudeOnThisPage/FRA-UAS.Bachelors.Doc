@@ -1,13 +1,31 @@
 % TODO: vllt dieses kapitel auf dateien teilen, is ziemlich lang
-In diesem Kapitel werden die zum Verständnis der Implementierung benötigten theoretischen, sowie technischen Grundlagen beschrieben. Dabei werden primär die Funktionalität von WebRTC an sich, als auch die damit verbundenen Signal-Mechanismen und Infrastrukturen behandelt. Zudem wird ein kurzer Überblick über die Cloud-Computing Plattform Microsoft Azure gegeben, da diese als prototypische Deployment-Plattform verwendet wird.
+In diesem Kapitel werden die zum Verständnis der Implementierung benötigten theoretischen, sowie technischen Grundlagen beschrieben. Dabei werden primär die Funktionalität von \acs{WebRTC} an sich, als auch die damit verbundenen Signal-Mechanismen und Infrastrukturen behandelt. Zudem wird ein kurzer Überblick über die Cloud-Computing Plattform Microsoft Azure gegeben, da diese als prototypische Deployment-Plattform verwendet wird.
 
 \section{Echtzeitanwendungen}
 Unter den Begriff Echtzeitanwendung fällt prinzipiell jede Anwendung, deren von Nutzern ausgelöste Ereignisse nur gewisse, in der Regel für den Nutzer nicht wahrnehmbare Verzögerungen aufweisen dürfen. Ein Beispiel für Echtzeitanwendungen sind Audio- und Videokommunikationsprogramme. Die Audio- und Videodaten müssen schnellstmöglich zwischen den Teilnehmern eines Anrufs ausgetauscht werden, um den Eindruck zu vermitteln, dass die Gesprächsteilnehmer direkt miteinander sprechen. Spricht zum Beispiel eine Person, so muss der Ton zur nahezu gleichen Zeit bei allen anderen Personen, welche dem Anruf teilhaben, ankommen.
 
-\section{WebRTC}
-Bei \ac{WebRTC} handelt es sich um einen Quelloffenen Standard zur Echtzeitkommunikation zwischen Browsern. Im Gegensatz zu weiteren Echtzeitstandards, wie zum Beispiel WebSockets, setzt \acs{WebRTC} nicht auf ein Client-Server Modell. Stattdessen ermöglicht der Standard es Browsern, welche den \acs{WebRTC} Standard unterstützen, sich ohne zusätzliche Software oder Plugins direkt miteinander zu verbinden. Der Datenaustausch findet somit direkt zwischen den Browsern -- den sogenannten Peers -- statt, ohne dass die Daten zusätzlich über einen Server weitergeleitet werden müssen. Dies führt in der Regel zu geringeren Latenzen, sowie Kostenersparnissen durch weniger Serverlast.\par
+\section{Netzwerkarchitekturen}
 
-Der Standard wird von einer Arbeitsgruppe des \acs{W3C}, der \acs{WebRTC} Working Group (dt. WebRTC Arbeitsgruppe) entwickelt und erhalten. Insgesamt 18 Organisationen sind in der WebRTC Arbeitsgruppe vertreten, unter anderem Microsoft, Google, Mozilla, Cisco und Apple \cite{webRTCWorkingGroup}.\par
+\subsection{Client-Server und das Authoritative-Server-Modell}
+// Muss ich wirklich Client-Server erklären??
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.65\textwidth]{bilder/PDF_SVG/AUTH_SERVER.pdf}
+\caption{Client-Server Interaktion in einem Authoritative-Server-Modell.}
+\end{figure}
+
+\subsection{Peer-To-Peer Netzwerke}
+
+\section{Network Address Translation}
+
+\section{Web Real-Time-Communication}
+Bei \ac{WebRTC} handelt es sich um einen Quelloffenen Standard zur Echtzeitkommunikation zwischen Browsern. Im Gegensatz zu weiteren Echtzeitstandards, wie zum Beispiel WebSockets, setzt \acs{WebRTC} nicht auf ein Client-Server Modell. Stattdessen ermöglicht der Standard es Browsern, welche den \acs{WebRTC} Standard unterstützen, sich ohne zusätzliche Software oder Plugins direkt miteinander zu verbinden. Der Datenaustausch findet somit direkt zwischen den Browsern -- den sogenannten Peers -- statt, ohne dass die Daten zusätzlich über einen Server weitergeleitet werden müssen. Dies führt in der Regel zu geringeren Latenzen, sowie Kostenersparnissen durch weniger Serverlast. WebRTC ist primär auf Audio- und Videokommunikation ausgelegt, ermöglicht aber auch das Senden von arbitraren Daten.\par
+
+Der Standard wurde zuerst von Global IP Solutions (GIPS) entwickelt. In 2011 erwarb Google GIPS, machte die \acs{WebRTC}-Komponenten Open-Source, und ermöglichte die Integration der Technologie in Web-Browser durch die Entwicklung einer JavaScript-\acs{API}. Seitdem arbeitet das \acs{W3C} an der Standardisierung der Technologie.
+
+Der Standard wird nun von einer Arbeitsgruppe des \acs{W3C}, der \acs{WebRTC} Working Group (dt. WebRTC Arbeitsgruppe) entwickelt und erhalten. Insgesamt 18 Organisationen sind in der WebRTC Arbeitsgruppe vertreten, unter anderem Microsoft, Google, Mozilla, Cisco und Apple \cite{webRTCWorkingGroup}.\par
+
+Am 26. Januar 2021 veröffentlichte das \acs{W3C} die \acs{WebRTC}-Recommendation -- \acs{WebRTC} ist damit ein offizieller, vom \acs{W3C} befürworteter Web-Standard, welcher für eine weitverbreitete Verwendung bereit ist. 
 
 \subsection{Aufbau von WebRTC}
 WebRTC ist kein proprietärer, einzelner und zusammenhängender Standard, sondern eine Ansammlung bereits existierender Protokolle, Technologien und Standards, welche unter anderem den Aufbau von Verbindungen, Audio- und Videoübertragung, sowie Datenübertragung regeln.\par
@@ -17,9 +35,10 @@ WebRTC ist kein proprietärer, einzelner und zusammenhängender Standard, sonder
 \includegraphics[width=0.95\textwidth]{bilder/webrtc-diagram.png}
 \caption{Diagramm der WebRTC-Architektur.}
 \source{\url{https://webrtc.github.io/webrtc-org/architecture/}}
+\label{fig:webrtcArchitecture}
 \end{figure}
 
-Wie dem Architekturdiagramm in Abbildung 2.1 zu entnehmen, gliedert sich WebRTC primär in eine Web-\acs{API} und das \acs{WebRTC}-Framework. Hinzu kommen Signalisierungsmechanismen, welche zum Aufbau einer Verbindung benötigt werden. Diese sind nicht durch den WebRTC-Standard vorgeschrieben. Es ist dem Entwickler überlassen, wie die Signalisierung letztendlich implementiert wird -- es muss lediglich möglich sein, Daten zur Sitzunsinitialisierung zwischen jeweils zwei Peers auszutauschen.\par
+Wie dem Architekturdiagramm in Abbildung ~\ref{fig:webrtcArchitecture} zu entnehmen, gliedert sich WebRTC primär in eine Web-\acs{API} und das \acs{WebRTC}-Framework. Hinzu kommen Signalisierungsmechanismen, welche zum Aufbau einer Verbindung benötigt werden. Diese sind nicht durch den WebRTC-Standard vorgeschrieben. Es ist dem Entwickler überlassen, wie die Signalisierung letztendlich implementiert wird -- es muss lediglich möglich sein, Daten zur Sitzunsinitialisierung zwischen jeweils zwei Peers auszutauschen.\par
 
 \subsubsection*{Web-API}
 Die Web-\acs{API} dient dabei zur Entwicklung von Browserbasierten Webanwendungen, und setzt sich aus einer Reihe an JavaScript Schnittstellen zusammen. Diese Schnittstellen können auf das unterliegende Framework zugreifen, und ermöglichen zum Beispiel das Erstellen von Verbindungen, Datenkanälen und Video-Streams. Primär werden dabei die folgenden Schnittstellen verwendet:
@@ -35,22 +54,19 @@ Die Web-\acs{API} dient dabei zur Entwicklung von Browserbasierten Webanwendunge
 \subsubsection*{WebRTC Framework}
 Das \acs{WebRTC}-Framework gliedert sich primär in Audio- Video- und Übertragungssysteme. Die Audio- und Videosysteme befassen sich dabei unter anderem mit der Abfrage von Audiodaten des Gerätemikrofons, sowie Videodaten über eine Kamera, welche an das Gerät angeschlossen ist. Zudem sind diese Systeme für die en- und decodierung von Audio- und Videodaten auf Basis verschiedener \glqq{}Codecs\grqq{} zuständig. Auf diese wird hier nicht weiter eingegangen.\par
 
-Die Transportsysteme umfassen Protokolle und Systeme, um Sitzungen zwischen Peers aufzubauen, und Daten zwischen den Peers zu versenden. Die Sitzungskomponenten basieren dabei auf \glqq{}libjingle\grqq{}, einem Quelloffenen C++ \ac{SDK}, welches das Erstellen von Peer-To-Peer Sitzungen ermöglicht. Hinzu kommen Protkolle wie \acs{STUN}, \acs{TURN} und \acs{ICE}, welche im Unterpunkt \glqq{}Protokolle\grqq{} näher erläutert werden.
+Die Transportsysteme umfassen Protokolle und Systeme, um Sitzungen zwischen Peers aufzubauen, und Daten zwischen den Peers zu versenden. Die Sitzungskomponenten basieren dabei auf \glqq{}libjingle\grqq{}, einem Quelloffenen C++ \ac{SDK}, welches das Erstellen von Peer-To-Peer Sitzungen ermöglicht. Hinzu kommen Protkolle wie \acs{STUN}, \acs{TURN} und \acs{ICE}, welche in den Folgenden Unterpunkten näher erläutert werden.
 
-\subsection{Protokolle und Frameworks}
-Die mit der Implementierung zusammenhängenden Protokolle werden im Fogenden näher erläutert -- sowohl deren Funktionalität, als auch deren Zusammenspiel untereinander.\par
+%\subsection{Protokolle und Frameworks}
+%Die mit der Implementierung zusammenhängenden Protokolle werden im %Fogenden näher erläutert -- sowohl deren Funktionalität, als auch deren %Zusammenspiel untereinander.\par
 
-\subsubsection{JSEP}
+\subsection{JSEP: JavaScript Session Establishment Protocol}
 Die Signalisierungsebene einer \acs{WebRTC}-Anwendung ist nicht vom \acs{WebRTC}-Standard definiert, damit verschiedene Applikationen mitunter verschiedene Signalisierungsprotkolle, wie zu Beispiel das \acf{SIP}, oder ein proprietäres Protokoll nutzen können.\par
 
 Das \acf{JSEP} erlaubt es einem Entwickler, die volle Kontrolle über die unterliegende Zustandsmaschine des Signalisierungsprozesses zu haben, welche die Initialisierung einer Sitzung kontrolliert. Damit werden die Signalisierungs- und Datenübertragungsebene effektiv voneinander getrennt. Eine Sitzung wird immer zwischen zwei Endpunkten etabliert, einem initiierendem Endpunkt, und einem empfangenden Endpunkt. In den folgenden Paragraphen werden die Synonyme \glqq{}Alice\grqq{} und \glqq{}Bob\grqq{} für diese Endpunkte verwendet.\par
 
-Beide Endpunkte besitzen dabei jeweils eine lokale, und eine externe Beschreibung (eng. \glqq{}localDescription\grqq{} und \glqq{}remoteDescription\grqq{}). Diese definieren die Sitzungsparameter, zum Beispiel welche Daten auf der Senderseite versendet werden sollen, beziehungsweise welche Daten auf der Empfängerseite zu erwarten sind, oder Informationen über verwendete Audio- und Videocodecs. Diese Informationen werden über das \acf{SDP} definiert.\par
+Beide Endpunkte besitzen dabei jeweils eine lokale, und eine externe Konfiguration (eng. \glqq{}localDescription\grqq{} und \glqq{}remoteDescription\grqq{}). Diese definieren die Sitzungsparameter, zum Beispiel welche Daten auf der Senderseite versendet werden sollen, beziehungsweise welche Daten auf der Empfängerseite zu erwarten sind, oder Informationen über verwendete Audio- und Videocodecs. Diese Informationen werden über das \acf{SDP} definiert.\par
 
-Die \acs{JSEP}-\acs{API} stellt dabei Funktionen zur verfügung, welche das Erstellen der Beschreibungen ermöglichen. Diese Funktionen sind in der \acs{WebRTC}-\acs{API} teil der RTCPeerConnection.\par
-
-Um eine Verbindung aufzubauen, ruft Alice erst $createOffer()$ auf. Daraufhin wird ein SDP-Packet ($anfrage$) generiert, welches die lokalen Sitzungsparameter enthält. Alice setzt nun ihre lokale Beschreibung via $setLocalDescription(anfrage)$. Das \acs{SDP}-Packet wird über einen nicht vorgegebenen Signalkanal zu Bob gesendet. Dieser setzt daraufhin die externe Beschreibung der Verbindung via $setRemoteDescription(anfrage)$, und ruft daraufhin die Funktion $createAnswer(anfrage)$ auf, welche eine Antwort ($antwort$) generiert. Bob setzt seine lokale Beschreibung via $setLocalDescription(antwort)$, und sendet die Antwort zurück zu Alice. Alice setzt ihre externe Beschreibung via $setRemoteDescription(antwort)$. Damit ist der anfängliche Austausch von Sitzungsparametern abgeschlossen \cite{altanai2014}.
-Der vereinfachte Ablauf des Verbindungsaufbaus ist Abbildung ~\ref{fig:jsep} zu entnehmen.
+Die \acs{JSEP}-\acs{API} stellt dazu eine Reihe an asynchronen Funktionen zur Verfügung, welche das Erstellen und Setzen der Konfigurationen ermöglichen. Diese Funktionen sind in der \acs{WebRTC}-\acs{API} Teil der RTCPeerConnection.\par
 
 \begin{figure}[h]
 \centering
@@ -59,19 +75,61 @@ Der vereinfachte Ablauf des Verbindungsaufbaus ist Abbildung ~\ref{fig:jsep} zu 
 \label{fig:jsep}
 \end{figure}
 
-\subsubsection{ICE}
-\subsubsection{STUN und TURN}
-\subsubsection{SCTP}
+Um eine Verbindung aufzubauen, ruft Alice erst $createOffer()$ auf. Daraufhin wird ein SDP-Packet ($anfrage$) generiert, welches die lokalen Sitzungsparameter enthält. Alice setzt nun ihre lokale Konfiguration via $setLocalDescription(anfrage)$. Das \acs{SDP}-Packet wird über einen nicht vorgegebenen Signalkanal zu Bob gesendet. Dieser setzt daraufhin die externe Konfiguration seiner Verbindung via $setRemoteDescription(anfrage)$, und ruft daraufhin die Funktion $createAnswer(anfrage)$ auf, welche eine Antwort ($antwort$) generiert. Bob setzt seine lokale Konfiguration via $setLocalDescription(antwort)$, und sendet die Antwort zurück zu Alice. Alice setzt ihre externe Konfiguration via $setRemoteDescription(antwort)$. Damit ist der anfängliche Austausch von Sitzungsparametern abgeschlossen \cite{altanai2014}. \acs{JSEP} regelt dabei nur den Austausch von Konfigurationen zwischen zwei Peers, Informationen über die Verbindung werden über das \acs{ICE}-Framework ausgetauscht. Der vereinfachte Ablauf des Verbindungsaufbaus ist Abbildung ~\ref{fig:jsep} zu entnehmen.
+
+\subsection{ICE: Interactive Connectivity Establishment}
+Das \acf{ICE}-Framework erlaubt es Browsern (Peers), Verbindungen untereinander aufzubauen. Es wird benötigt, da dies aufgrund der Tatsache, dass sich Peers in der Regel in einem lokalen Subnetz hinter einem \acs{NAT} (Network Address Translation) befinden, nicht ohne weiteres möglich ist. Das \acs{ICE}-Framework bietet in Kombination mit den Protokollen \acs{STUN} und \acs{TURN} Möglichkeiten, direkte Verbindungen zweier Peers durch \acs{NAT} herzustellen, beziehungsweise Datenverkehr über ein Relais umzuleiten.\par
+
+Eine \acs{WebRTC} Verbindung (RTCPeerConnection) besitzt dabei immer einen sogenannten \acs{ICE}-Agenten, sowohl auf der lokalen, als auch auf der externen Seite. Dabei agiert einer der Agenten einer Verbindung als der kontrollierende, der Andere als der kontrollierte Agent. Der kontrollierende Agent hat dabei die Aufgabe, das \acs{ICE}-Kandidatenpaar, welches für die Verbindung genutzt werden soll, auszuwählen. Ein \acs{ICE}-Kandidat beinhaltet Informationen, im \acs{SDP}-Format, über Transportadressen -- Adress-Port-Tupel --, über welche ein Peer erreicht werden kann. Ein \acs{ICE}-Kandidatenpaar ist ein Paar von zwei \acs{ICE}-Kandidaten, welche zum gegenseitigen Verbindungsaufbau zweier Peers verwendet werden können.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.80\textwidth]{bilder/PDF_SVG/CANDIDATES_OLD.pdf}
+\caption{Diagramm der verschiedenen \acs{ICE}-Kandidaten.}
+\source{Angepasst nach \url{https://tools.ietf.org/html/rfc5245}}
+\label{fig:icecandidates}
+\end{figure}
+
+Ein Gerät hinter einem \acs{NAT} besitzt keine eigene, öffentliche \acs{IP}-Adresse. Ein Peer muss jedoch seine eigene, öffentliche \acs{IP}-Adresse kennen, um dem Verbindungspartner mitteilen zu können, an welche Adresse dieser die Daten schicken soll. In der Regel handelt es sich bei  \acs{ICE}-Kandidaten um \acs{UDP}-Transportadressen. Es existieren zwar auch \acs{TCP}-Kandidaten, diese werden allerdings nicht von allen Browsern unterstützt und in der Regel nicht verwendet. Wie aus Abbildung ~\ref{fig:icecandidates} zu entnehmen, werden dabei primär drei Arten an \acs{UDP}-\acs{ICE}-Kandidaten verwendet:
+
+\begin{itemize}
+	\item Ein \textbf{Host}-Kandidat ($host$) ist der tatsächliche Adress-Port-Tupel eines Peers. Host-Kandidaten können nur dann verwendet werden, wenn der Peer eine öffentliche \acs{IP}-Adresse besitzt, oder sich sowohl der lokale, als auch externe Peer im gleichen Subnetz, oder auf dem gleichen Gerät befinden.
+	\item Ein \textbf{Server-Reflexiver}-Kandidat ($srflx$) repräsentiert die öffentliche \acs{IP}-Adresse eines Peers, also die öffentliche \acs{IP}-Adresse des \acs{NAT}s, hinter welchem sich der Peer befindet. Befindet sich der Peer nicht hinter einem \acs{NAT}, so ist die Adresse gleich der Host-Adresse, und der Kandidat wird verworfen.
+	\item Ein \textbf{Relais}-Kandidat ($relay$) ist ein Adress-Port-Tupel, welcher dem Peer von einem \acs{TURN}-Server zugeordnet wurde. Diese Adresse ist dabei die Adresse, welche der \acs{TURN}-Server nutzt, um eingehende Daten an den Peer, und ausgehende Daten von dem Peer weiterzuleiten.
+\end{itemize}
+
+\subsubsection{Trickle-ICE}
+Die \acs{STUN} und \acs{TURN} Server lassen sich beim Erstellen der RTCPeerConnection konfigurieren. Das Sammeln der \acs{ICE}-Kandidaten beginnt mit dem Setzen der lokalen Konfiguration ($localDescription$) einer RTCPeerconnection. Die gefundenen \acs{ICE}-Kandidaten müssen über den Signalisierungs-Kanal an den externen Peer gesendet werden, damit dieser die Kandidaten zum Verbindungsaufbau nutzen kann. \acs{WebRTC} prüft die Verbindung zu allen möglichen \acs{ICE}-Kandidaten eines Peers asynchron in Parallel, sobald die lokale Beschreibung einer Verbindung gesetzt ist. Dieser Prozess setzt eine Kommunikation mit \acs{STUN}- und \acs{TURN}-Servern vorraus, und kann daher, je nach Latenz und Antwortzeit der Server, einige Zeit beanspruchen.\par
+
+Aus diesem Grund ermöglicht es \acs{WebRTC}, \acs{ICE}-Kandidaten zu \glqq{}tricklen\grqq{}, also nach und nach, bei Erhalt einer Antwort eines Servers, an den externen Peer zu schicken. Dies optimiert den Vorgang des Austauschs von \acs{ICE}-Kandidaten, da nun nicht mehr darauf gewartet werden muss, dass alle Kandidaten ermittelt wurden, bevor der \acs{JSEP}-Anfrage-Antwort-Prozess stattfinden kann.\par
+
+\vspace{1pc}
+\begin{lstlisting}[caption={SDP-Datenstring eines Relais-ICE-Kandidaten},captionpos=b,label={lst:candidate}]
+candidate:1411127089 1 udp 33562367 <@\textcolor{blue}{20.56.95.156}@> <@\textcolor{blue}{12926}@> <@\textcolor{red}{typ}@> <@\textcolor{red}{relay}@> raddr 0.0.0.0 rport 0 generation 0 ufrag uVtu network-cost 999
+\end{lstlisting}
+
+Jede RTCPeerConnection besitzt daher die Rückruffunktion \glqq{}$onicecandidate$\grqq{}, welche bei Erhalt eines neuen \acs{ICE}-Kandidaten aufgerufen wird. Die Parameter dieser Rückruffunktion enthalten die \acs{SDP}-Daten, welche den Kandidaten beschreiben. Die Struktur dieser Daten ist Beispielhaft Abbildung ~\ref{lst:candidate} zu entnehmen. Dabei handelt es sich um einen \acs{UDP}-Relais-Kandidaten, zu erkennen am \glqq{}typ relay\grqq{}, hervorgehoben in Rot. Die Adresse und der Port sind in Blau hervorgehoben. Nachdem die Daten an den externen Peer gesendet wurden, muss der Kandidat auf der Empfängerseite über die $addIceCandidate$-Funktion der RTCPeerConnection hinzugefügt werden.
+
+\subsubsection{STUN: Session Traversal Utilities for NAT}
+Das \acf{STUN}-Protokoll wird verwendet, um die öffentliche \acs{IP}-Adresse eines Peers zu ermitteln. Auf Anfrage an einen STUN-Server erhält ein Peer seine Server-Reflexive Transportadresse zurück, welche von externen Peers verwendet werden kann, um Daten an den lokalen Peer zu schicken. Durch die Anfrage an den \acs{STUN}-Server wird dabei die benötigte Port- und Adresszuordnung in die \acs{NAT}-Übersetzungstabelle des Routers geschrieben. Eine Server-Reflexive Adresse kann auch von einem TURN-Server abgefragt werden, vorrausgesetzt dieser unterstützt zusätzlich das \acs{STUN}-Protokoll.\par
+
+\subsubsection{TURN: Traversal Using Relays around NAT}
+Im Gegensatz zu Client-Server-Verbindungen, welche nur vom Client eröffnet werden können, kann eine Peer-To-Peer Verbindung zudem sowohl vom lokalen Peer, als auch von eimem Peer außerhalb des lokalen Subnetzes eröffnet werden. Hier besteht das Problem, dass nicht jede Art von \acs{NAT} das Eröffnen einer Verbindung von Außerhalb erlaubt \cite{natproblemsRFC}. Genauer, handelt es sich bei dem \acs{NAT} um ein sogenanntes \glqq{}Symmetrisches \acs{NAT}\grqq{}, so sind nur Client-Server Verbindungen, welche der im \acs{NAT} befindliche Peer eröffnet, möglich.\par
+
+An diesem Punkt setzt das \acf{TURN}-Protokoll an. Ein \acs{TURN}-Server ermöglicht es, Daten, welche von einem externen Peer an den \acs{TURN}-Server geschickt wurden, an einen Peer weiterzuleiten. Zudem kann der Peer Daten an den Turn-Server schicken, welche wiederrum an externe Peers weitergeleitet werden. Ein TURN-Server agiert somit als ein zwischen den Peers liegender Relais-Server, für Fälle, in denen eine direkte Verbindung zwischen Peers aufgrund von \acs{NAT}-Einschränkungen nicht möglich ist.
+
+\subsection{SCTP: Stream Control Transmission Protocol}
 Zur Übertragung von Daten via RTCDataChannels nutzt \acs{WebRTC} das \acf{SCTP}. Der \acs{SCTP} Standard wurde erstmals im Jahre 2000 von der \acs{IETF} veröffentlicht, und seitdem weiterentwickelt und erweitert. \acs{SCTP} ist ein zuverlässiges, Nachrichtenorientiertes Transportprotokoll, welches im \acf{OSI}-Referenzmodell, ähnlich wie \acs{UDP} oder \acs{TCP}, auf der Transportschicht liegt. Das Protokoll arbeitet dabei basierend auf verbindungslosen Netzwerkprotokollen wie zum Beispiel dem \acf{IP} \cite{sctpRFC}.\par
 
 Im Gegensatz zu \acs{TCP} und \acs{UDP} lassen sich bei \acs{SCTP}, je nach gewünschter Verbindungsart, die folgenden Aspekte unabhängig voneinander frei konfigurieren:
 \begin{itemize}
 	\item\textbf{Reihenfolge}: \acs{SCTP} ermöglicht es, sowohl geordnete, als auch ungeordnete Datenströme aufzubauen. Falls ein Datenstrom geordnet ist, so müssen die Datenpakete in der Reihenfolge beim Empfänger ankommen, wie sie vom Sender losgeschickt wurden. In ungeordneten Datenströmen ist die Reihenfolge der Pakete, wie sie beim Empfänger ankommen, nicht relevant \cite{sctpRFC}.
 	\item\textbf{Zuverlässigkeit}: Die Zuverlässigkeit der Paketlieferungen ist auf zwei Arten konfigurierbar. Es ist möglich, eine maximale Anzahl an Versuchen festzulegen, mit welcher versucht wird, ein Datenpaket zu versenden. Zudem kann eine maximale Lebenszeit für Pakete angegeben werden. Ist diese Lebenszeit, das sogenannte 'Retransmission Timeout' für eine Paketsendung abgelaufen, so wird kein weiterer Versuch unternommen, das Paket abzuschicken \cite{sctpRFC}.
-	\item\textbf{Datenströme}: Im Gegensatz zu \acs{TCP} und \acs{UDP} ermöglicht \acs{SCTP} Multiplexing auf Basis von mehreren, separaten sowie parrallelen Datenströmen innerhalb einer Verbindung. Dazu ist der Datenteil eines \acs{SCTP}-Packets in sognenannte \glqq{}Chunks\grqq{}  aufgeteilt, wobei Daten-Chunks jeweils einem Datenstrom zugeordnet werden können \cite{sctpRFC}.
 \end{itemize}
 
 \vspace{11pt}
+
+Im Gegensatz zu \acs{TCP} und \acs{UDP} ermöglicht \acs{SCTP} Multiplexing auf Basis von mehreren, separaten sowie parrallelen Datenströmen innerhalb einer Verbindung. Dazu ist der Datenteil eines \acs{SCTP}-Packets in sognenannte \glqq{}Chunks\grqq{}  aufgeteilt, wobei Daten-Chunks jeweils einem Datenstrom zugeordnet werden können \cite{sctpRFC}.\par
 
 \begin{table}[ht]
 \centering
@@ -81,8 +139,8 @@ Im Gegensatz zu \acs{TCP} und \acs{UDP} lassen sich bei \acs{SCTP}, je nach gew�
 \midrule
 Nachrichtenordnung&Geordnet&Ungeordnet&Konfigurierbar\\
 Zuverlässigkeit&Zuverlässig&Unzuverlässig&Konfigurierbar\\
-Datenflusssteuerung&Ja&Nein&Ja\\
-Stausteuerung &Ja&Nein&Ja\\
+Flusskontrolle&Ja&Nein&Ja\\
+Überlastkontrolle &Ja&Nein&Ja\\
 Multihoming&Nein&Nein&Ja\\
 Mehrere Datenströme&Nein&Nein&Ja\\
 \bottomrule
@@ -91,19 +149,22 @@ Mehrere Datenströme&Nein&Nein&Ja\\
 \label{table:vergleichNetzwerkProtokolle}
 \end{table}
 
-Ein direkter Vergleich der drei Protokolle lässt sich aus Tabelle ~\ref{table:vergleichNetzwerkProtokolle} entnehmen. Im Gegensatz zu \acs{UDP} bietet \acs{SCTP} außerdem Datenfluss- und Stausteuerung. Damit gestaltet sich \acs{SCTP} weitaus flexibler als die beiden gängigsten Transportprotokolle. Zudem ermöglicht \acs{SCTP} Multihoming. Existiert mehr als eine Transportadresse, unter der ein Endpunkt erreicht werden kann, so ist es möglich, im Falle eines Ausfalls des Pfades zum primär verwendeten Endpunkt, Daten über einen weiteren Netzwerkpfad umzuleiten, und an einen weiteren Endpunkt zu verschicken \cite{sctpRFC, multihoming}. Dies erhöht die Zuverlässigkeit der Datenübertragung, und ermöglicht es selbst bei Ausfall eines Netzwerkpfades, Daten weiterhin auszutauschen.\par
+Ein direkter Vergleich der drei Protokolle lässt sich aus Tabelle ~\ref{table:vergleichNetzwerkProtokolle} entnehmen. Im Gegensatz zu \acs{UDP} bietet \acs{SCTP} außerdem Fluss- und Überlastkontrolle. Damit gestaltet sich \acs{SCTP} weitaus flexibler als die beiden gängigsten Transportprotokolle. Zudem ermöglicht \acs{SCTP} Multihoming. Existiert mehr als eine Transportadresse, unter der ein Endpunkt erreicht werden kann, so ist es möglich, im Falle eines Ausfalls des Pfades zum primär verwendeten Endpunkt, Daten über einen weiteren Netzwerkpfad umzuleiten, und an einen weiteren Endpunkt zu verschicken \cite{sctpRFC, multihoming}. Dies erhöht die Zuverlässigkeit der Datenübertragung, und ermöglicht es selbst bei Ausfall eines Netzwerkpfades, Daten weiterhin auszutauschen.\par
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.95\textwidth]{bilder/PDF_SVG/SCTP_PACKET.pdf}
-\caption{Aufbau eines \acs{SCTP}-Packets.}
-\label{fig:sctpPacket}
-\end{figure}
+%\begin{figure}[h]
+%\centering
+%\includegraphics[width=0.95\textwidth]{bilder/PDF_SVG/SCTP_PACKET.pdf}
+%\caption{Aufbau eines \acs{SCTP}-Packets.}
+%\label{fig:sctpPacket}
+%\end{figure}
 
-Ein \acs{SCTP}-Packet besteht aus einem Kopf- und einem Datenteil. Der Kopfteil beinhaltet neben dem Quell- und Zielport, sowie einer Prüfsumme noch ein \glqq{}Verification Tag\grqq{}, welches verwendet wird, um auf der Empfängerseite den Absender des Packets zu verifizieren, und eingehende Packete von denen früherer Verbindungen zu unterscheiden \cite{sctpRFC}.
-Der Datenteil des Packets ist in sogenannte \glqq{}Chunks\grqq{}  aufgeteilt. Jedes \glqq{}Chunk\grqq{} besitzt dabei Informationen wie den Chunk-Typ, die Länge in Bytes, oder die Zugehörigkeit zu Datenströmen. Insgesamt existieren über 14 Chunk-Typen, von einfachen Daten-Chunks zu Chunks, welche Daten zur Sitzungskontrolle beinhalten \cite{sctpRFC}. Je nach verwendeten Erweiterungen des \acs{SCTP}-Protokolls kann die Anzahl der Chunk-Typen variieren. Alle Arten dieser \glqq Chunks\grqq{} zu beschreiben würde den Rahmen dieser Arbeit überschreiten. Die generelle Struktur eines Datenpackets ist Abbildung ~\ref{fig:sctpPacket} zu entnehmen. Die maximale größe eines \glqq{}Chunks\grqq{} ist dabei, aufgrund des zwei-Byte langen Längenfelds auf 65,535 Kilobyte limitiert.
+%Ein \acs{SCTP}-Packet besteht aus einem Kopf- und einem Datenteil. Der Kopfteil beinhaltet neben dem Quell- und Zielport, sowie einer Prüfsumme noch ein \glqq{}Verification Tag\grqq{}, welches verwendet wird, um auf der Empfängerseite den Absender des Packets zu verifizieren, und eingehende Packete von denen früherer Verbindungen zu unterscheiden \cite{sctpRFC}.
+%Der Datenteil des Packets ist in sogenannte \glqq{}Chunks\grqq{}  aufgeteilt. Jedes \glqq{}Chunk\grqq{} besitzt dabei Informationen wie den Chunk-Typ, die Länge in Bytes, oder die Zugehörigkeit zu Datenströmen. Insgesamt existieren über 14 Chunk-Typen, von einfachen Daten-Chunks zu Chunks, welche Daten zur Kontrolle der Verbindung beinhalten \cite{sctpRFC}. Je nach verwendeten Erweiterungen des \acs{SCTP}-Protokolls kann die Anzahl der Chunk-Typen variieren. Alle Arten dieser \glqq Chunks\grqq{} zu beschreiben würde den Rahmen dieser Arbeit überschreiten. Die generelle Struktur eines Datenpackets ist Abbildung ~\ref{fig:sctpPacket} zu entnehmen. Die maximale größe eines \glqq{}Chunks\grqq{} ist dabei, aufgrund des zwei-Byte langen Längenfelds auf 65,535 Kilobyte limitiert.
 
-\subsubsection{DTLS}
+\subsection{DTLS: Datagram Transport Layer Security}
+Das \acf{DTLS}-Protokoll ist ein auf \acf{TLS} aufbauendes Protokoll zur Verschlüsselung von Daten in Datagram-basierenden Verbindungen. Im Gegensatz zu \acs{TLS}, welches für die Nutzung mit \acs{TCP} konzipiert wurde, kann \acs{DTLS} also auch über \acs{UDP} übertragen werden.\par
+
+Das \acs{WebRTC}-Framework nutzt \acs{DTLS} zur Verschlüsselung von Datenkanälen (RTCDataChannel). Da das von Datenkanälen genutzte \acs{SCTP}-Protokoll über keine eigene Verschlüsselung verfügt, und Verschlüsselung aller Daten eine zentrale Anforderung von \acs{WebRTC} darstellt, werden Daten über einen \acs{DTLS}-Tunnel zwischen den Verbindungspartnern ausgetauscht. Dieser Tunnel liegt auf dem \acf{UDP}. Die \acs{SCTP}-Verbindung eines Datenkanals läuft also nicht direkt auf dem \acf{IP}, sonder über einen \acs{DTLS}-Tunnel, welcher wiederrum auf \acs{UDP} liegt.
 
 \section{Node.js}
 Node.js ist eine kostenlose, plattformunabhängige JavaScript Laufzeitumgebung.
@@ -116,6 +177,7 @@ ausgeführt werden.\par
 
 Node.js ist in den Repositories aller aktuellen Linux-Distributionen enthalten\footnote{Weitere Informationen: \url{https://nodejs.org/en/download/package-manager/}}, und kann mit den entsprechenden Packetmanagern, beziehungsweise über die Website\footnote{Node.js Downloads: \url{https://nodejs.org/en/download/}} heruntergeladen und installiert werden.\par
 
+\subsection{NPM: Node Package Manager}
 Zur Verwaltung und zum Teilen von Packeten nutzt Node.js den \ac{NPM}. Ein Packet sind in diesem Kontext ein oder mehrere Module, gekoppelt mit allen Dateien, welche diese benötigen. Packete werden auf \textit{npmjs.com} gehostet. Die Liste der von einem Projekt verwendeten Module wird in der Datei \textit{package.json} gespeichert. Ein Packet kann via NPM über den Befehl
 \lstset{style=STYLE_COMMAND_LINE_ARGUMENT_SINGLE_LINE}
 \begin{lstlisting}[belowskip=-0.8 \baselineskip]
@@ -123,13 +185,12 @@ $ npm install <Packetname>
 \end{lstlisting}
 installiert werden. Ist kein Packetname angegeben, so werden alle Packete, welche im Gleichen Ordner in der \textit{package.json}-Datei eingetragen sind, installiert.
 
-\section{socket.io}
+\subsection{Verwendete Node-Packete}
+// TODO: 2 Zeilen Text hier, dass das nicht so scheiße aussieht...
+
+\subsubsection{socket.io}
 Socket.io ist eine Bibliothek, welche bidirektionale Echtzeitkommunikation zwischen einem Client und einem Server ermöglicht. Dazu nutzt Socket.io intern WebSockets\cite{socketio}. Ein WebSocket ermöglicht Kommunikation zwischen einem Client und einem Server. Der Datenaustausch findet dabei über das \ac{TCP} statt \cite{websocketRFC}. Das WebSocket \ac{API} wird von allen aktuellen Browsern unterstützt\footnote{vgl. \url{https://caniuse.com/mdn-api_websocket}, Stand: 08.04.2021}. Socket.io läuft auf einem Node.js Server\cite{socketio}.\par
 
 Die Kommunikation zwischen Client und Server wird bei Socket.io über Events geregelt. Client und Server können Events -- definiert durch einen String -- mit angehängten Daten emittieren. Basierend auf dem Event-String wird dann auf der Empfängerseite eine Rückruffunktion aufgerufen, vorrausgesetzt diese ist definiert. Die Daten werden der Rückruffunktion als Parameter übergeben. Socket.io ermöglicht auf der Serverseite sowohl das Broadcasting an alle, beziehungsweise an ein Subset an Clients, als auch Unicasting an einen spezifischen Client.\par
 
 Die Socket.io Bibliothek ist in eine Client-, und eine Serverseitige Bibliothek aufgeteilt. Die Clientseitige Bibliothek ermöglicht das Verbinden mit einem Node.js Server. Ein Client kann sowohl Events mit Daten emittieren, als auch Rückruffunktionen registrieren, mit welchen der Client Daten vom Server empfangen kann. Auf der Serverseite ist es möglich, bei Verbindungsaufbau Rückruffunktionen für einen neu verbundenen Client zu registrieren, welche bei dem Eingang von Daten je nach Event-Typ aufgerufen werden. Der Server kann ebenfalls Events an Clients emittieren.
-
-\section{CoTurn STUN / TURN Server}
-
-\section{AWS}

@@ -17,45 +17,45 @@ Warning--empty number in rtcpeerconnection
 Warning--empty year in nodejs
 Warning--empty year in socketio
 Warning--empty year in webRTCWorkingGroup
-You've used 10 entries,
+You've used 12 entries,
             4793 wiz_defined-function locations,
-            955 strings with 7764 characters,
-and the built_in function-call counts, 4788 in all, are:
-= -- 546
-> -- 89
-< -- 78
-+ -- 91
-- -- 30
-* -- 288
-:= -- 761
-add.period$ -- 16
-call.type$ -- 10
-change.case$ -- 39
-chr.to.int$ -- 10
-cite$ -- 20
-duplicate$ -- 147
-empty$ -- 400
-format.name$ -- 51
-if$ -- 1050
+            970 strings with 8036 characters,
+and the built_in function-call counts, 6063 in all, are:
+= -- 692
+> -- 116
+< -- 101
++ -- 117
+- -- 38
+* -- 368
+:= -- 957
+add.period$ -- 20
+call.type$ -- 12
+change.case$ -- 48
+chr.to.int$ -- 12
+cite$ -- 22
+duplicate$ -- 183
+empty$ -- 514
+format.name$ -- 68
+if$ -- 1338
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 34
-newline$ -- 78
-num.names$ -- 21
-pop$ -- 56
+missing$ -- 40
+newline$ -- 93
+num.names$ -- 27
+pop$ -- 70
 preamble$ -- 1
-purify$ -- 59
+purify$ -- 72
 quote$ -- 0
-skip$ -- 245
+skip$ -- 309
 stack$ -- 0
-substring$ -- 301
-swap$ -- 26
-text.length$ -- 18
-text.prefix$ -- 4
+substring$ -- 398
+swap$ -- 33
+text.length$ -- 23
+text.prefix$ -- 5
 top$ -- 0
-type$ -- 110
+type$ -- 132
 warning$ -- 7
-while$ -- 29
-width$ -- 15
-write$ -- 157
+while$ -- 38
+width$ -- 17
+write$ -- 191
 (There were 7 warnings)
