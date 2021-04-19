@@ -10,6 +10,7 @@ Reallocating 'wiz_functions' (item size: 4) to 6000 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Database file #1: 30_Literaturverzeichnis.bib
+Warning--to sort, need author or key in BGMarket
 Warning--to sort, need author or key in webRTCWorkingGroup
 Warning--to sort, need author or key in nodejs
 Warning--to sort, need author or key in socketio
@@ -17,45 +18,45 @@ Warning--empty number in rtcpeerconnection
 Warning--empty year in nodejs
 Warning--empty year in socketio
 Warning--empty year in webRTCWorkingGroup
-You've used 12 entries,
+You've used 14 entries,
             4793 wiz_defined-function locations,
-            970 strings with 8036 characters,
-and the built_in function-call counts, 6063 in all, are:
-= -- 692
-> -- 116
-< -- 101
-+ -- 117
-- -- 38
-* -- 368
-:= -- 957
-add.period$ -- 20
-call.type$ -- 12
-change.case$ -- 48
-chr.to.int$ -- 12
-cite$ -- 22
-duplicate$ -- 183
-empty$ -- 514
-format.name$ -- 68
-if$ -- 1338
+            980 strings with 8333 characters,
+and the built_in function-call counts, 7139 in all, are:
+= -- 819
+> -- 117
+< -- 127
++ -- 135
+- -- 35
+* -- 442
+:= -- 1086
+add.period$ -- 24
+call.type$ -- 14
+change.case$ -- 55
+chr.to.int$ -- 14
+cite$ -- 26
+duplicate$ -- 216
+empty$ -- 624
+format.name$ -- 74
+if$ -- 1594
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 40
-newline$ -- 93
-num.names$ -- 27
-pop$ -- 70
+missing$ -- 46
+newline$ -- 107
+num.names$ -- 30
+pop$ -- 80
 preamble$ -- 1
-purify$ -- 72
+purify$ -- 83
 quote$ -- 0
-skip$ -- 309
+skip$ -- 369
 stack$ -- 0
-substring$ -- 398
-swap$ -- 33
-text.length$ -- 23
-text.prefix$ -- 5
+substring$ -- 504
+swap$ -- 39
+text.length$ -- 25
+text.prefix$ -- 6
 top$ -- 0
-type$ -- 132
-warning$ -- 7
-while$ -- 38
-width$ -- 17
-write$ -- 191
-(There were 7 warnings)
+type$ -- 156
+warning$ -- 8
+while$ -- 41
+width$ -- 18
+write$ -- 223
+(There were 8 warnings)

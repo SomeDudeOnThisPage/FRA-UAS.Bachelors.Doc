@@ -24,11 +24,31 @@ Dateipfad&Beschreibung\\
 /public/resources/script/game/*&Spielspezifische Script-Dateien\\
 \bottomrule
 \end{tabularx}
-\caption{Vergleich von \acs{TCP} und \acs{UDP} mit \acs{SCTP}.}
+\caption{Struktur des Projektes.}
 \label{table:projectfiles}
 \end{table}
 
-\section{Implementation der WebRTC-Infrastruktur}
+\section{Bereitstellungsplattform}
+Zur Bereitstellung der in diesem Kapitel beschriebenen Server wird eine Virtuelle Maschine auf der Azure-Plattform genutzt. Azure ist eine Cloud-Computing-Plattform von Microsoft, welche sowohl Software-, Platform- und Infrastructure-As-A-Service (SaaS, PaaS, IaaS) anbietet.\par
+
+Azure ermöglicht das Erstellen von Rechnenressourcen in der Cloud, in der Form von Virtuellen Maschinen. Dabei existieren verschiedene Ausführungen von Virtuellen Maschinen, welche sich beim dem eingesetzten Betriebssystem, sowie der \glqq{}Größe\grqq{} anpassen lassen. Die Größe gibt dabei den Arbeitsspeicher, die Anzahl der (virtuellen) Prozessorkerne, sowie die Art und Anzahl der Datenträger vor.\par
+
+Für die prototypische Bereitstellung der Server wurde eine \acf{VM} der Größe \glqq{}B1s\grqq{} erstellt. Die B-Reihe ist dabei auf geringe Arbeitsbelastung ausgelegt. Eine B1s-VM verfügt über einen virtuellen Prozessorkern, ein Gigabyte Arbeitsspeicher und zwei Datenträger mit maximal 4 Gigabyte an temporärem Speicher. Für eine prototypische Bereitstellung, bei welcher nicht viel Serverlast zu erwarten ist, ist eine B1s-VM ausreichend.\par
+
+Als Betriebssystem eignet sich praktisch jedes Betriebssystem, welches das bereitstellen von Servern ermöglicht. Azure bietet dabei viele verschiedene Linux-Distributionen und Windows-Server-Images. Als Betriebssystem wurde hier Ubuntu 18.04 LTS (Long-Term-Support, dt. Langzeitsupport) gewählt, primär da das Packet des genutzen STUN- und TURN-Servers in den Repositories von Ubuntu 18.04+ enthalten ist, und so einfach über den Packetmanager \textit{apt} installiert werden kann.\par
+
+Der \acs{VM} muss zusätzlich eine öffentliche IP-Adresse zugewiesen werden, damit die auf der Maschine laufenden Server von Außen erreichbar sind. Für diese IP-Adresse lässt sich zudem ein Domain-Name in der Form
+\lstset{style=STYLE_COMMAND_LINE_ARGUMENT_SINGLE_LINE}
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+<DNS-Name>.<Region der VM>.cloudapp.azure.com
+\end{lstlisting}
+festlegen. Der für diese VM gewählte Domain-Name lautet somit:
+\lstset{style=STYLE_COMMAND_LINE_ARGUMENT_SINGLE_LINE}
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+ba-webrtc.westeurope.cloudapp.azure.com
+\end{lstlisting}
+
+\section{Implementation der Netzwerkinfrastruktur}
 Die Netzwerkinfrastruktur ist in drei Teile geteilt: Der Webserver, welcher die Seiten bereitstellt und als Signalisierungskanal dient, die Clientseitige WebRTC-Implementation und die \acs{STUN}- und \acs{TURN}-Server. Zusammen bilden diese drei Komponenten das \glqq{}WebRTC-Dreieck\grqq{}.
 
 \subsection{Implementation des Webservers}
@@ -57,6 +77,8 @@ Zur Erstellung des Webservers wird das \glqq{}express\grqq{}-Packet verwendet. D
 
 \vspace{11pt}
 \lstset{language=js, style=STYLE_CODE_JS}
+\begin{minipage}{\textwidth}
+\begin{singlespace}
 \begin{lstlisting}[caption={express Server -- Server.js}, captionpos=b, label={lst:express}]
 const express = require('express');
 const config = require('./config.json');
@@ -78,6 +100,8 @@ app.get('/game/*/', (req, res) => {
 
 server.listen(config.server.listeningPort);
 \end{lstlisting}
+\end{singlespace}
+\end{minipage}
 
 Zuerst muss eine express-Anwendung über die $express()$-Funktion erstellt werden. Da für die Nutzung von socket.io allerdings ein \acs{HTTP}-Serverobjekt nötig ist, wird dieses in Zeile 5 erstellt. Dabei wird die express-Anwendung als Parameter bei der Servererstellung mitgegeben. Die express-Anwendung nutzt nun diesen \acs{HTTP}-Server für die Webserver-Funktionalität.\par
 
@@ -91,7 +115,9 @@ Zuletzt muss in Zeile 19 noch der Port definiert werden, über welchen der Serve
 
 \vspace{11pt}
 \lstset{language=js, style=STYLE_CODE_JS}
-\begin{lstlisting}[caption={Initialisierung des socket.io Servers -- Server.js}, captionpos=b, label={lst:candidate}]
+\begin{minipage}{\textwidth}
+\begin{singlespace}
+\begin{lstlisting}[caption={Initialisierung des socket.io Servers -- Server.js}, captionpos=b, label={lst:socketioserver}]
 [...]
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
@@ -100,16 +126,40 @@ io.sockets.on('connection', (socket) => {
   [...]
 }
 \end{lstlisting}
+\end{singlespace}
+\end{minipage}
+
+
+\vspace{11pt}
+\lstset{language=js, style=STYLE_CODE_JS}
+\begin{minipage}{\textwidth}
+\begin{singlespace}
+\begin{lstlisting}[caption={Clientseitiger Verbindungsaufbau -- game.js}, captionpos=b, label={lst:socketioclient}]
+[...]
+$(document).on('DOMContentLoaded', () => {
+  const socket = io('http://localhost:1234');
+  const roomID = window.location.pathname.split('/')[2];
+  socket.on('connect', () => {
+    [...]
+  );
+  [...]
+)
+\end{lstlisting}
+\end{singlespace}
+\end{minipage}
+
 
 \subsection{Raum-Management}
 Das Spiel \glqq{}Mensch Ärgere Dich Nicht\grqq{} kann maximal von vier Spielern gespielt werden. Damit mehr als ein Spiel gleichzeitig gespielt werden kann, müssen Spieler in \glqq{}Räume\grqq{} unterteilt werden. Ein Raum besitzt dabei eine Liste an bis zu vier Sets an Spielerdaten, eine Raum-ID und eine Host-ID. Bei der Host-ID handelt es sich um die Socket-ID des Spielers, welcher den Raum zuerst betritt. Dieser hat als einziger Spieler die Befugnis, weitere Spieler aus dem Raum zu entfernen. Spielerdaten enthalten jeweils die Peer-ID eines Spielers, einen Namen und die Spielfarbe des Spielers.
 
+\subsubsection{Erstellen eines Raums}
+
 \vspace{11pt}
 \lstset{language=js, style=STYLE_CODE_JS}
+\begin{singlespace}
 \begin{lstlisting}[caption={Event zum Erstellen eines Raums -- Server.js}, captionpos=b, label={lst:imamakedaroom}]
 const utils = require('./utils.js');
 [...]
-
 const rooms = {}
 const playerSockets = {}
 
@@ -128,12 +178,15 @@ io.sockets.on('connection', (socket) => {
   [...]
 }
 \end{lstlisting}
+\end{singlespace}
 
 Erstellt ein Nutzer einen Raum, so sendet dieser das \textit{game-room-create}-Event zum Server (vgl. Abbildung~\ref{lst:imamakedaroom}). Der Server generiert eine vierstellige Zeichenkette, welche als Raum-ID dient. Mit dieser wird in Zeile 10 ein Raum-Objekt erzeugt, welches die zuvor beschriebenen Daten enthält. Zudem speichert das Raum-Objekt, ob das Spiel in diesem Raum bereits gestartet ist. Ist der Raum erstellt, so wird ein Event an den erstellenden Client zurückgeschickt, um diesem mitzuteilen, dass der Raum nun beitretbar ist.\par
 
+\subsubsection{Beitritt eines Raums}
+
 Das Betreten eines Raums ist über das \textit{game-room-join}-Event geregelt. Versucht ein Nutzer einem Raum beizutreten, so sendet dieser das Event an den Server (vgl. Abbildung~\ref{lst:join}). Falls der Raum noch keinen Host-Spieler besitzt, so wird der erste Beitretende Spieler in Zeile 17 zum Host ernannt. Bei erfolgreichem Beitritt erhält der Nutzer, wie in Zeile 20 zu sehen, das \textit{game-room-joined}-Event zurück, welches sämtliche, zum Verbindungsaufbau mit den anderen Spielern des Raums, benötigten Daten enthält. Dazu gehören das Array der weiteren Spieler im Raum, die eigene Peer-ID und die Zugangsdaten zu den \acs{STUN}- und \acs{TURN}-Servern. Zusätzlich wird dem Nutzer mitgeteilt, ob dieser der Host des Raums ist. Zudem werden in Zeile 27--29 alle weiteren Spieler des Raums benachrichtigt, dass ein weiterer Spieler beigetreten ist.\par
 
-Die Spielregeln von \glqq{}Mensch Ärgere Dich Nicht\grqq{} besagen, dass beim Spielen mit zwei Spielern, die Farben Gelb und Rot gewählt werden sollen, damit die Spieler gegenüberstehende Startfelder haben. Daher werden die Spieler beim Betreten eines Raums nicht nach aufsteigender Reihenfolge in das Spieler-Array eingefügt, sondern nach der in Zeile 1 definierten Reihenfolge [0, 2, 1, 3]. Ab Zeile 8 wird dieses Array durchlaufen. Ist ein Array-Index nicht definiert, so wird der neu beigetretene Spieler an diese Stelle des Spieler-Arrays gesetzt.\par
+In deb Spielregeln von \glqq{}Mensch Ärgere Dich Nicht\grqq{} ist geregelt, dass beim Spielen mit zwei Spielern die Farben Gelb und Rot gewählt werden sollen, damit die Spieler gegenüberstehende Startfelder haben. Daher werden die Spieler beim Betreten eines Raums nicht nach aufsteigender Reihenfolge in das Spieler-Array eingefügt, sondern nach der in Zeile 1 definierten Reihenfolge [0, 2, 1, 3]. Ab Zeile 8 wird dieses Array durchlaufen. Ist ein Array-Index nicht definiert, so wird der neu beigetretene Spieler an diese Stelle des Spieler-Arrays gesetzt.\par
 
 \begin{table}[ht]
 \centering
@@ -155,6 +208,7 @@ Dazu wird in Zeile 10 zuerst eine Peer-ID generiert, welche zu Signalisierungszw
 
 \vspace{11pt}
 \lstset{language=js, style=STYLE_CODE_JS}
+\begin{singlespace}
 \begin{lstlisting}[caption={Event zum Betreten eines Raums -- Server.js}, captionpos=b, label={lst:join}]
 const PLAYER_SLOT_PRIORITY = [0, 2, 1, 3];
 [...]
@@ -192,21 +246,42 @@ io.sockets.on('connection', (socket) => {
   [...]
 }
 \end{lstlisting}
+\end{singlespace}
 
-\subsection{Signalisierung}
-Blabla blalala bla Blabla blalala bla Blabla blalala bla Blabla blalala bla Blabla blalala bla Blabla blalala bla Blabla blalala bla Blabla blalala bla Blabla blalala bla Blabla blalala bla Blabla blalala bla Blabla blalala bla Blabla blalala bla Blabla blalala bla Blabla blalala bla Blabla blalala bla. Ich sollte mir echt mal das lipsum package runterladen...
+\subsubsection{Weitere Raumspezifische Events}
+\begin{table}[ht]
+\centering
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+Event&Beschreibung\\
+
+\midrule
+game-room-join-failed&Wird vom Server zurückgegeben, wenn der Raum, dem der Client beitreten will, nicht verfügbar oder voll ist.\\
+game-room-client-leaving&Wird vom Server an alle Spieler eines Raums gesendet, wenn ein Spieler den Raum verlässt.\\
+game-room-host-migration&Ausgelöst vom Server, wenn der Host eines Raums diesen verlässt. Die Socket-ID des neuen als Host agierenden Spielers wird als Parameter dieses Events mitgegeben.\\
+\bottomrule
+
+\end{tabularx}
+\caption{Weitere Raumspezifische Events.}
+\label{table:otherevents}
+\end{table}
+
+Des weiteren existieren Events, welche das Verlassen von Räumen, entweder durch den Nutzer manuell ausgelöst, oder bedingt durch Verbindungsverlust, behandeln. Verlässt ein Spieler einen Raum, so erhalten alle verbliebenen Spieler ein Event darüber. Verlässt der Host-Spieler den Raum, so geht der Host-Status auf den nächsten Spieler im Spieler-Array über. Verlässt der letzte verbleibende Spieler den Raum, so wird dieser entfernt. Diese Events sind in Tabelle~\ref{table:otherevents} zusammengefasst.\par
+
+\subsection{Signalisierungskanal}
+Das Weiterleiten von Signalisierungsnachrichten zwischen Peers wird über die gleiche socket.io-Verbindung geregelt, wie die Raumverwaltung. Dazu wird das \textit{signal}-Event verwendet. Zur Signalisierung muss dabei immer die ID des Raums angegeben werden, in welchem die Signal-Nachricht weitergeleitet werden soll. Zudem muss die Peer-ID des Ziel-Peers angegeben werden. Existieren Raum und Peer, so wird das \textit{signal}-Event an diesen weitergeleitet. Abbildung~\ref{lst:signalserver} zeigt die Serverseitige Rückruffunktion des \textit{signal}-Events.
 
 \vspace{11pt}
 \lstset{language=js, style=STYLE_CODE_JS}
-\begin{lstlisting}[caption={Event zum Weiterleiten eines Signals -- Server.js}, captionpos=b, label={lst:imamakedaroom}]
-[...]
+\begin{singlespace}
+\begin{lstlisting}[caption={Event zum Weiterleiten eines Signals -- Server.js}, captionpos=b, label={lst:signalserver}]
 io.sockets.on('connection', (socket) => {
   [...]
-  socket.on('signal', (roomID, target, e) => {
+  socket.on('signal', (roomID, targetID, e) => {
     const room = rooms[roomID];
 
     if (room) {
-      const target = room.players.find((players) => players.peerID === e.target)
+      const target = room.players.find((player) => && player.peerID === targetID);
       if (target) {
         socket.to(playerSockets[target.peerID]).emit('signal', e);
       }
@@ -215,7 +290,7 @@ io.sockets.on('connection', (socket) => {
   [...]
 }
 \end{lstlisting}
-
+\end{singlespace}
 
 \section{Implementation der Peer-To-Peer Funktionalität}
 
@@ -287,3 +362,4 @@ Peer.prototype.onsignal = function(e) {
 \end{lstlisting}
 
 \section{Aufsetzen und Konfiguration eines STUN und TURN Servers}
+Zum Verbindungsaufbau zwischen Peers müssen \acs{STUN}- und \acs{TURN}-Server existieren.

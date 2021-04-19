@@ -7,7 +7,8 @@ Unter den Begriff Echtzeitanwendung fällt prinzipiell jede Anwendung, deren von
 \section{Netzwerkarchitekturen}
 
 \subsection{Client-Server und das Authoritative-Server-Modell}
-// Muss ich wirklich Client-Server erklären??
+Eine Client-Server Netzwerktopographie setzt sich aus primär zwei Arten an Knoten zusammen: Clients und Servern. Ein Server hat dabei die Aufgabe, den Clients Daten und Services zur Verfügung zu stellen \cite{silveira2015}.
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.65\textwidth]{bilder/PDF_SVG/AUTH_SERVER.pdf}
@@ -21,7 +22,7 @@ Unter den Begriff Echtzeitanwendung fällt prinzipiell jede Anwendung, deren von
 \section{Web Real-Time-Communication}
 Bei \ac{WebRTC} handelt es sich um einen Quelloffenen Standard zur Echtzeitkommunikation zwischen Browsern. Im Gegensatz zu weiteren Echtzeitstandards, wie zum Beispiel WebSockets, setzt \acs{WebRTC} nicht auf ein Client-Server Modell. Stattdessen ermöglicht der Standard es Browsern, welche den \acs{WebRTC} Standard unterstützen, sich ohne zusätzliche Software oder Plugins direkt miteinander zu verbinden. Der Datenaustausch findet somit direkt zwischen den Browsern -- den sogenannten Peers -- statt, ohne dass die Daten zusätzlich über einen Server weitergeleitet werden müssen. Dies führt in der Regel zu geringeren Latenzen, sowie Kostenersparnissen durch weniger Serverlast. WebRTC ist primär auf Audio- und Videokommunikation ausgelegt, ermöglicht aber auch das Senden von arbitraren Daten.\par
 
-Der Standard wurde zuerst von Global IP Solutions (GIPS) entwickelt. In 2011 erwarb Google GIPS, machte die \acs{WebRTC}-Komponenten Open-Source, und ermöglichte die Integration der Technologie in Web-Browser durch die Entwicklung einer JavaScript-\acs{API}. Seitdem arbeitet das \acs{W3C} an der Standardisierung der Technologie.
+Der Standard wurde zuerst von Global IP Solutions (GIPS) entwickelt. In 2011 erwarb Google GIPS, machte die \acs{WebRTC}-Komponenten Open-Source, und ermöglichte die Integration der Technologie in Web-Browsern durch die Entwicklung einer JavaScript-\acs{API}. Seitdem arbeitet das \acs{W3C} an der Standardisierung der Technologie.
 
 Der Standard wird nun von einer Arbeitsgruppe des \acs{W3C}, der \acs{WebRTC} Working Group (dt. WebRTC Arbeitsgruppe) entwickelt und erhalten. Insgesamt 18 Organisationen sind in der WebRTC Arbeitsgruppe vertreten, unter anderem Microsoft, Google, Mozilla, Cisco und Apple \cite{webRTCWorkingGroup}.\par
 
@@ -44,11 +45,11 @@ Wie dem Architekturdiagramm in Abbildung ~\ref{fig:webrtcArchitecture} zu entneh
 Die Web-\acs{API} dient dabei zur Entwicklung von Browserbasierten Webanwendungen, und setzt sich aus einer Reihe an JavaScript Schnittstellen zusammen. Diese Schnittstellen können auf das unterliegende Framework zugreifen, und ermöglichen zum Beispiel das Erstellen von Verbindungen, Datenkanälen und Video-Streams. Primär werden dabei die folgenden Schnittstellen verwendet:
 
 \begin{itemize}
-  \item Die \textbf{RTCPeerConnection}-Schnittstelle repräsentiert eine WebRTC-Verbindung zwischen dem lokalen Browser (Local-Peer), und einem externen Browser (Remote-Peer) \cite{rtcpeerconnection}. Die Signalisierungsmechanismen folgen dabei dem \ac{JSEP}, die Verbindung selbst wird via dem \ac{ICE} Framework hergestellt.
+  \item Die \textbf{RTCPeerConnection}-Schnittstelle repräsentiert eine WebRTC-Verbindung zwischen dem lokalen Browser (Local-Peer), und einem externen Browser (Remote-Peer) \cite{rtcpeerconnection}. Die Signalisierungsmechanismen folgen dabei dem \ac{JSEP}, die Verbindung selbst wird via dem \ac{ICE} Framework hergestellt \cite{loreto2014}.
   
-  \item Ein \textbf{RTCDataChannel} ist ein, von der RTCPeerConnection erstellter, bidirektionaler Datenkanal, welcher den Austausch von arbitraren Nachrichten zwischen Browsern ermöglicht. Eine RTCPeerConnection kann mehrere Datenkanäle besitzen. Zum Datenaustausch wird das \ac{SCTP} verwendet \cite{rtcpeerconnection}.
+  \item Ein \textbf{RTCDataChannel} ist ein, von der RTCPeerConnection erstellter, bidirektionaler Datenkanal, welcher den Austausch von arbitraren Nachrichten zwischen Browsern ermöglicht. Eine RTCPeerConnection kann mehrere Datenkanäle besitzen. Zum Datenaustausch wird das \ac{SCTP} verwendet \cite{loreto2014, rtcpeerconnection}.
   
-  \item Die \textbf{MediaStream}-\acs{API} dient dazu, Audio- und Videosignale eines Gerätes abzurufen. Dabei wird ein Datenstrom erzeugt, welcher in Echtzeit an externe Browser gesendet werden kann. Dazu wird das \ac{RTP}, beziehungsweise das \ac{SRTP} verwendet. Da Audio- und Videoübertragung für diese Arbeit nicht relevant sind, wird auf diese Protokolle nicht weiter eingegangen.
+  \item Die \textbf{MediaStream}-\acs{API} dient dazu, Audio- und Videosignale eines Gerätes abzurufen. Dabei wird ein Datenstrom erzeugt, welcher in Echtzeit an externe Browser gesendet werden kann. Dazu wird das \ac{RTP}, beziehungsweise das \ac{SRTP} verwendet \cite{loreto2014}. Da Audio- und Videoübertragung für diese Arbeit nicht relevant sind, wird auf diese Protokolle nicht weiter eingegangen.
 \end{itemize}
 
 \subsubsection*{WebRTC Framework}
@@ -104,11 +105,12 @@ Die \acs{STUN} und \acs{TURN} Server lassen sich beim Erstellen der RTCPeerConne
 Aus diesem Grund ermöglicht es \acs{WebRTC}, \acs{ICE}-Kandidaten zu \glqq{}tricklen\grqq{}, also nach und nach, bei Erhalt einer Antwort eines Servers, an den externen Peer zu schicken. Dies optimiert den Vorgang des Austauschs von \acs{ICE}-Kandidaten, da nun nicht mehr darauf gewartet werden muss, dass alle Kandidaten ermittelt wurden, bevor der \acs{JSEP}-Anfrage-Antwort-Prozess stattfinden kann.\par
 
 \vspace{1pc}
+\lstset{style=STYLE_ICE_CANDIDATE_0}
 \begin{lstlisting}[caption={SDP-Datenstring eines Relais-ICE-Kandidaten},captionpos=b,label={lst:candidate}]
 candidate:1411127089 1 udp 33562367 <@\textcolor{blue}{20.56.95.156}@> <@\textcolor{blue}{12926}@> <@\textcolor{red}{typ}@> <@\textcolor{red}{relay}@> raddr 0.0.0.0 rport 0 generation 0 ufrag uVtu network-cost 999
 \end{lstlisting}
 
-Jede RTCPeerConnection besitzt daher die Rückruffunktion \glqq{}$onicecandidate$\grqq{}, welche bei Erhalt eines neuen \acs{ICE}-Kandidaten aufgerufen wird. Die Parameter dieser Rückruffunktion enthalten die \acs{SDP}-Daten, welche den Kandidaten beschreiben. Die Struktur dieser Daten ist Beispielhaft Abbildung ~\ref{lst:candidate} zu entnehmen. Dabei handelt es sich um einen \acs{UDP}-Relais-Kandidaten, zu erkennen am \glqq{}typ relay\grqq{}, hervorgehoben in Rot. Die Adresse und der Port sind in Blau hervorgehoben. Nachdem die Daten an den externen Peer gesendet wurden, muss der Kandidat auf der Empfängerseite über die $addIceCandidate$-Funktion der RTCPeerConnection hinzugefügt werden.
+Jede RTCPeerConnection besitzt daher die Rückruffunktion \glqq{}$onicecandidate$\grqq{}, welche bei Erhalt eines neuen \acs{ICE}-Kandidaten aufgerufen wird. Die Parameter dieser Rückruffunktion enthalten die \acs{SDP}-Daten, welche den Kandidaten beschreiben. Die Struktur dieser Daten ist Beispielhaft Abbildung~\ref{lst:candidate} zu entnehmen. Dabei handelt es sich um einen \acs{UDP}-Relais-Kandidaten, zu erkennen am \glqq{}typ relay\grqq{}, hervorgehoben in Rot. Die Adresse und der Port sind in Blau hervorgehoben. Nachdem die Daten an den externen Peer gesendet wurden, muss der Kandidat auf der Empfängerseite über die $addIceCandidate$-Funktion der RTCPeerConnection hinzugefügt werden.
 
 \subsubsection{STUN: Session Traversal Utilities for NAT}
 Das \acf{STUN}-Protokoll wird verwendet, um die öffentliche \acs{IP}-Adresse eines Peers zu ermitteln. Auf Anfrage an einen STUN-Server erhält ein Peer seine Server-Reflexive Transportadresse zurück, welche von externen Peers verwendet werden kann, um Daten an den lokalen Peer zu schicken. Durch die Anfrage an den \acs{STUN}-Server wird dabei die benötigte Port- und Adresszuordnung in die \acs{NAT}-Übersetzungstabelle des Routers geschrieben. Eine Server-Reflexive Adresse kann auch von einem TURN-Server abgefragt werden, vorrausgesetzt dieser unterstützt zusätzlich das \acs{STUN}-Protokoll.\par
@@ -149,7 +151,7 @@ Mehrere Datenströme&Nein&Nein&Ja\\
 \label{table:vergleichNetzwerkProtokolle}
 \end{table}
 
-Ein direkter Vergleich der drei Protokolle lässt sich aus Tabelle ~\ref{table:vergleichNetzwerkProtokolle} entnehmen. Im Gegensatz zu \acs{UDP} bietet \acs{SCTP} außerdem Fluss- und Überlastkontrolle. Damit gestaltet sich \acs{SCTP} weitaus flexibler als die beiden gängigsten Transportprotokolle. Zudem ermöglicht \acs{SCTP} Multihoming. Existiert mehr als eine Transportadresse, unter der ein Endpunkt erreicht werden kann, so ist es möglich, im Falle eines Ausfalls des Pfades zum primär verwendeten Endpunkt, Daten über einen weiteren Netzwerkpfad umzuleiten, und an einen weiteren Endpunkt zu verschicken \cite{sctpRFC, multihoming}. Dies erhöht die Zuverlässigkeit der Datenübertragung, und ermöglicht es selbst bei Ausfall eines Netzwerkpfades, Daten weiterhin auszutauschen.\par
+Ein direkter Vergleich der drei Protokolle lässt sich aus Tabelle~\ref{table:vergleichNetzwerkProtokolle} entnehmen. Im Gegensatz zu \acs{UDP} bietet \acs{SCTP} außerdem Fluss- und Überlastkontrolle. Damit gestaltet sich \acs{SCTP} weitaus flexibler als die beiden gängigsten Transportprotokolle. Zudem ermöglicht \acs{SCTP} Multihoming. Existiert mehr als eine Transportadresse, unter der ein Endpunkt erreicht werden kann, so ist es möglich, im Falle eines Ausfalls des Pfades zum primär verwendeten Endpunkt, Daten über einen weiteren Netzwerkpfad umzuleiten, und an einen weiteren Endpunkt zu verschicken \cite{sctpRFC, multihoming}. Dies erhöht die Zuverlässigkeit der Datenübertragung, und ermöglicht es selbst bei Ausfall eines Netzwerkpfades, Daten weiterhin auszutauschen.\par
 
 %\begin{figure}[h]
 %\centering
@@ -168,22 +170,12 @@ Das \acs{WebRTC}-Framework nutzt \acs{DTLS} zur Verschlüsselung von Datenkanäl
 
 \section{Node.js}
 Node.js ist eine kostenlose, plattformunabhängige JavaScript Laufzeitumgebung.
-Diese ermöglicht das Ausführen von JavaScript Programmen außerhalb eines Browsers, zum Beispiel auf einem Server. Node.js ist Open-Source und kann kostenlos verwendet werden. Programme setzen sich aus sogenannten \textit{modules}, zu Deutsch Modulen, zusammen. Ein Modul kann dabei jegliche Funktionalität, wie zum Beispiel Klassen, Funktionen und Konstanten exportieren, welche dann wiederrum von weiteren Modulen oder Programmen verwendet werden können. Module können über das \textit{require}-Stichwort geladen werden. Node.js bietet integrierte Webserver-Funktionalität via dem \acs{HTTP}-Modul, welches das Erstellen eines Webservers ermöglicht \cite{nodejs}. Eine JavaScript-Datei kann über den Befehl
-\lstset{style=STYLE_COMMAND_LINE_ARGUMENT_SINGLE_LINE}
-\begin{lstlisting}[belowskip=-0.8 \baselineskip]
-$ node <Pfad zur Skript-Datei>
-\end{lstlisting}
-ausgeführt werden.\par 
+Diese ermöglicht das Ausführen von JavaScript Programmen außerhalb eines Browsers, zum Beispiel auf einem Server. Node.js ist Open-Source und kann kostenlos verwendet werden. Programme setzen sich aus sogenannten \textit{modules}, zu Deutsch Modulen, zusammen. Ein Modul kann dabei jegliche Funktionalität, wie zum Beispiel Klassen, Funktionen und Konstanten exportieren, welche dann wiederrum von weiteren Modulen oder Programmen verwendet werden können. Module können über das \textit{require}-Stichwort geladen werden. Node.js bietet integrierte Webserver-Funktionalität via dem \acs{HTTP}-Modul, welches das Erstellen eines Webservers ermöglicht \cite{nodejs}.\par 
 
 Node.js ist in den Repositories aller aktuellen Linux-Distributionen enthalten\footnote{Weitere Informationen: \url{https://nodejs.org/en/download/package-manager/}}, und kann mit den entsprechenden Packetmanagern, beziehungsweise über die Website\footnote{Node.js Downloads: \url{https://nodejs.org/en/download/}} heruntergeladen und installiert werden.\par
 
 \subsection{NPM: Node Package Manager}
-Zur Verwaltung und zum Teilen von Packeten nutzt Node.js den \ac{NPM}. Ein Packet sind in diesem Kontext ein oder mehrere Module, gekoppelt mit allen Dateien, welche diese benötigen. Packete werden auf \textit{npmjs.com} gehostet. Die Liste der von einem Projekt verwendeten Module wird in der Datei \textit{package.json} gespeichert. Ein Packet kann via NPM über den Befehl
-\lstset{style=STYLE_COMMAND_LINE_ARGUMENT_SINGLE_LINE}
-\begin{lstlisting}[belowskip=-0.8 \baselineskip]
-$ npm install <Packetname>
-\end{lstlisting}
-installiert werden. Ist kein Packetname angegeben, so werden alle Packete, welche im Gleichen Ordner in der \textit{package.json}-Datei eingetragen sind, installiert.
+Zur Verwaltung und zum Teilen von Packeten nutzt Node.js den \ac{NPM}. Ein Packet sind in diesem Kontext ein oder mehrere Module, gekoppelt mit allen Dateien, welche diese benötigen. Packete werden auf \textit{npmjs.com} gehostet. Die Liste der von einem Projekt verwendeten Module wird in der Datei \textit{package.json} gespeichert.
 
 \subsection{Verwendete Node-Packete}
 // TODO: 2 Zeilen Text hier, dass das nicht so scheiße aussieht...

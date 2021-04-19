@@ -95,6 +95,8 @@ allcolors = black] {hyperref}
 % vspace -11 to force effective single spacing between caption and src
 \newcommand{\source}[1]{\vspace{-11pt} \caption*{ Quelle: {#1}} }
 
+\input{listing-environments.tex}
+
 %\renewcommand{\labelitemi}{-}   %aufzählungszeichen strich statt punkt - beliebig anpassbar
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -131,7 +133,7 @@ allcolors = black] {hyperref}
     keywordstyle=\color{darkorange},
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codegray},
-    basicstyle=\ttfamily\footnotesize,
+    basicstyle=\ttfamily\footnotesize\linespread{-0.8},
     breakatwhitespace=false,         
     breaklines=true,                 
     captionpos=b,                    
@@ -140,17 +142,16 @@ allcolors = black] {hyperref}
     numbersep=5pt,                  
     showspaces=false,                
     showstringspaces=false,
-    showtabs=false,                  
+    showtabs=false,        
+    frame=tb,          
     tabsize=2
 }
 
-% a hack...
 \lstdefinestyle{STYLE_ICE_CANDIDATE_0}{
-    backgroundcolor=\color{backcolour},   
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{magenta},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codepurple},
+    backgroundcolor=\color{whitecolour},
+    keywordstyle=\color{backcolour},
+    basicstyle=\ttfamily\small,
+    breakatwhitespace=false,  
     basicstyle=\ttfamily\footnotesize,
     columns=fullflexible,
     escapeinside={<@}{@>},
@@ -162,7 +163,8 @@ allcolors = black] {hyperref}
     numbersep=5pt,                  
     showspaces=false,                
     showstringspaces=false,
-    showtabs=false,                  
+    showtabs=false,  
+    frame=tb,                
     tabsize=2
 }
 
@@ -181,8 +183,6 @@ allcolors = black] {hyperref}
   morestring=[b]",
   morestring=[b]`
 }
-
-\lstset{style=STYLE_ICE_CANDIDATE_0}
 
 % \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
 
