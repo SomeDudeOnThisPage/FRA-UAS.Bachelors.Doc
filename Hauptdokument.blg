@@ -10,53 +10,55 @@ Reallocating 'wiz_functions' (item size: 4) to 6000 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Database file #1: 30_Literaturverzeichnis.bib
+Warning--I didn't find a database entry for "lorento2014"
 Warning--to sort, need author or key in BGMarket
 Warning--to sort, need author or key in webRTCWorkingGroup
 Warning--to sort, need author or key in nodejs
 Warning--to sort, need author or key in socketio
 Warning--empty number in rtcpeerconnection
+Warning--empty year in authservermodel
 Warning--empty year in nodejs
 Warning--empty year in socketio
 Warning--empty year in webRTCWorkingGroup
-You've used 14 entries,
+You've used 15 entries,
             4793 wiz_defined-function locations,
-            980 strings with 8333 characters,
-and the built_in function-call counts, 7139 in all, are:
-= -- 819
-> -- 117
-< -- 127
-+ -- 135
-- -- 35
-* -- 442
-:= -- 1086
-add.period$ -- 24
-call.type$ -- 14
-change.case$ -- 55
-chr.to.int$ -- 14
-cite$ -- 26
-duplicate$ -- 216
-empty$ -- 624
-format.name$ -- 74
-if$ -- 1594
+            986 strings with 8535 characters,
+and the built_in function-call counts, 7536 in all, are:
+= -- 863
+> -- 125
+< -- 137
++ -- 145
+- -- 37
+* -- 463
+:= -- 1156
+add.period$ -- 25
+call.type$ -- 15
+change.case$ -- 59
+chr.to.int$ -- 15
+cite$ -- 28
+duplicate$ -- 229
+empty$ -- 649
+format.name$ -- 80
+if$ -- 1673
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 46
-newline$ -- 107
-num.names$ -- 30
-pop$ -- 80
+missing$ -- 50
+newline$ -- 113
+num.names$ -- 33
+pop$ -- 88
 preamble$ -- 1
-purify$ -- 83
+purify$ -- 89
 quote$ -- 0
-skip$ -- 369
+skip$ -- 389
 stack$ -- 0
-substring$ -- 504
-swap$ -- 39
-text.length$ -- 25
-text.prefix$ -- 6
+substring$ -- 524
+swap$ -- 41
+text.length$ -- 27
+text.prefix$ -- 7
 top$ -- 0
-type$ -- 156
-warning$ -- 8
-while$ -- 41
-width$ -- 18
-write$ -- 223
-(There were 8 warnings)
+type$ -- 166
+warning$ -- 9
+while$ -- 44
+width$ -- 19
+write$ -- 236
+(There were 10 warnings)

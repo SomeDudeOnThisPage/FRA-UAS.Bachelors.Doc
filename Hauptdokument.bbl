@@ -47,6 +47,15 @@
 \newblock ISSN 2070--1721. --
 \newblock Abgerufen: 08.04.2021
 
+\bibitem[Gam]{authservermodel}
+\textsc{Gambetta}, Gabriel:
+\newblock \emph{Fast-Paced Multiplayer (Part I): Client-Server Game
+  Architecture}.
+\newblock
+  \url{https://www.gabrielgambetta.com/client-server-game-architecture.html}, .
+  --
+\newblock Abgerufen 21.04.2021
+
 \bibitem[HS01]{natproblemsRFC}
 \textsc{Holdrege}, Matt ; \textsc{Srisuresh}, Pyda:
 \newblock Protocol Complications with the IP Network Address Translator / The

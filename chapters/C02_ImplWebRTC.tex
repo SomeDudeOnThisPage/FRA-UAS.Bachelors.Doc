@@ -352,10 +352,10 @@ Peer.prototype.onsignal = function(e) {
       });
       break;
     case 'answer':
-      this.connections[e.src].setRemoteDescription(e.data).then();
+      this.connections[e.src].setRemoteDescription(e.data);
       break;
     case 'ice-candidate':
-      this.connections[e.src].addIceCandidate(e.data).then();
+      this.connections[e.src].addIceCandidate(e.data);
       break;
   }
 }
