@@ -32,27 +32,33 @@
 \contentsline {chapter}{\numberline {4}Konzept}{19}{chapter.85}%
 \contentsline {section}{\numberline {4.1}Anforderungen}{19}{section.86}%
 \contentsline {subsection}{\numberline {4.1.1}Anforderungen an die Netzwerkstruktur}{19}{subsection.87}%
-\contentsline {subsection}{\numberline {4.1.2}Anforderungen an das Brettspiel}{20}{subsection.88}%
-\contentsline {subsubsection}{\nonumberline Betrug}{20}{subsubsection*.90}%
-\contentsline {subsubsection}{\nonumberline Spielregeln}{20}{subsubsection*.92}%
-\contentsline {section}{\numberline {4.2}Server-Infrastruktur}{20}{section.93}%
-\contentsline {section}{\numberline {4.3}Peer-To-Peer Netzwerkarchitektur}{21}{section.94}%
-\contentsline {section}{\numberline {4.4}Zufallszahlen}{21}{section.95}%
-\contentsline {chapter}{\numberline {5}Design und Implementation}{23}{chapter.96}%
-\contentsline {section}{\numberline {5.1}Bereitstellungsplattform}{23}{section.98}%
-\contentsline {section}{\numberline {5.2}Implementation der Netzwerkinfrastruktur}{24}{section.104}%
-\contentsline {subsection}{\numberline {5.2.1}Implementation des Webservers}{25}{subsection.105}%
-\contentsline {subsubsection}{\nonumberline Erstellen des Node-Servers}{25}{subsubsection*.107}%
-\contentsline {subsubsection}{\nonumberline express Web-Server}{25}{subsubsection*.114}%
-\contentsline {subsubsection}{\nonumberline socket.io}{27}{subsubsection*.136}%
-\contentsline {subsection}{\numberline {5.2.2}Raum-Management}{27}{subsection.155}%
-\contentsline {subsubsection}{\nonumberline Erstellen eines Raums}{27}{subsubsection*.157}%
-\contentsline {subsubsection}{\nonumberline Beitritt eines Raums}{28}{subsubsection*.179}%
-\contentsline {subsubsection}{\nonumberline Weitere Raumspezifische Events}{30}{subsubsection*.218}%
-\contentsline {subsection}{\numberline {5.2.3}Signalisierungskanal}{30}{subsection.220}%
-\contentsline {section}{\numberline {5.3}Implementation der Peer-To-Peer Funktionalität}{31}{section.236}%
-\contentsline {section}{\numberline {5.4}Aufsetzen und Konfiguration eines STUN und TURN Servers}{32}{section.295}%
-\contentsline {chapter}{\numberline {6}Evaluation}{33}{chapter.296}%
-\contentsline {chapter}{\numberline {7}Zusammenfassung und Ausblick}{34}{chapter.297}%
-\contentsline {chapter}{\numberline {8}Literaturverzeichnis}{35}{chapter.298}%
+\contentsline {subsection}{\numberline {4.1.2}Anforderungen an die Clientseitigen WebRTC-Verbindungen}{20}{subsection.88}%
+\contentsline {subsection}{\numberline {4.1.3}Anforderungen an das Brettspiel}{20}{subsection.89}%
+\contentsline {subsubsection}{\nonumberline Betrug}{20}{subsubsection*.91}%
+\contentsline {subsubsection}{\nonumberline Spielregeln}{21}{subsubsection*.93}%
+\contentsline {section}{\numberline {4.2}Server-Infrastruktur}{21}{section.94}%
+\contentsline {section}{\numberline {4.3}Peer-To-Peer Netzwerkarchitektur}{21}{section.95}%
+\contentsline {section}{\numberline {4.4}Zufallszahlen}{22}{section.96}%
+\contentsline {subsection}{\numberline {4.4.1}Verteiltes Generieren von Zufallszahlen}{22}{subsection.97}%
+\contentsline {subsection}{\numberline {4.4.2}Seeded Random-Number-Generators}{22}{subsection.98}%
+\contentsline {chapter}{\numberline {5}Design und Implementation}{24}{chapter.99}%
+\contentsline {section}{\numberline {5.1}Bereitstellungsplattform}{24}{section.101}%
+\contentsline {section}{\numberline {5.2}Implementation der Netzwerkinfrastruktur}{25}{section.107}%
+\contentsline {subsection}{\numberline {5.2.1}Implementation des Webservers}{26}{subsection.108}%
+\contentsline {subsubsection}{\nonumberline Erstellen des Node-Servers}{26}{subsubsection*.110}%
+\contentsline {subsubsection}{\nonumberline express Web-Server}{26}{subsubsection*.117}%
+\contentsline {subsubsection}{\nonumberline socket.io}{28}{subsubsection*.139}%
+\contentsline {subsection}{\numberline {5.2.2}Implementation der Peer-To-Peer Funktionalität}{29}{subsection.159}%
+\contentsline {subsubsection}{\nonumberline Eventbasiertes Nachrichtenprotokoll}{29}{subsubsection*.161}%
+\contentsline {subsubsection}{\nonumberline Signalisierungsprotokoll}{30}{subsubsection*.180}%
+\contentsline {subsubsection}{\nonumberline Verbindungen und Datenkanäle}{30}{subsubsection*.189}%
+\contentsline {subsection}{\numberline {5.2.3}Raum-Verwaltung}{32}{subsection.241}%
+\contentsline {subsubsection}{\nonumberline Erstellen eines Raums}{33}{subsubsection*.243}%
+\contentsline {subsubsection}{\nonumberline Beitritt eines Raums}{33}{subsubsection*.265}%
+\contentsline {subsubsection}{\nonumberline Weitere Raumspezifische Events}{36}{subsubsection*.329}%
+\contentsline {subsection}{\numberline {5.2.4}Signalisierungskanal}{36}{subsection.331}%
+\contentsline {section}{\numberline {5.3}Aufsetzen und Konfiguration eines STUN und TURN Servers}{37}{section.347}%
+\contentsline {chapter}{\numberline {6}Evaluation}{38}{chapter.348}%
+\contentsline {chapter}{\numberline {7}Zusammenfassung und Ausblick}{39}{chapter.349}%
+\contentsline {chapter}{\numberline {8}Literaturverzeichnis}{40}{chapter.350}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

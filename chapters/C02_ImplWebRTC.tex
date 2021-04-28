@@ -73,7 +73,7 @@ $ npm install express
 heruntergeladen werden. Daraufhin können diese Packete über die $require$-Funktion in ein Script eingebunden werden.
 
 \subsubsection{express Web-Server}
-Zur Erstellung des Webservers wird das \glqq{}express\grqq{}-Packet verwendet. Der Quellcode befindet sich in der \glqq{}Server.js\grqq{}-Datei, und ist in Abbildung~\ref{lst:express} abgebildet.
+Zur Erstellung des Webservers wird das \glqq{}express\grqq{}-Framework verwendet. Der Quellcode befindet sich in der \glqq{}Server.js\grqq{}-Datei, und ist in Abbildung~\ref{lst:express} abgebildet.
 
 \vspace{11pt}
 \lstset{language=js, style=STYLE_CODE_JS}
@@ -86,7 +86,7 @@ const config = require('./config.json');
 const app = express();
 const server = require('http').Server(app);
 
-app.use(express.static('public'));
+app.use(express.static(config.server.public));
 
 app.get('/', (req, res) => {
   res.status(200);
@@ -107,13 +107,14 @@ Zuerst muss eine express-Anwendung über die $express()$-Funktion erstellt werde
 
 Da die \acs{HTML}-Dateien die notwendingen Scripts aus anderen Dateien importieren, müssen diese via \acs{URL} vom Webserver abrufbar sein. Die Funktion $app.use$ erlaubt es, Dateien via \acs{URL} öffentlich bereitzustellen. In Zeile 7 wird daher der Inhalt des \glqq{}public\grqq{}-Ordners statisch zur Verfügung gestellt.\par
 
-Des Weiteren werden in Zeile 9 und 14 die Pfade definiert, auf welchen die \acs{HTML}-Dateien abrufbar sind. Ruft ein Nutzer die Basis-\acs{URL} des Servers auf, so sendet der Server die \glqq{}index.html\grqq{}-Datei. Ruft ein Nutzer den Pfad \grqq{}<Basis-Server-URL>/game/<Raum-ID>/\grqq{} auf, so wird dieser auf die Raum-Seite (\glqq{}room.html\grqq{}) verwiesen. Dies bewirkt, dass ein Nutzer direkt über eine \acs{URL} einem Spiel beitreten kann, und nicht über die Index-Seite beitreten muss. Die Dateipfade sind in der Server-Konfigurationsdatei definiert.
+Des Weiteren werden in Zeile 9 und 14 die Pfade definiert, auf welchen die \acs{HTML}-Dateien abrufbar sind. Ruft ein Nutzer die Basis-\acs{URL} des Servers auf, so sendet der Server die \textit{index.html}-Datei. Ruft ein Nutzer den Pfad \textit{<Basis-Server-URL>/game/<Raum-ID>/} auf, so wird dieser auf die Raum-Seite (\textit{room.html}) verwiesen. Dies bewirkt, dass ein Nutzer direkt über eine \acs{URL} einem Spiel beitreten kann, und nicht über die Index-Seite beitreten muss. Die Dateipfade sind in der Server-Konfigurationsdatei definiert.
 
 Zuletzt muss in Zeile 19 noch der Port definiert werden, über welchen der Server von außen ansprechbar sein soll. Dieser ist ebenfalls via der Konfigurationsdatei definierbar. Wichtig ist, dass dieser Port des Servers, auf welchem der Webserver läuft, weitergeleitet ist [siehe: Aufsetzen der Server (oder so, // todo!!!)].
 
 \subsubsection{socket.io}
+Auf der Serverseite muss eine socket.io-Instanz erstellt werden. Diese nutzt den gleichen \acs{HTTP}-Server wie die express-Anwendung. Baut ein Client über die Clientseitige socket.io-Bibliothek eine Verbindung auf, so wird auf der Serverseite das \textit{connection}-Event ausgelöst, welches den Socket des Clients als Parameter enthält. Innerhalb der Rückruffunktion dieses Events müssen alle Rückruffunktionen für diesen Socket registriert werden. Der dazu notwendige Quellcode ist in Abbildung~\ref{lst:socketioserver} abgebildet.
 
-\vspace{11pt}
+\vspace{5pt}
 \lstset{language=js, style=STYLE_CODE_JS}
 \begin{minipage}{\textwidth}
 \begin{singlespace}
@@ -123,38 +124,210 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 [...]
 io.sockets.on('connection', (socket) => {
-  [...]
+  [...] // Rueckruffunktionen
 }
 \end{lstlisting}
 \end{singlespace}
 \end{minipage}
 
+Auf der Client-Seite muss zuerst die Clientseitige socket.io-Bibliothek eingebunden werden. Läuft socket.io auf dem gleichen Server wie der express-Webserver, so stellt socket.io die Clientseitige Script-Datei auf dem Pfad \textit{/socket.io/socket.io.js} statisch bereit. Die Datei wird im Header der jeweiligen \acs{HTML}-Datei über ein \textit{script}-Tag eingefügt:
+\lstset{style=STYLE_COMMAND_LINE_ARGUMENT_SINGLE_LINE}
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+<script src="/socket.io/socket.io.js"></script>
+\end{lstlisting}
+\par
 
 \vspace{11pt}
+Clientseitig stellt socket.io die \textit{io}-Funktion zur Verfügung, welche die Adresse des zugehörigen socket.io-Servers als Parameter nimmt. Die Funktion gibt die Socket-Instanz des Clients zurück. Das \textit{connect}-Event wird bei erfolgreicher Verbindung zum Server ausgelöst. Der hierzu notwendige Quellcode ist in Abbildung~\ref{lst:socketioclient} abgebildet.
+
+\vspace{5pt}
 \lstset{language=js, style=STYLE_CODE_JS}
 \begin{minipage}{\textwidth}
 \begin{singlespace}
 \begin{lstlisting}[caption={Clientseitiger Verbindungsaufbau -- game.js}, captionpos=b, label={lst:socketioclient}]
-[...]
 $(document).on('DOMContentLoaded', () => {
-  const socket = io('http://localhost:1234');
+  const socket = io('http://ba-webrtc.westeurope.cloudapp.azure.com:1234');
   const roomID = window.location.pathname.split('/')[2];
   socket.on('connect', () => {
-    [...]
+    socket.emit('game-room-join', roomID);
   );
-  [...]
+  [...] // Rueckruffunktionen
 )
 \end{lstlisting}
 \end{singlespace}
 \end{minipage}
 
+Das \textit{connect}-Event wird nicht nur beim ersten Verbindungsaufbau, sondern auch bei jeder Neuverbindung aufgerufen. Um zu vermeiden, dass Rückruffunktionen mehrfach registriert werden, werden diese außerhalb der \textit{connect}-Rückruffunktion erstellt. 
 
-\subsection{Raum-Management}
+\subsection{Implementation der Peer-To-Peer Funktionalität}
+Zur Verwaltung der Peer-To-Peer-Funktionalität werden \glqq{}Peer\grqq{}-Objekte verwendet. Jeder Client besitzt dabei ein Peer-Objekt. Der Peer verwaltet die RTCPeerConnections, sowie die zugehörigen Datenkanäle. Es ist dem Peer möglich, ähnlich dem socket.io-Syntax Rückruffunktionen zu erstellen, welche bei Erhalt von Daten je nach Event aufgerufen werden.\par
+
+\subsubsection{Eventbasiertes Nachrichtenprotokoll}
+Der von den Peer-Objekten zum Datenaustasuch verwendete Syntax ist an den Syntax von socket.io angelehnt. An einem Peer lassen sich über die \textit{on}-Funktion Rückruffunktionen registrieren (vgl. Abbildung~\ref{lst:registerCallback}). Diese registriert die Funktion in einem Map-Objekt.\par
+
+\vspace{5pt}
+\lstset{language=js, style=STYLE_CODE_JS}
+\begin{singlespace}
+\begin{lstlisting}[caption={Funktion zur Registrierung von Rückruffunktionen -- Peer.js}, captionpos=b, label={lst:registerCallback}]
+Peer.prototype.on = function(e, callback) {
+  this.callbacks[e] = callback;
+}
+\end{lstlisting}
+\end{singlespace}
+
+Die \textit{broadcast}-Funktion emittiert ein Event an alle Peers, zu welchen der Datenkanal offen ist (vgl. Abbildung~\ref{lst:broadcastEvent}). Zudem existiert die \textit{emit}-Funktion, welche ein Event nur an einen Peer emittiert. Das Format des Nachrichtenprotokolls ist Zeile 3 zu entnehmen: Jede Nachricht besitzt jeweils einen Event-String und ein Array an Daten.\par
+
+\vspace{5pt}
+\lstset{language=js, style=STYLE_CODE_JS}
+\begin{singlespace}
+\begin{lstlisting}[caption={Funktion zum Emittieren eines Events -- Peer.js}, captionpos=b, label={lst:broadcastEvent}]
+Peer.prototype.broadcast = function(e, ...args) {
+  Object.values(this.connections).forEach((connection) => {
+    connection.dc.send(JSON.stringify({event: e, data: args}));
+  });
+}
+\end{lstlisting}
+\end{singlespace}
+
+Bei Empfang einer Nachricht wird die Rückruffunktion, welche für das Event registriert ist, ausgeführt (vgl. Abbildung~\ref{lst:receiveMessage}). Zudem wird die Peer-ID des Peers, welcher das Event emittierte als weiterer Funktionsparameter angehängt.\par
+
+\vspace{5pt}
+\lstset{language=js, style=STYLE_CODE_JS}
+\begin{singlespace}
+\begin{lstlisting}[caption={Funktion bei Erhalt einer Nachricht -- Peer.js}, captionpos=b, label={lst:receiveMessage}]
+Peer.prototype._receiveMessage = function(e, remotePeerId) {
+  const message = JSON.parse(e.data);
+  if (message.event && this.callbacks[message.event]) {
+    this.callbacks[message.event](...message.data, remotePeerId);
+  }
+}
+\end{lstlisting}
+\end{singlespace}
+
+\subsubsection{Signalisierungsprotokoll}
+Zur Signalisierung wird ein simples, proprietäres Protokoll verwendet. Eine Signal-Nachricht besitzt immer eine Quell-Peer-ID, eine Ziel-Peer-ID, eine Nachrichtenart, und die eigentlichen \acs{SDP}-Daten des Signals. Dabei wird zwischen den Signal-Typen \textit{offer}, \textit{answer} und \textit{ice-candidate} unterschieden. Die Signalnachrichten werden als \acs{JSON} encodiert und über den Signalisierungskanal weitergeleitet (siehe:~\ref{section:signalisierungskanal} Signalisierungskanal).\par
+
+\vspace{5pt}
+\lstset{language=js, style=STYLE_CODE_JS}
+\begin{singlespace}
+\begin{lstlisting}[caption={Format des Signalisierungsprotokolls}, captionpos=b, label={lst:protocoll}]
+{
+    source : <Peer-ID>,
+    target : <Peer-ID>,
+    type : 'offer' | 'answer' | 'ice-candidate',
+    data : <SDP-Daten>
+}
+\end{lstlisting}
+\end{singlespace}
+
+Für ausgehende Signalnachrichten wird die \textit{signal}-Funktion des Peers verwendet. Diese muss bei Erstellen des Peer-Objekts registriert werden und Daten an das Signalisierungsmedium schicken. Werden Daten über den Signalisierungskanal erhalten, so muss die \textit{onsignal}-Funktion aufgerufen werden (vgl. Abbildung~\ref{lst:clientroomjoin}).
+
+\subsubsection{Verbindungen und Datenkanäle}
+Zum Verbindungsaufbau wird die \textit{connect}-Funktion (Abbildung~\ref{lst:connectfunction}) verwendet. Als Argument nimmt diese die Peer-ID des Peers, zu welchem eine Verbindung aufgebaut werden soll. Die RTCPeerConnection wird in der Hilfsmethode \textit{createConnection} des Peers erstellt, da diese Funktionalität auch auf der Empfängerseite bei Erhalt einer \acs{JSEP}-Anfrage verwendet wird.\par
+
+\vspace{5pt}
+\lstset{language=js, style=STYLE_CODE_JS}
+\begin{minipage}{\textwidth}
+\begin{singlespace}
+\begin{lstlisting}[caption={\textit{connect}-Funktion -- peer.js}, captionpos=b, label={lst:connectfunction}]
+Peer.prototype.connect = function(remotePeerId) {
+  const connection = this._createConnection(remotePeerId);
+  this.connections[remotePeerId] = connection;
+
+  connection.createOffer().then((offer) => {
+    this.signal(this._createSignal('offer', offer, remotePeerId));
+    connection.setLocalDescription(offer);
+  }).catch((e) => console.error(e));
+}
+\end{lstlisting}
+\end{singlespace}
+\end{minipage}
+
+Nach dem Erstellen der RTCPeerConnection wird der \acs{JSEP}-Anfrage-Antwort Prozess zwischen den Peers eingeleitet. In Zeile 5 wird die Anfrage erstellt, in Zeile 6 wird diese dem Signalisierungsprotokoll entsprechend verpackt und über den Signalisierungskanal weitergeleitet. Zuletzt muss in Zeile 7 die lokale Konfiguration des Peers -- die SDP-Daten der Anfrage -- gesetzt werden.
+
+\vspace{5pt}
+\lstset{language=js, style=STYLE_CODE_JS}
+\begin{minipage}{\textwidth}
+\begin{singlespace}
+\begin{lstlisting}[caption={Erstellen von Verbindungen und Datenkanälen -- peer.js}, captionpos=b, label={lst:makertcpeerconnection}]
+Peer.prototype._createConnection = function(remotePeerId) {
+  const connection = new RTCPeerConnection(this.rtcConfiguration);
+
+  const channel = connection.createDataChannel('game', {
+    negotiated : true,
+    id : i,
+    ordered : true,
+    maxRetransmits : null
+  });
+  channel.onmessage = (e) => this._receiveMessage(e);
+  // [...]
+  connection.onicecandidate = (e) => {
+    this.signal(this._createSignal('ice-candidate', e.candidate, remotePeerId));
+  }
+ 
+  connection.dc = channel;
+  return connection;
+}
+\end{lstlisting}
+\end{singlespace}
+\end{minipage}
+
+Der Quellcode zur Erstellung der RTCPeerConnection und des Datenkanals ist Abbildung~\ref{lst:makertcpeerconnection} zu entnehmen. Die Konfiguration der RTCPeerConnection beinhaltet die vom Webserver bei Raumbeitritt erhaltenen STUN- und TURN-Serveradressen, sowie deren Nutzerdaten zur Authentifizierung. In den Zeilen 4 bis 10 wird ein Datenkanal mit dem Namen \textit{game} erstellt. Die einzelnen Einstellungen werden in Tabelle~\ref{table:dataChannelConfig} beschrieben.
+
+\begin{table}[ht]
+\centering
+\begin{tabularx}{\textwidth}{llX}
+\toprule
+Konfiguration&Wert&Beschreibung\\
+
+\midrule
+negotiated&true&Da die Anwendung symmetrisch ist -- beide Peers wissen, dass exakt ein geordneter, zuverlässiger Datenkanal erstellt werden soll -- wird ein im vorab vereinbarter Datenkanal verwendet. Hier ist wichtig, dass die Konfiguration des Kanals auf beiden Seiten exakt übereinstimmt.\\
+id&0&Die numerische ID des Datenkanals, bei im Vorab vereinbarten Datenkanälen muss diese gegeben sein und zwischen beiden Peers übereinstimmen.\\
+ordered&true&Das unterliegende \acs{SCTP}-Protokoll soll die Nachrichten geordnet absenden und erhalten.\\
+maxRetransmits&null&Ist dieser Wert nicht gesetzt, so versucht das  \acs{SCTP}-Protokoll so lange ein Packet abzuschicken, bis dieses beim Empfänger angekommen ist.\\
+\bottomrule
+
+\end{tabularx}
+\caption{Konfiguration der Datenkanäle.}
+\label{table:dataChannelConfig}
+\end{table}
+
+Bei Erhalt eines \acs{ICE}-Kandidaten in der \textit{onicecandidate}-Rückruffunktion wird dieser über den Signalisierungskanal an den externen Peer gesendet.\par
+
+Bei Erhalt einer Signalnachricht wird diese in der \textit{onsignal}-Funktion verarbeitet. Der Quellcode ist in Abbildung~\ref{lst:onsignal} abgebildet. Bei Erhalt einer Anfrage wird die RTCPeerConnection erstellt und die externe Konfiguration gesetzt. Daraufhin wird die Antwort erstellt und über die \textit{signal}-Funktion an den externen Peer weitergeleitet. Zuletzt wird die Antwort als lokale Konfiguration der Verbindung gesetzt. Bei Erhalt einer Antwort wird diese als die externe Konfiguration der RTCPeerConnection gesetzt. Bei Erhalt eines \acs{ICE}-Kandidaten wird dieser über die \textit{addICECandidate}-Funktion der RTCPeerConnection hinzugefügt.
+
+\vspace{5pt}
+\lstset{language=js, style=STYLE_CODE_JS}
+\begin{singlespace}
+\begin{lstlisting}[caption={Funktion zum Verarbeiten von Signalnachrichten -- Peer.js}, captionpos=b, label={lst:onsignal}]
+Peer.prototype.onsignal = function(e) {
+  switch(e.type) {
+    case 'offer':
+      const connection = this._createConnection(e.src);
+      this.connections[e.src] = connection;
+      connection.setRemoteDescription(e.data).then(() => {
+        return connection.createAnswer();
+      }).then((answer) => {
+        this.signal(this._createSignal('answer', answer, e.src));
+        connection.setLocalDescription(answer);
+      });
+      break;
+    case 'answer':
+      this.connections[e.src].setRemoteDescription(e.data);
+      break;
+    case 'ice-candidate':
+      this.connections[e.src].addIceCandidate(e.data);
+      break;
+  }
+}
+\end{lstlisting}
+\end{singlespace}
+
+\subsection{Raum-Verwaltung}
 Das Spiel \glqq{}Mensch Ärgere Dich Nicht\grqq{} kann maximal von vier Spielern gespielt werden. Damit mehr als ein Spiel gleichzeitig gespielt werden kann, müssen Spieler in \glqq{}Räume\grqq{} unterteilt werden. Ein Raum besitzt dabei eine Liste an bis zu vier Sets an Spielerdaten, eine Raum-ID und eine Host-ID. Bei der Host-ID handelt es sich um die Socket-ID des Spielers, welcher den Raum zuerst betritt. Dieser hat als einziger Spieler die Befugnis, weitere Spieler aus dem Raum zu entfernen. Spielerdaten enthalten jeweils die Peer-ID eines Spielers, einen Namen und die Spielfarbe des Spielers.
 
 \subsubsection{Erstellen eines Raums}
-
-\vspace{11pt}
+\vspace{5pt}
 \lstset{language=js, style=STYLE_CODE_JS}
 \begin{singlespace}
 \begin{lstlisting}[caption={Event zum Erstellen eines Raums -- Server.js}, captionpos=b, label={lst:imamakedaroom}]
@@ -186,7 +359,7 @@ Erstellt ein Nutzer einen Raum, so sendet dieser das \textit{game-room-create}-E
 
 Das Betreten eines Raums ist über das \textit{game-room-join}-Event geregelt. Versucht ein Nutzer einem Raum beizutreten, so sendet dieser das Event an den Server (vgl. Abbildung~\ref{lst:join}). Falls der Raum noch keinen Host-Spieler besitzt, so wird der erste Beitretende Spieler in Zeile 17 zum Host ernannt. Bei erfolgreichem Beitritt erhält der Nutzer, wie in Zeile 20 zu sehen, das \textit{game-room-joined}-Event zurück, welches sämtliche, zum Verbindungsaufbau mit den anderen Spielern des Raums, benötigten Daten enthält. Dazu gehören das Array der weiteren Spieler im Raum, die eigene Peer-ID und die Zugangsdaten zu den \acs{STUN}- und \acs{TURN}-Servern. Zusätzlich wird dem Nutzer mitgeteilt, ob dieser der Host des Raums ist. Zudem werden in Zeile 27--29 alle weiteren Spieler des Raums benachrichtigt, dass ein weiterer Spieler beigetreten ist.\par
 
-In deb Spielregeln von \glqq{}Mensch Ärgere Dich Nicht\grqq{} ist geregelt, dass beim Spielen mit zwei Spielern die Farben Gelb und Rot gewählt werden sollen, damit die Spieler gegenüberstehende Startfelder haben. Daher werden die Spieler beim Betreten eines Raums nicht nach aufsteigender Reihenfolge in das Spieler-Array eingefügt, sondern nach der in Zeile 1 definierten Reihenfolge [0, 2, 1, 3]. Ab Zeile 8 wird dieses Array durchlaufen. Ist ein Array-Index nicht definiert, so wird der neu beigetretene Spieler an diese Stelle des Spieler-Arrays gesetzt.\par
+In den Spielregeln von \glqq{}Mensch Ärgere Dich Nicht\grqq{} ist geregelt, dass beim Spielen mit zwei Spielern die Farben Gelb und Rot gewählt werden sollen, damit die Spieler gegenüberstehende Startfelder haben. Daher werden die Spieler beim Betreten eines Raums nicht nach aufsteigender Reihenfolge in das Spieler-Array eingefügt, sondern nach der in Zeile 1 definierten Reihenfolge [0, 2, 1, 3]. Ab Zeile 8 wird dieses Array durchlaufen. Ist ein Array-Index nicht definiert, so wird der neu beigetretene Spieler an diese Stelle des Spieler-Arrays gesetzt.\par
 
 \begin{table}[ht]
 \centering
@@ -248,6 +421,41 @@ io.sockets.on('connection', (socket) => {
 \end{lstlisting}
 \end{singlespace}
 
+Der Zugehörige Clientseitige Quellcode ist Abbildung~\ref{lst:clientroomjoin} zu entnehmen. Bei Beitritt eines Raums wird zuerst das Peer-Objekt erstellt, welches die \acs{WebRTC} Verbindungen und Datenkanäle verwaltet (siehe [TODO: REF]). Zudem wird in Zeile 3 die Funktion für ausgehende Signale gesetzt. Diese nutzt die socket.io-Verbindung zur Datenübertragung. In Zeile 4 wird die Rückruffunktion für das \textit{signal}-Event erstellt, welche die Signaldaten an \textit{onsignal}-Funktion des Peer-Objekts weitergibt. In Zeile 6 bis 9 wird das Spiel an sich erstellt und initialisiert. Tritt ein weiterer Spieler dem Spiel bei, so wird die in Zeile 11 definierte Rückruffunktion ausgeführt. Wichtig beim Beitritt eines neuen Spielers ist, dass die Zufallsfunktion des Spiels für alle Spieler mit einem neuen Seed initialisiert wird. Ansonsten ist der Zufallszahlen-Generator des neu beigetretenen Spielers nicht synchron mit denen der weiteren Spieler.
+
+\vspace{11pt}
+\lstset{language=js, style=STYLE_CODE_JS}
+\begin{singlespace}
+\begin{lstlisting}[caption={Raumbeitritt auf der Client-Seite -- game.js}, captionpos=b, label={lst:clientroomjoin}]
+socket.on('game-room-joined', (players, started, seed, peerID, servers, isHost) => {
+  const peer = new Peer(peerID, servers, /* [...] */);
+  peer.setSignalFunction((data) => socket.emit('signal', roomID, data.target, data)); 
+  socket.on('signal', (e) => peer.onsignal(e));
+
+  const game = new Game(/* [...] */);
+  socket.on('game-start', (seed) => game.start(seed));
+  started ? game.start(seed) : game.seed(seed);
+  game.render();
+
+  socket.on('game-room-client-joining', (seed, peerID, color) => {
+	// [...]
+    game.seed(seed);
+    game.addPlayer(new Player(color, false));
+  });
+  // [...]
+  players.forEach((player) => {
+    player.peerID === peerID 
+      ? game.localPlayerColor = player.color 
+      : peer.connect(player.peerID);
+      
+    game.addPlayer(new Player(player.color, game.localPlayerColor === player.color));
+  });
+});
+\end{lstlisting}
+\end{singlespace}
+
+Um Signalisierungsbedingte \glqq{}Race-Conditions\grqq{} beim Verbindungsaufbau zwischen Peers zu vermeiden, ist der zuletzt dem Raum beigetretene Peer stets der Peer, welcher die Verbindung zu anderen Peers initiiert. In Zeile 20 wird -- vorrausgesetzt die Peer-ID des Spielers ist nicht gleich der Peer-ID des lokalen Peers -- eine Verbindung über die \textit{connect}-Funktion zu jedem anderen Spieler im Raum erzeugt. Zuletzt müssen die Spieler dem Spieler-Array des Spiel-Objektes hinzugefügt werden.
+
 \subsubsection{Weitere Raumspezifische Events}
 \begin{table}[ht]
 \centering
@@ -269,6 +477,7 @@ game-room-host-migration&Ausgelöst vom Server, wenn der Host eines Raums diesen
 Des weiteren existieren Events, welche das Verlassen von Räumen, entweder durch den Nutzer manuell ausgelöst, oder bedingt durch Verbindungsverlust, behandeln. Verlässt ein Spieler einen Raum, so erhalten alle verbliebenen Spieler ein Event darüber. Verlässt der Host-Spieler den Raum, so geht der Host-Status auf den nächsten Spieler im Spieler-Array über. Verlässt der letzte verbleibende Spieler den Raum, so wird dieser entfernt. Diese Events sind in Tabelle~\ref{table:otherevents} zusammengefasst.\par
 
 \subsection{Signalisierungskanal}
+\label{section:signalisierungskanal}
 Das Weiterleiten von Signalisierungsnachrichten zwischen Peers wird über die gleiche socket.io-Verbindung geregelt, wie die Raumverwaltung. Dazu wird das \textit{signal}-Event verwendet. Zur Signalisierung muss dabei immer die ID des Raums angegeben werden, in welchem die Signal-Nachricht weitergeleitet werden soll. Zudem muss die Peer-ID des Ziel-Peers angegeben werden. Existieren Raum und Peer, so wird das \textit{signal}-Event an diesen weitergeleitet. Abbildung~\ref{lst:signalserver} zeigt die Serverseitige Rückruffunktion des \textit{signal}-Events.
 
 \vspace{11pt}
@@ -292,74 +501,4 @@ io.sockets.on('connection', (socket) => {
 \end{lstlisting}
 \end{singlespace}
 
-\section{Implementation der Peer-To-Peer Funktionalität}
-
-
-
-\lstset{language=js, style=STYLE_CODE_JS}
-\begin{lstlisting}[caption={Javascript LstListing Test}, captionpos=b, label={lst:candidate}]
-Peer.prototype.connect = function(remotePeerId) {
-  const connection = this._createConnection(remotePeerId, true);
-  this.connections[remotePeerId] = connection;
-
-  connection.createOffer().then((offer) => {
-    connection.setLocalDescription(offer).then(() => this.sendSignal(
-      this._createSignal('offer', connection.localDescription, remotePeerId)
-    ));
-  });
-}
-\end{lstlisting}
-
-\begin{lstlisting}[caption={Javascript LstListing Test}, captionpos=b, label={lst:candidate}]
-Peer.prototype._createConnection = function(remotePeerId) {
-  const connection = new RTCPeerConnection(this.rtcConfiguration);
-  connection.dc = {}; // list of data channels belonging to this connection
-
-  this.channels.forEach((options, i) => {
-    const channel = connection.createDataChannel(options.label, {
-      negotiated : true,
-      id : i,
-      ordered : options.ordered || true,
-      maxRetransmits : options.maxRetransmits || null,
-      maxPacketLifeTime : options.maxPacketLifeTime || null,
-    });
-    channel.onmessage = (e) => this._receiveMessage(e);
-
-    connection.dc[channel.label] = channel;
-  });
-
-  connection.onicecandidate = (e) => {
-    this.sendSignal(this._createSignal('ice-candidate', e.candidate, remotePeerId));
-  }
-
-  return connection;
-}
-\end{lstlisting}
-
-\begin{lstlisting}[caption={Javascript LstListing Test}, captionpos=b, label={lst:candidate}]
-Peer.prototype.onsignal = function(e) {
-  switch(e.type) {
-    case 'offer':
-      const connection = this._createConnection(e.src);
-      this.connections[e.src] = connection;
-
-      connection.setRemoteDescription(e.data).then(() => {
-        connection.createAnswer().then((answer) => {
-          connection.setLocalDescription(answer).then(() => {
-            this.sendSignal(this._createSignal('answer', connection.localDescription, e.src));
-          })
-        });
-      });
-      break;
-    case 'answer':
-      this.connections[e.src].setRemoteDescription(e.data);
-      break;
-    case 'ice-candidate':
-      this.connections[e.src].addIceCandidate(e.data);
-      break;
-  }
-}
-\end{lstlisting}
-
 \section{Aufsetzen und Konfiguration eines STUN und TURN Servers}
-Zum Verbindungsaufbau zwischen Peers müssen \acs{STUN}- und \acs{TURN}-Server existieren.
