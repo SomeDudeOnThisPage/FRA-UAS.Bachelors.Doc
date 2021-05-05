@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.4.1)  28 APR 2021 14:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.4.1)  4 MAY 2021 20:43
 entering extended mode
 **./Hauptdokument.tex
 (Hauptdokument.tex
@@ -1776,6 +1776,16 @@ Class scrreprt Warning: \float@listhead detected!
 
 ] (acronyms.tex
 
+LaTeX Warning: Hyper reference `acro:HTTP' on page IX undefined on input line 7
+.
+
+
+LaTeX Warning: Hyper reference `acro:HTTP' on page IX undefined on input line 7
+.
+
+Package acronym Info: Acronym HTTP used in text but not spelled out in full in 
+text on input line 7.
+
 LaTeX Warning: Hyper reference `acro:IETF' on page IX undefined on input line 9
 .
 
@@ -1795,6 +1805,26 @@ LaTeX Warning: Hyper reference `acro:NAT' on page IX undefined on input line 14
 
 Package acronym Info: Acronym NAT used in text but not spelled out in full in t
 ext on input line 14.
+
+LaTeX Warning: Hyper reference `acro:TURN' on page IX undefined on input line 1
+6.
+
+
+LaTeX Warning: Hyper reference `acro:TURN' on page IX undefined on input line 1
+6.
+
+Package acronym Info: Acronym TURN used in text but not spelled out in full in 
+text on input line 16.
+
+LaTeX Warning: Hyper reference `acro:URL' on page IX undefined on input line 29
+.
+
+
+LaTeX Warning: Hyper reference `acro:URL' on page IX undefined on input line 29
+.
+
+Package acronym Info: Acronym URL used in text but not spelled out in full in t
+ext on input line 29.
 
 LaTeX Warning: Hyper reference `acro:HTML' on page IX undefined on input line 3
 0.
@@ -1838,40 +1868,26 @@ although it is yet undefined on input line 5.
 
 ]) [2]
 chapter 2.
-(chapters/C01_Grundlagen.tex
-Package acronym Info: Label `acro:HTTP' newly defined as it shall be overridden
-
-although it is yet undefined on input line 13.
-Package acronym Info: Label `acro:URI' newly defined as it shall be overridden
-although it is yet undefined on input line 13.
-Package acronym Info: Label `acro:URL' newly defined as it shall be overridden
-although it is yet undefined on input line 13.
-Package acronym Info: Label `acro:API' newly defined as it shall be overridden
-although it is yet undefined on input line 13.
-
-
-LaTeX Warning: Citation `lorento2014' on page 3 undefined on input line 13.
-
-[3
+(chapters/C01_Grundlagen.tex [3
 
 ]
 
 pdfTeX warning: pdflatex (file ./bilder/PDF_SVG/AUTH_SERVER.pdf): PDF inclusion
 : found PDF version <1.7>, but at most version <1.5> allowed
-<bilder/PDF_SVG/AUTH_SERVER.pdf, id=352, 197.7789pt x 138.5175pt>
+<bilder/PDF_SVG/AUTH_SERVER.pdf, id=406, 197.7789pt x 138.5175pt>
 File: bilder/PDF_SVG/AUTH_SERVER.pdf Graphic file (type pdf)
 <use bilder/PDF_SVG/AUTH_SERVER.pdf>
-Package pdftex.def Info: bilder/PDF_SVG/AUTH_SERVER.pdf  used on input line 20.
+Package pdftex.def Info: bilder/PDF_SVG/AUTH_SERVER.pdf  used on input line 21.
 
 (pdftex.def)             Requested size: 287.72223pt x 201.53847pt.
 [4 <./bilder/PDF_SVG/AUTH_SERVER.pdf>]
-<bilder/webrtc-diagram.png, id=388, 742.775pt x 483.8075pt>
+<bilder/webrtc-diagram.png, id=436, 742.775pt x 483.8075pt>
 File: bilder/webrtc-diagram.png Graphic file (type png)
 <use bilder/webrtc-diagram.png>
-Package pdftex.def Info: bilder/webrtc-diagram.png  used on input line 45.
+Package pdftex.def Info: bilder/webrtc-diagram.png  used on input line 44.
 (pdftex.def)             Requested size: 420.5197pt x 273.9128pt.
 LaTeX Font Info:    Trying to load font information for T1+jkptt on input line 
-47.
+46.
 
 (C:\Program Files\miktex\tex/latex/kpfonts\t1jkptt.fd
 File: t1jkptt.fd 2007/01/26 Fontinst v1.928 font definitions for T1/jkptt.
@@ -1879,107 +1895,87 @@ File: t1jkptt.fd 2007/01/26 Fontinst v1.928 font definitions for T1/jkptt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[5]
 LaTeX Font Info:    Trying to load font information for TS1+jkp on input line 5
-7.
- (C:\Program Files\miktex\tex/latex/kpfonts\ts1jkp.fd
+6.
+(C:\Program Files\miktex\tex/latex/kpfonts\ts1jkp.fd
 File: ts1jkp.fd 2007/08/30 Fontinst v1.928 font definitions for TS1/jkp.
 )
 Package acronym Info: Label `acro:JSEP' newly defined as it shall be overridden
 
-although it is yet undefined on input line 57.
+although it is yet undefined on input line 56.
 Package acronym Info: Label `acro:ICE' newly defined as it shall be overridden
-although it is yet undefined on input line 57.
- [6 <./bilder/webrtc-diagram.png>]
+although it is yet undefined on input line 56.
+ [5]
 Package acronym Info: Label `acro:SCTP' newly defined as it shall be overridden
 
-although it is yet undefined on input line 59.
+although it is yet undefined on input line 58.
 Package acronym Info: Label `acro:RTP' newly defined as it shall be overridden
-although it is yet undefined on input line 61.
+although it is yet undefined on input line 60.
 Package acronym Info: Label `acro:SRTP' newly defined as it shall be overridden
 
-although it is yet undefined on input line 61.
-Package acronym Info: Label `acro:SDK' newly defined as it shall be overridden
-although it is yet undefined on input line 67.
+although it is yet undefined on input line 60.
+ [6 <./bilder/webrtc-diagram.png>]
 Package acronym Info: Label `acro:SIP' newly defined as it shall be overridden
-although it is yet undefined on input line 73.
- [7]
+although it is yet undefined on input line 69.
 Package acronym Info: Label `acro:SDP' newly defined as it shall be overridden
-although it is yet undefined on input line 77.
+although it is yet undefined on input line 73.
 
 
 pdfTeX warning: pdflatex (file ./bilder/PDF_SVG/JSEP.pdf): PDF inclusion: found
  PDF version <1.7>, but at most version <1.5> allowed
-<bilder/PDF_SVG/JSEP.pdf, id=438, 531.90718pt x 301.125pt>
+<bilder/PDF_SVG/JSEP.pdf, id=480, 531.90718pt x 301.125pt>
 File: bilder/PDF_SVG/JSEP.pdf Graphic file (type pdf)
 <use bilder/PDF_SVG/JSEP.pdf>
-Package pdftex.def Info: bilder/PDF_SVG/JSEP.pdf  used on input line 83.
-(pdftex.def)             Requested size: 420.5197pt x 238.07912pt.
-[8 <./bilder/PDF_SVG/JSEP.pdf>]
+Package pdftex.def Info: bilder/PDF_SVG/JSEP.pdf  used on input line 79.
+(pdftex.def)             Requested size: 376.25838pt x 213.01912pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[7]
 
 pdfTeX warning: pdflatex (file ./bilder/PDF_SVG/CANDIDATES_OLD.pdf): PDF inclus
 ion: found PDF version <1.7>, but at most version <1.5> allowed
-<bilder/PDF_SVG/CANDIDATES_OLD.pdf, id=481, 295.1025pt x 301.125pt>
+<bilder/PDF_SVG/CANDIDATES_OLD.pdf, id=505, 295.1025pt x 301.125pt>
 File: bilder/PDF_SVG/CANDIDATES_OLD.pdf Graphic file (type pdf)
 <use bilder/PDF_SVG/CANDIDATES_OLD.pdf>
 Package pdftex.def Info: bilder/PDF_SVG/CANDIDATES_OLD.pdf  used on input line 
-97.
+93.
 (pdftex.def)             Requested size: 354.12434pt x 361.35736pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[9] [10 <./bilder/PDF_SVG/CANDIDATES_OLD.pdf>]
+[8 <./bilder/PDF_SVG/JSEP.pdf>] [9 <./bilder/PDF_SVG/CANDIDATES_OLD.pdf>]
 Package acronym Info: Label `acro:STUN' newly defined as it shall be overridden
 
-although it is yet undefined on input line 125.
- [11]
-Package acronym Info: Label `acro:TURN' newly defined as it shall be overridden
+although it is yet undefined on input line 121.
 
-although it is yet undefined on input line 130.
+[10]
 Package acronym Info: Label `acro:OSI' newly defined as it shall be overridden
-although it is yet undefined on input line 133.
+although it is yet undefined on input line 129.
 Package acronym Info: Label `acro:IP' newly defined as it shall be overridden
-although it is yet undefined on input line 133.
- [12]
-
-pdfTeX warning: pdflatex (file ./bilder/PDF_SVG/SCTP_PACKET.pdf): PDF inclusion
-: found PDF version <1.7>, but at most version <1.5> allowed
-<bilder/PDF_SVG/SCTP_PACKET.pdf, id=615, 472.64577pt x 189.8292pt>
-File: bilder/PDF_SVG/SCTP_PACKET.pdf Graphic file (type pdf)
-<use bilder/PDF_SVG/SCTP_PACKET.pdf>
-Package pdftex.def Info: bilder/PDF_SVG/SCTP_PACKET.pdf  used on input line 170
-.
-(pdftex.def)             Requested size: 420.5197pt x 168.8982pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[13]
+although it is yet undefined on input line 129.
+ [11]
 Package acronym Info: Label `acro:DTLS' newly defined as it shall be overridden
 
-although it is yet undefined on input line 182.
+although it is yet undefined on input line 172.
 Package acronym Info: Label `acro:TLS' newly defined as it shall be overridden
-although it is yet undefined on input line 182.
+although it is yet undefined on input line 172.
 Package acronym Info: Label `acro:UDP' newly defined as it shall be overridden
-although it is yet undefined on input line 184.
- [14 <./bilder/PDF_SVG/SCTP_PACKET.pdf>]
+although it is yet undefined on input line 174.
+ [12]
 Package acronym Info: Label `acro:NPM' newly defined as it shall be overridden
-although it is yet undefined on input line 193.
+although it is yet undefined on input line 183.
 Package acronym Info: Label `acro:TCP' newly defined as it shall be overridden
-although it is yet undefined on input line 199.
- [15]
-
-LaTeX Warning: Citation `express' on page 16 undefined on input line 206.
-
-
-LaTeX Warning: Citation `express' on page 16 undefined on input line 206.
-
-) [16]
+although it is yet undefined on input line 189.
+Package acronym Info: Label `acro:API' newly defined as it shall be overridden
+although it is yet undefined on input line 189.
+ [13]) [14]
 chapter 3.
 (chapters/C01.5_WebRTCInGames.tex
 Package acronym Info: Label `acro:RTMFP' newly defined as it shall be overridde
 n
 although it is yet undefined on input line 1.
-<bilder/jocly-games.jpg, id=699, 602.25pt x 514.92375pt>
+<bilder/jocly-games.jpg, id=708, 602.25pt x 514.92375pt>
 File: bilder/jocly-games.jpg Graphic file (type jpg)
 <use bilder/jocly-games.jpg>
 Package pdftex.def Info: bilder/jocly-games.jpg  used on input line 7.
@@ -1988,7 +1984,7 @@ Package pdftex.def Info: bilder/jocly-games.jpg  used on input line 7.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<bilder/cubeslam.jpg, id=707, 642.4pt x 401.5pt>
+<bilder/cubeslam.jpg, id=716, 642.4pt x 401.5pt>
 File: bilder/cubeslam.jpg Graphic file (type jpg)
 <use bilder/cubeslam.jpg>
 Package pdftex.def Info: bilder/cubeslam.jpg  used on input line 17.
@@ -1996,36 +1992,114 @@ Package pdftex.def Info: bilder/cubeslam.jpg  used on input line 17.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) [17
+) [15
 
-] [18 <./bilder/jocly-games.jpg> <./bilder/cubeslam.jpg>]
+] [16 <./bilder/jocly-games.jpg> <./bilder/cubeslam.jpg>]
 chapter 4.
-(chapters/CXY_Konzept.tex [19
+(chapters/CXY_Konzept.tex [17
 
-] [20] [21] [22]) [23]
+] [18] [19] [20] [21]) [22]
 chapter 5.
-(chapters/C02_ImplWebRTC.tex [24
+(chapters/C02_ImplWebRTC.tex [23
 
 ]
 Package acronym Info: Label `acro:VM' newly defined as it shall be overridden
-although it is yet undefined on input line 36.
- [25] [26] [27] [28]
+although it is yet undefined on input line 38.
+ [24] [25] [26] [27]
+Package acronym Info: Label `acro:JSON' newly defined as it shall be overridden
 
-Package acronym Warning: Acronym `JSON' is not defined on input line 208.
+although it is yet undefined on input line 210.
+ [28] [29] [30] [31]
+[32] [33] [34] [35]) (chapters/C02_COTURN.tex [36] [37] [38]
+Package acronym Info: Label `acro:HMAC' newly defined as it shall be overridden
 
-[29] [30] [31] [32] [33] [34] [35] [36]) [37]
+although it is yet undefined on input line 87.
+Package acronym Info: Label `acro:SHA-1' newly defined as it shall be overridde
+n
+although it is yet undefined on input line 87.
+ [39]
+<bilder/azure-vm-network-config.png, id=1155, 1217.2978pt x 442.65375pt>
+File: bilder/azure-vm-network-config.png Graphic file (type png)
+<use bilder/azure-vm-network-config.png>
+Package pdftex.def Info: bilder/azure-vm-network-config.png  used on input line
+ 151.
+(pdftex.def)             Requested size: 420.5197pt x 152.91158pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[40]) (chapters/C03_ImplSpiel.tex [41 <./bilder/azure-vm-network-config.png>]
+[42]
+
+pdfTeX warning: pdflatex (file ./bilder/PDF_SVG/MAEDN_ABLAUF.pdf): PDF inclusio
+n: found PDF version <1.7>, but at most version <1.5> allowed
+<bilder/PDF_SVG/MAEDN_ABLAUF.pdf, id=1214, 555.99718pt x 304.2567pt>
+File: bilder/PDF_SVG/MAEDN_ABLAUF.pdf Graphic file (type pdf)
+<use bilder/PDF_SVG/MAEDN_ABLAUF.pdf>
+Package pdftex.def Info: bilder/PDF_SVG/MAEDN_ABLAUF.pdf  used on input line 62
+.
+(pdftex.def)             Requested size: 398.38567pt x 218.01543pt.
+[43]
+Package acronym Info: Label `acro:RC4' newly defined as it shall be overridden
+although it is yet undefined on input line 70.
+
+
+pdfTeX warning: pdflatex (file ./bilder/PDF_SVG/MAEDN_WUERFELN.pdf): PDF inclus
+ion: found PDF version <1.7>, but at most version <1.5> allowed
+<bilder/PDF_SVG/MAEDN_WUERFELN.pdf, id=1231, 559.12888pt x 256.07669pt>
+File: bilder/PDF_SVG/MAEDN_WUERFELN.pdf Graphic file (type pdf)
+<use bilder/PDF_SVG/MAEDN_WUERFELN.pdf>
+Package pdftex.def Info: bilder/PDF_SVG/MAEDN_WUERFELN.pdf  used on input line 
+75.
+(pdftex.def)             Requested size: 420.5197pt x 192.59236pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[44 <./bilder/PDF_SVG/MAEDN_ABLAUF.pdf>]
+
+pdfTeX warning: pdflatex (file ./bilder/PDF_SVG/MAEDN_ZIEHEN.pdf): PDF inclusio
+n: found PDF version <1.7>, but at most version <1.5> allowed
+<bilder/PDF_SVG/MAEDN_ZIEHEN.pdf, id=1261, 559.12888pt x 257.04028pt>
+File: bilder/PDF_SVG/MAEDN_ZIEHEN.pdf Graphic file (type pdf)
+<use bilder/PDF_SVG/MAEDN_ZIEHEN.pdf>
+Package pdftex.def Info: bilder/PDF_SVG/MAEDN_ZIEHEN.pdf  used on input line 97
+.
+(pdftex.def)             Requested size: 420.5197pt x 193.31706pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[45 <./bilder/PDF_SVG/MAEDN_WUERFELN.pdf>]
+<bilder/game-in-progress.png, id=1290, 616.55344pt x 617.30624pt>
+File: bilder/game-in-progress.png Graphic file (type png)
+<use bilder/game-in-progress.png>
+Package pdftex.def Info: bilder/game-in-progress.png  used on input line 119.
+(pdftex.def)             Requested size: 331.99031pt x 332.39847pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+) [46 <./bilder/PDF_SVG/MAEDN_ZIEHEN.pdf>] [47 <./bilder/game-in-progress.png>]
 chapter 6.
-[38
+(chapters/Evaluation.tex [48
 
-]
+]) [49]
 chapter 7.
-(Hauptdokument.bbl [39
+(Hauptdokument.bbl [50
 
 ]
 chapter 8.
-[40
+[51
 
-]) [41] (Hauptdokument.aux)
+]) [52] (chapters/Anhang.tex
+chapter A.
+[53
+
+
+] [54] [55] [56]
+chapter B.
+[57
+
+] [58]) [59] (Hauptdokument.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -2033,43 +2107,48 @@ Package rerunfilecheck Info: File `Hauptdokument.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 37934 strings out of 479321
- 732570 string characters out of 2866502
- 1385710 words of memory out of 3000000
- 54176 multiletter control sequences out of 15000+600000
+ 38549 strings out of 479321
+ 741111 string characters out of 2866502
+ 1590395 words of memory out of 3000000
+ 54353 multiletter control sequences out of 15000+600000
  539851 words of font info for 152 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 111i,20n,116p,10631b,2456s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{Hfootnote.83} has been referenced but does not ex
-ist, replaced by a fixed one
+ 111i,20n,116p,10631b,2432s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{Hfootnote.434} has been referenced but does not e
+xist, replaced by a fixed one
 
-pdfTeX warning (dest): name{Hfootnote.81} has been referenced but does not exis
+pdfTeX warning (dest): name{Hfootnote.75} has been referenced but does not exis
 t, replaced by a fixed one
 
-pdfTeX warning (dest): name{Hfootnote.76} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.69} has been referenced but does not exis
+pdfTeX warning (dest): name{Hfootnote.73} has been referenced but does not exis
 t, replaced by a fixed one
 
 pdfTeX warning (dest): name{Hfootnote.68} has been referenced but does not exis
 t, replaced by a fixed one
 
+pdfTeX warning (dest): name{Hfootnote.60} has been referenced but does not exis
+t, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.59} has been referenced but does not exis
+t, replaced by a fixed one
+
 {C:/Program Files/miktex/fonts/enc/dvips/base/8r.enc}{C:/Program Files/miktex/f
 onts/enc/dvips/kpfonts/kpfonts-expert.enc}<C:/Program Files/miktex/fonts/type1/
 public/kpfonts/jkpbn8a.pfb><C:/Program Files/miktex/fonts/type1/public/kpfonts/
-jkpmi.pfb><C:/Program Files/miktex/fonts/type1/public/kpfonts/jkpmit8a.pfb><C:/
-Program Files/miktex/fonts/type1/public/kpfonts/jkpmite.pfb><C:/Program Files/m
-iktex/fonts/type1/public/kpfonts/jkpmn8a.pfb><C:/Program Files/miktex/fonts/typ
-e1/public/kpfonts/jkpmn8a.pfb><C:/Program Files/miktex/fonts/type1/public/kpfon
-ts/jkpmne.pfb><C:/Program Files/miktex/fonts/type1/public/kpfonts/jkpmsc8a.pfb>
-<C:/Program Files/miktex/fonts/type1/public/kpfonts/jkpssbn8a.pfb><C:/Program F
-iles/miktex/fonts/type1/public/kpfonts/jkpssmn8a.pfb><C:/Program Files/miktex/f
-onts/type1/public/kpfonts/jkpttbn8a.pfb><C:/Program Files/miktex/fonts/type1/pu
-blic/kpfonts/jkpttmn8a.pfb>
-Output written on Hauptdokument.pdf (51 pages, 710525 bytes).
+jkpex.pfb><C:/Program Files/miktex/fonts/type1/public/kpfonts/jkpmi.pfb><C:/Pro
+gram Files/miktex/fonts/type1/public/kpfonts/jkpmit8a.pfb><C:/Program Files/mik
+tex/fonts/type1/public/kpfonts/jkpmite.pfb><C:/Program Files/miktex/fonts/type1
+/public/kpfonts/jkpmn8a.pfb><C:/Program Files/miktex/fonts/type1/public/kpfonts
+/jkpmn8a.pfb><C:/Program Files/miktex/fonts/type1/public/kpfonts/jkpmne.pfb><C:
+/Program Files/miktex/fonts/type1/public/kpfonts/jkpmsc8a.pfb><C:/Program Files
+/miktex/fonts/type1/public/kpfonts/jkpssbn8a.pfb><C:/Program Files/miktex/fonts
+/type1/public/kpfonts/jkpssbne.pfb><C:/Program Files/miktex/fonts/type1/public/
+kpfonts/jkpssmn8a.pfb><C:/Program Files/miktex/fonts/type1/public/kpfonts/jkpsy
+.pfb><C:/Program Files/miktex/fonts/type1/public/kpfonts/jkpttbn8a.pfb><C:/Prog
+ram Files/miktex/fonts/type1/public/kpfonts/jkpttmn8a.pfb>
+Output written on Hauptdokument.pdf (69 pages, 1088370 bytes).
 PDF statistics:
- 1385 PDF objects out of 1440 (max. 8388607)
- 446 named destinations out of 1000 (max. 500000)
- 405 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2105 PDF objects out of 2487 (max. 8388607)
+ 868 named destinations out of 1000 (max. 500000)
+ 561 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,0 +1,305 @@
+\appendix
+\chapter{Anhang -- Peer.js}
+\lstset{language=js, style=STYLE_CODE_JS}
+\begin{singlespace}
+\begin{lstlisting}[]
+export default function Peer(id, iceServers) {
+  this.id = id;
+  this.callbacks = {};
+
+  this.rtcConfiguration = { iceServers : iceServers };
+  this.connections = {};
+
+  this.signal = null;   // callback to send a signaling message to a remote peer
+}
+
+Peer.prototype.closeConnections = function() {
+  Object.values(this.connections).forEach((connection) => connection.close());
+}
+
+Peer.prototype.closeConnection = function(remotePeerId) {
+  if (this.connections[remotePeerId]) {
+    this.connections[remotePeerId].close();
+    delete this.connections[remotePeerId];
+  }
+}
+
+Peer.prototype.setICETransportPolicy = function(policy) {
+  if (policy !== 'relay' && policy !== 'all') {
+    console.error('ICE transport policy must be of values [relay, all]');
+    return;
+  }
+
+  this.rtcConfiguration.iceTransportPolicy = policy;
+}
+
+Peer.prototype.setICEServers = function(servers) {
+  this.rtcConfiguration.iceServers = servers;
+}
+
+Peer.prototype.setSignalingCallback = function(cb) {
+  this.signal = cb;
+}
+
+Peer.prototype._receiveMessage = function(e) {
+  const message = JSON.parse(e.data);
+
+  if (message.event && this.callbacks[message.event]) {
+    this.callbacks[message.event](...message.data, message.src);
+  }
+}
+
+Peer.prototype._dataChannelOpen = function(remotePeerId) {
+  console.log(`[${remotePeerId}] data channel open`);
+
+  // check if all channels of all connections are open
+  if (Object.values(this.connections).every((connection) => {
+    return connection.dc.readyState === 'open'
+  })) {
+    // if a callback for this event exists, run it
+    if (this.callbacks['onDataChannelsOpen']) this.callbacks['onDataChannelsOpen']();
+  }
+}
+
+Peer.prototype._createConnection = function(remotePeerId) {
+  const connection = new RTCPeerConnection(this.rtcConfiguration);
+  connection.dc = {}; // list of data channels belonging to this connection
+
+  // setup a reliable and ordered data channel, store in connection object
+  const channel = connection.createDataChannel('game', {
+    negotiated : true,
+    id : 0,
+    maxRetransmits : null,    // no maximum number of retransmits
+    ordered : true            // force ordered package retrieval
+  });
+  channel.onmessage = (e) => this._receiveMessage(e);
+  channel.onopen = () => this._dataChannelOpen(channel.label, remotePeerId);
+
+  connection.dc = channel;
+
+  connection.onsignalingstatechange = () => {
+    console.log(`[${remotePeerId}] signaling state '${connection.signalingState}'`);
+  }
+
+  connection.onicecandidate = (e) => {
+    this.signal(this._createSignal('ice-candidate', e.candidate, remotePeerId));
+  }
+
+  connection.onicecandidateerror = (e) => {
+    if (e.errorCode >= 300 && e.errorCode <= 699) {
+      // STUN errors are in the range 300-699. See RFC 5389, section 15.6
+      // for a list of codes. TURN adds a few more error codes; see
+      // RFC 5766, section 15 for details.
+      console.warn('STUN-Server could not be reached or threw error.', e)
+    } else if (e.errorCode >= 700 && e.errorCode <= 799) {
+      // Server could not be reached; a specific error number is
+      // provided but these are not yet specified.
+      console.warn('TURN-Server could not be reached.', e)
+    }
+  }
+
+  return connection;
+}
+
+Peer.prototype._createSignal = function(type, data, target) {
+  return {type : type, src : this.id, target : target, data : data}
+}
+
+Peer.prototype.connect = function(remotePeerId) {
+  const connection = this._createConnection(remotePeerId, true);
+  this.connections[remotePeerId] = connection;
+
+  connection.createOffer().then((offer) => {
+    this.signal(this._createSignal('offer', offer, remotePeerId));
+    return connection.setLocalDescription(offer);
+  }).catch((e) => console.error(e));
+}
+
+Peer.prototype.onsignal = function(e) {
+  if (e.target && e.target === this.id) {
+    switch(e.type) {
+      case 'offer': // on offer, create our answer, set our local description and signal the remote peer
+        const connection = this._createConnection(e.src);
+        this.connections[e.src] = connection;
+
+        connection.setRemoteDescription(e.data).then(() => {
+          console.log('remote description set');
+          return connection.createAnswer();
+        }).then((answer) => {
+          this.signal(this._createSignal('answer', answer, e.src));
+          return connection.setLocalDescription(answer);
+        }).catch((e) => console.error(e));
+        break;
+      case 'answer': // on answer, set our remote description
+        this.connections[e.src].setRemoteDescription(e.data).then(() => console.log('remote description set')).catch(e => console.error(e));
+        break;
+      case 'ice-candidate': // on ice candidate, add the ice candidate to the corresponding connection
+        console.log('ice-candidate', e.data);
+        this.connections[e.src].addIceCandidate(e.data).then();
+        break;
+    }
+  }
+}
+
+Peer.prototype.on = function(e, cb) {
+  this.callbacks[e] = cb;
+}
+
+Peer.prototype.emit = function(target, e, ...args) { // function for the master peer to relay a targeted message
+  if (this.connections[target]) {
+    const data = JSON.stringify({src : this.id, event: e, data: args});
+    this.connections[target].dc.send(data);
+  }
+}
+
+Peer.prototype.broadcast = function(e, ...args) { // function for any peer to broadcast a message
+  Object.values(this.connections).forEach((connection) => {
+    const data = JSON.stringify({src : this.id, event: e, data: args});
+    connection.dc.send(data);
+  });
+}
+
+});
+\end{lstlisting}
+\end{singlespace}
+
+\chapter{Anhang -- Server.js}
+\lstset{language=js, style=STYLE_CODE_JS}
+\begin{singlespace}
+\begin{lstlisting}[]
+const express = require('express');
+const config = require('./config.json');
+const utils = require('./utils.js');
+
+const app = express();
+
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+app.use(express.static(config.server.static));
+
+// serve files
+app.get('/', (req, res) => {
+  res.status(200);
+  res.sendFile(`${__dirname}${config.server.index}`);
+});
+
+app.get(`/game/*/`, (req, res) => {
+  res.status(200);
+  console.log(__dirname);
+  res.sendFile(`${__dirname}${config.server.game}`);
+});
+
+server.listen(config.server.listeningPort);
+
+// room = {
+//   id = <four-letter room ID>
+//   started = true | false
+//   host = <socket-ID of the host>
+//   players = []
+// }
+const rooms = {};
+
+// we don't want to store the socket-ids of players inside the player array of the room, because we don't want to send
+// them to the players when they connect. But we need to find the socket-id of a peer when signaling, so this object
+// mapping peerID -> socketID of every player exists.
+const sockets = {};
+
+io.sockets.on('connection', (socket) => {
+  socket.on('game-room-create', () => {
+    const id = utils.generateRoomID(rooms);
+    rooms[id] = {
+      id : id, // easier to identify room by player
+      players : [],
+      started : false,
+      host : null
+    };
+
+    // if no client joins within a minute, destroy the room again (something went wrong on the clients' side, as the redirect didn't go through)
+    setTimeout(() => {
+      if (rooms[id] && rooms[id].players.length === 0) {
+        delete rooms[id];
+      }
+    }, 60000);
+
+    // const room = manager.createRoom(app, 'Test');
+    socket.emit('game-room-created', id);
+  });
+
+  const PLAYER_SLOT_PRIORITY = [0, 2, 1, 3]; // Als erstes gegenueberliegende Farben fuellen
+  socket.on('game-room-join', (roomID) => {
+    const room = rooms[roomID];
+
+    if (!room) return socket.emit('game-room-join-failed', 'no such room');
+    if (Object.keys(room.players).length >= 4) return socket.emit('game-room-join-failed', 'room full');
+
+    for (let i = 0; i < 4; i++) {
+      if (!room.players[PLAYER_SLOT_PRIORITY[i]]) {
+        const peerID = utils.uuid4();
+        const color = PLAYER_SLOT_PRIORITY[i];
+
+        socket.join(roomID); // broadcasting for a subset of sockets is done via socket.io rooms
+        sockets[peerID] = socket.id; // sockets mapped to peer-id for signaling (can't be in player object, because we don't want to send that)
+        room.players[color] = {peerID : peerID, color : color};
+        room.seed = Math.random();
+
+        if (!room.host) {
+          room.host = socket.id;
+        }
+
+        socket.emit('game-room-joined', room.players, room.started, room.seed, peerID, utils.generateTURNCredentials(socket.id), room.host === socket.id);
+        socket.to(roomID).emit('game-room-client-joining', room.seed, peerID, color);
+        break;
+      }
+    }
+  });
+
+  socket.on('start-game', (roomId) => {
+    const room = rooms[roomId];
+
+    if (room && !room.started && room.host === socket.id) {
+      room.started = true;
+
+      // Seed fuer die Zufallsfunktion
+      room.seed = Math.random();
+
+      // Seed an alle Spieler des Raums senden
+      socket.to(roomId).emit('game-start', room.seed);
+      // auch an den Host-Spieler (quirk mit socket.io, socket.to(socket) funktioniert nicht bei gleichem socket)!
+      socket.emit('game-start', room.seed);
+    }
+  });
+
+  socket.on('signal', (roomID, targetID, e) => {
+    const room = rooms[roomID];
+
+    if (room) {
+      const target = room.players.find((player) => player && player.peerID === targetID);
+      if (target) {
+        socket.to(sockets[target.peerID]).emit('signal', e);
+      }
+    }
+  });
+
+  socket.on('disconnecting', () => {
+    // the following search operations aren't super efficient when the player count gets large,
+    // but it's for the sake of having less LOC to clutter up the document.
+    // if this was an actual production application, there should likely be a map of
+    // socketID -> {peerID, roomID} for each socket connected, to have O(1) lookup times
+    const peerID = Object.keys(sockets).find((peerID) => sockets[peerID] === socket.id);
+    const room = Object.values(rooms).find((room) => room.players.find((player) => player && player.peerID === peerID));
+
+    if (room) {
+      const leaver = room.players.find((player) => player && player.peerID === peerID);
+      if (leaver) {
+        room.players = room.players.filter((player) => player && player.peerID !== peerID); // remove from room
+        if (room.players.length > 0) {
+          socket.to(room.id).emit('game-room-client-leaving', leaver.peerID, leaver.color); // notify remaining
+        } else {
+          delete rooms[room.id]; // remove the room when the last player left the room
+        }
+      }
+    }
+  });
+});
+\end{lstlisting}
+\end{singlespace}

@@ -1,7 +1,7 @@
 \babel@toc {ngerman}{}
 \contentsline {chapter}{Abbildungsverzeichnis}{VI}{chapter*.6}%
 \contentsline {chapter}{Tabellenverzeichnis}{VII}{chapter*.7}%
-\contentsline {chapter}{Codeverzeichnis}{VIII}{chapter*.8}%
+\contentsline {chapter}{Quellcodeverzeichnis}{VIII}{chapter*.8}%
 \contentsline {chapter}{Abkürzungsverzeichnis}{IX}{chapter*.9}%
 \contentsline {chapter}{\numberline {1}Einleitung}{1}{chapter.10}%
 \contentsline {section}{\numberline {1.1}Zielsetzung}{2}{section.14}%
@@ -10,55 +10,76 @@
 \contentsline {section}{\numberline {2.1}Echtzeitanwendungen}{3}{section.17}%
 \contentsline {section}{\numberline {2.2}Netzwerkarchitekturen}{3}{section.18}%
 \contentsline {subsection}{\numberline {2.2.1}Client-Server-Modelle}{3}{subsection.19}%
-\contentsline {subsubsection}{\nonumberline Web-Architektur}{4}{subsubsection*.21}%
-\contentsline {subsubsection}{\nonumberline Authoritative-Server}{4}{subsubsection*.27}%
-\contentsline {subsection}{\numberline {2.2.2}Peer-To-Peer Netzwerke}{5}{subsection.29}%
-\contentsline {section}{\numberline {2.3}Network Address Translation}{5}{section.30}%
-\contentsline {section}{\numberline {2.4}Web Real-Time-Communication}{5}{section.31}%
-\contentsline {subsection}{\numberline {2.4.1}Aufbau von WebRTC}{5}{subsection.32}%
-\contentsline {subsection}{\numberline {2.4.2}JSEP: JavaScript Session Establishment Protocol}{7}{subsection.42}%
-\contentsline {subsection}{\numberline {2.4.3}ICE: Interactive Connectivity Establishment}{9}{subsection.46}%
-\contentsline {subsubsection}{\nonumberline Trickle-ICE}{11}{subsubsection*.49}%
-\contentsline {subsubsection}{\nonumberline STUN: Session Traversal Utilities for NAT}{11}{subsubsection*.53}%
-\contentsline {subsubsection}{\nonumberline TURN: Traversal Using Relays around NAT}{12}{subsubsection*.56}%
-\contentsline {subsection}{\numberline {2.4.4}SCTP: Stream Control Transmission Protocol}{12}{subsection.58}%
-\contentsline {subsection}{\numberline {2.4.5}DTLS: Datagram Transport Layer Security}{14}{subsection.63}%
-\contentsline {section}{\numberline {2.5}Node.js}{15}{section.67}%
-\contentsline {subsection}{\numberline {2.5.1}NPM: Node Package Manager}{15}{subsection.70}%
-\contentsline {subsection}{\numberline {2.5.2}Verwendete Node-Packete}{15}{subsection.72}%
-\contentsline {subsubsection}{\nonumberline socket.io}{15}{subsubsection*.74}%
-\contentsline {subsubsection}{\nonumberline express}{16}{subsubsection*.78}%
-\contentsline {chapter}{\numberline {3}WebRTC in Mehrspieler-Spielen}{17}{chapter.79}%
-\contentsline {chapter}{\numberline {4}Konzept}{19}{chapter.85}%
-\contentsline {section}{\numberline {4.1}Anforderungen}{19}{section.86}%
-\contentsline {subsection}{\numberline {4.1.1}Anforderungen an die Netzwerkstruktur}{19}{subsection.87}%
-\contentsline {subsection}{\numberline {4.1.2}Anforderungen an die Clientseitigen WebRTC-Verbindungen}{20}{subsection.88}%
-\contentsline {subsection}{\numberline {4.1.3}Anforderungen an das Brettspiel}{20}{subsection.89}%
-\contentsline {subsubsection}{\nonumberline Betrug}{20}{subsubsection*.91}%
-\contentsline {subsubsection}{\nonumberline Spielregeln}{21}{subsubsection*.93}%
-\contentsline {section}{\numberline {4.2}Server-Infrastruktur}{21}{section.94}%
-\contentsline {section}{\numberline {4.3}Peer-To-Peer Netzwerkarchitektur}{21}{section.95}%
-\contentsline {section}{\numberline {4.4}Zufallszahlen}{22}{section.96}%
-\contentsline {subsection}{\numberline {4.4.1}Verteiltes Generieren von Zufallszahlen}{22}{subsection.97}%
-\contentsline {subsection}{\numberline {4.4.2}Seeded Random-Number-Generators}{22}{subsection.98}%
-\contentsline {chapter}{\numberline {5}Design und Implementation}{24}{chapter.99}%
-\contentsline {section}{\numberline {5.1}Bereitstellungsplattform}{24}{section.101}%
-\contentsline {section}{\numberline {5.2}Implementation der Netzwerkinfrastruktur}{25}{section.107}%
-\contentsline {subsection}{\numberline {5.2.1}Implementation des Webservers}{26}{subsection.108}%
-\contentsline {subsubsection}{\nonumberline Erstellen des Node-Servers}{26}{subsubsection*.110}%
-\contentsline {subsubsection}{\nonumberline express Web-Server}{26}{subsubsection*.117}%
-\contentsline {subsubsection}{\nonumberline socket.io}{28}{subsubsection*.139}%
-\contentsline {subsection}{\numberline {5.2.2}Implementation der Peer-To-Peer Funktionalität}{29}{subsection.159}%
-\contentsline {subsubsection}{\nonumberline Eventbasiertes Nachrichtenprotokoll}{29}{subsubsection*.161}%
-\contentsline {subsubsection}{\nonumberline Signalisierungsprotokoll}{30}{subsubsection*.180}%
-\contentsline {subsubsection}{\nonumberline Verbindungen und Datenkanäle}{30}{subsubsection*.189}%
-\contentsline {subsection}{\numberline {5.2.3}Raum-Verwaltung}{32}{subsection.241}%
-\contentsline {subsubsection}{\nonumberline Erstellen eines Raums}{33}{subsubsection*.243}%
-\contentsline {subsubsection}{\nonumberline Beitritt eines Raums}{33}{subsubsection*.265}%
-\contentsline {subsubsection}{\nonumberline Weitere Raumspezifische Events}{36}{subsubsection*.329}%
-\contentsline {subsection}{\numberline {5.2.4}Signalisierungskanal}{36}{subsection.331}%
-\contentsline {section}{\numberline {5.3}Aufsetzen und Konfiguration eines STUN und TURN Servers}{37}{section.347}%
-\contentsline {chapter}{\numberline {6}Evaluation}{38}{chapter.348}%
-\contentsline {chapter}{\numberline {7}Zusammenfassung und Ausblick}{39}{chapter.349}%
-\contentsline {chapter}{\numberline {8}Literaturverzeichnis}{40}{chapter.350}%
+\contentsline {subsubsection}{\nonumberline Authoritative-Server}{4}{subsubsection*.21}%
+\contentsline {subsection}{\numberline {2.2.2}Peer-To-Peer Netzwerke}{4}{subsection.23}%
+\contentsline {section}{\numberline {2.3}Network Address Translation}{4}{section.24}%
+\contentsline {section}{\numberline {2.4}Web Real-Time-Communication}{4}{section.25}%
+\contentsline {subsection}{\numberline {2.4.1}Aufbau von WebRTC}{5}{subsection.26}%
+\contentsline {subsection}{\numberline {2.4.2}JSEP: JavaScript Session Establishment Protocol}{7}{subsection.35}%
+\contentsline {subsection}{\numberline {2.4.3}ICE: Interactive Connectivity Establishment}{8}{subsection.39}%
+\contentsline {subsubsection}{\nonumberline Trickle-ICE}{10}{subsubsection*.42}%
+\contentsline {subsubsection}{\nonumberline STUN: Session Traversal Utilities for NAT}{11}{subsubsection*.46}%
+\contentsline {subsubsection}{\nonumberline TURN: Traversal Using Relays around NAT}{11}{subsubsection*.49}%
+\contentsline {subsection}{\numberline {2.4.4}SCTP: Stream Control Transmission Protocol}{11}{subsection.50}%
+\contentsline {subsection}{\numberline {2.4.5}DTLS: Datagram Transport Layer Security}{12}{subsection.54}%
+\contentsline {section}{\numberline {2.5}Node.js}{13}{section.58}%
+\contentsline {subsection}{\numberline {2.5.1}NPM: Node Package Manager}{13}{subsection.61}%
+\contentsline {subsection}{\numberline {2.5.2}Verwendete Node-Packete}{13}{subsection.63}%
+\contentsline {subsubsection}{\nonumberline socket.io}{13}{subsubsection*.65}%
+\contentsline {subsubsection}{\nonumberline express}{14}{subsubsection*.70}%
+\contentsline {chapter}{\numberline {3}WebRTC in Mehrspieler-Spielen}{15}{chapter.71}%
+\contentsline {chapter}{\numberline {4}Konzept}{17}{chapter.77}%
+\contentsline {section}{\numberline {4.1}Anforderungen}{17}{section.78}%
+\contentsline {subsection}{\numberline {4.1.1}Anforderungen an die Netzwerkstruktur}{17}{subsection.79}%
+\contentsline {subsection}{\numberline {4.1.2}Anforderungen an die Clientseitigen WebRTC-Verbindungen}{18}{subsection.80}%
+\contentsline {subsection}{\numberline {4.1.3}Anforderungen an das Brettspiel}{18}{subsection.81}%
+\contentsline {subsubsection}{\nonumberline Betrug}{18}{subsubsection*.83}%
+\contentsline {subsubsection}{\nonumberline Spielregeln}{19}{subsubsection*.85}%
+\contentsline {section}{\numberline {4.2}Server-Infrastruktur}{19}{section.86}%
+\contentsline {section}{\numberline {4.3}Peer-To-Peer Netzwerkarchitektur}{20}{section.87}%
+\contentsline {section}{\numberline {4.4}Zufallszahlen}{20}{section.88}%
+\contentsline {subsection}{\numberline {4.4.1}Verteiltes Generieren von Zufallszahlen}{21}{subsection.89}%
+\contentsline {subsection}{\numberline {4.4.2}Seeded Random-Number-Generators}{21}{subsection.90}%
+\contentsline {chapter}{\numberline {5}Design und Implementation}{23}{chapter.91}%
+\contentsline {section}{\numberline {5.1}Bereitstellungsplattform}{24}{section.93}%
+\contentsline {section}{\numberline {5.2}Implementation der Netzwerkinfrastruktur}{24}{section.99}%
+\contentsline {subsection}{\numberline {5.2.1}Implementation des Webservers}{25}{subsection.100}%
+\contentsline {subsubsection}{\nonumberline Erstellen der Node-Webanwendung}{25}{subsubsection*.102}%
+\contentsline {subsubsection}{\nonumberline express Webserver}{25}{subsubsection*.109}%
+\contentsline {subsubsection}{\nonumberline socket.io}{27}{subsubsection*.131}%
+\contentsline {subsection}{\numberline {5.2.2}Implementation der Peer-To-Peer Funktionalität}{28}{subsection.151}%
+\contentsline {subsubsection}{\nonumberline Eventbasiertes Nachrichtenprotokoll}{28}{subsubsection*.153}%
+\contentsline {subsubsection}{\nonumberline Signalisierungsprotokoll}{29}{subsubsection*.172}%
+\contentsline {subsubsection}{\nonumberline Verbindungen und Datenkanäle}{29}{subsubsection*.182}%
+\contentsline {subsection}{\numberline {5.2.3}Raum-Verwaltung}{31}{subsection.234}%
+\contentsline {subsubsection}{\nonumberline Erstellen eines Raums}{32}{subsubsection*.236}%
+\contentsline {subsubsection}{\nonumberline Beitritt eines Raums}{32}{subsubsection*.258}%
+\contentsline {subsubsection}{\nonumberline Weitere Raumspezifische Events}{35}{subsubsection*.315}%
+\contentsline {subsection}{\numberline {5.2.4}Signalisierungskanal}{35}{subsection.317}%
+\contentsline {subsection}{\numberline {5.2.5}Bereitstellung des Webservers}{36}{subsection.333}%
+\contentsline {section}{\numberline {5.3}STUN- und TURN-Server}{37}{section.340}%
+\contentsline {subsection}{\numberline {5.3.1}Installation}{37}{subsection.341}%
+\contentsline {subsection}{\numberline {5.3.2}Konfiguration}{37}{subsection.348}%
+\contentsline {subsection}{\numberline {5.3.3}Authentifizierung}{38}{subsection.364}%
+\contentsline {subsubsection}{\nonumberline Zugangsdaten}{39}{subsubsection*.366}%
+\contentsline {subsubsection}{\nonumberline Implementierung auf dem Webserver}{40}{subsubsection*.374}%
+\contentsline {subsection}{\numberline {5.3.4}Ports}{40}{subsection.394}%
+\contentsline {subsection}{\numberline {5.3.5}Test}{41}{subsection.400}%
+\contentsline {section}{\numberline {5.4}Implementation des Brettspiels}{42}{section.405}%
+\contentsline {subsubsection}{\nonumberline Synchronisation des Spielstands bei Spielbeitritt}{42}{subsubsection*.420}%
+\contentsline {subsection}{\numberline {5.4.1}Begriffserklärungen}{43}{subsection.429}%
+\contentsline {subsection}{\numberline {5.4.2}Spielablauf}{43}{subsection.430}%
+\contentsline {subsubsection}{\nonumberline Würfeln}{44}{subsubsection*.433}%
+\contentsline {subsubsection}{\nonumberline Ziehen}{45}{subsubsection*.443}%
+\contentsline {subsection}{\numberline {5.4.3}Test}{46}{subsection.445}%
+\contentsline {chapter}{\numberline {6}Evaluation}{48}{chapter.447}%
+\contentsline {section}{\numberline {6.1}Probleme der Implementation}{48}{section.448}%
+\contentsline {section}{\numberline {6.2}WebRTC im Vergleich Client-Server Architekturen für Browserbasierte Brettspiele}{49}{section.449}%
+\contentsline {subsection}{\numberline {6.2.1}Technische Aspekte}{49}{subsection.450}%
+\contentsline {subsection}{\numberline {6.2.2}Strukturelle Aspekte}{49}{subsection.451}%
+\contentsline {subsection}{\numberline {6.2.3}Komplexität}{49}{subsection.452}%
+\contentsline {chapter}{\numberline {7}Zusammenfassung und Ausblick}{50}{chapter.453}%
+\contentsline {chapter}{\numberline {8}Literaturverzeichnis}{51}{chapter.454}%
+\contentsline {chapter}{\numberline {A}Anhang -- Peer.js}{53}{appendix.455}%
+\contentsline {chapter}{\numberline {B}Anhang -- Server.js}{57}{appendix.614}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

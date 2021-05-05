@@ -1,14 +1,20 @@
 \babel@toc {ngerman}{}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Beispielhafte Interaktion in einem Authoritative-Server-Modell.\relax }}{4}{figure.caption.28}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Diagramm der WebRTC-Architektur.\relax }}{6}{figure.caption.33}%
-\contentsline {figure}{\numberline {2.3}{\ignorespaces \acs {JSEP}-Verbindungsaufbau.\relax }}{8}{figure.caption.45}%
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Diagramm der verschiedenen \acs {ICE}-Kandidaten.\relax }}{10}{figure.caption.47}%
-\contentsline {figure}{\numberline {2.5}{\ignorespaces Aufbau eines \acs {SCTP}-Packets.\relax }}{14}{figure.caption.62}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Beispielhafte Interaktion in einem Authoritative-Server-Modell.\relax }}{4}{figure.caption.22}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Diagramm der WebRTC-Architektur.\relax }}{6}{figure.caption.27}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces \acs {JSEP}-Verbindungsaufbau.\relax }}{8}{figure.caption.38}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Diagramm der verschiedenen \acs {ICE}-Kandidaten.\relax }}{9}{figure.caption.40}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Einige Jocly-Spiele, mit WebRTC Videokommunikation.\relax }}{18}{figure.caption.82}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Google CubeSlam, mit integriertem WebRTC Videostream.\relax }}{18}{figure.caption.84}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Einige Jocly-Spiele, mit WebRTC Videokommunikation.\relax }}{16}{figure.caption.74}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Google CubeSlam, mit integriertem WebRTC Videostream.\relax }}{16}{figure.caption.76}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Port-Regeln der VM im Azure-Webportal.\relax }}{41}{figure.caption.399}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Ablaufdiagramm des Brettspiels.\relax }}{44}{figure.caption.431}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Würfel-Nachrichtenaustausch.\relax }}{45}{figure.caption.436}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Ziehen-Nachrichtenaustausch.\relax }}{46}{figure.caption.444}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Laufendes Spiel mit drei Spielern. Gelb ist am Zug.\relax }}{47}{figure.caption.446}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

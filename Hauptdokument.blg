@@ -10,51 +10,51 @@ Reallocating 'wiz_functions' (item size: 4) to 6000 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Database file #1: 30_Literaturverzeichnis.bib
-Warning--I didn't find a database entry for "lorento2014"
 Warning--empty year in authservermodel
+Warning--empty year in express
 Warning--empty year in nodejs
 Warning--empty year in socketio
-Warning--empty year in webRTCWorkingGroup
 Warning--empty number in rtcpeerconnection
-You've used 15 entries,
+Warning--empty number in turnrestRFC
+You've used 18 entries,
             4793 wiz_defined-function locations,
-            986 strings with 8522 characters,
-and the built_in function-call counts, 7852 in all, are:
-= -- 887
-> -- 153
-< -- 141
-+ -- 151
-- -- 45
-* -- 483
-:= -- 1263
-add.period$ -- 25
-call.type$ -- 15
-change.case$ -- 63
-chr.to.int$ -- 13
-cite$ -- 20
-duplicate$ -- 237
-empty$ -- 649
-format.name$ -- 104
-if$ -- 1713
+            1007 strings with 9096 characters,
+and the built_in function-call counts, 10280 in all, are:
+= -- 1153
+> -- 211
+< -- 205
++ -- 226
+- -- 65
+* -- 659
+:= -- 1643
+add.period$ -- 31
+call.type$ -- 18
+change.case$ -- 79
+chr.to.int$ -- 16
+cite$ -- 24
+duplicate$ -- 295
+empty$ -- 834
+format.name$ -- 142
+if$ -- 2210
 int.to.chr$ -- 3
 int.to.str$ -- 0
-missing$ -- 50
-newline$ -- 117
-num.names$ -- 45
-pop$ -- 96
+missing$ -- 63
+newline$ -- 138
+num.names$ -- 54
+pop$ -- 121
 preamble$ -- 1
-purify$ -- 93
+purify$ -- 115
 quote$ -- 0
-skip$ -- 390
+skip$ -- 511
 stack$ -- 0
-substring$ -- 516
-swap$ -- 45
-text.length$ -- 35
-text.prefix$ -- 11
+substring$ -- 753
+swap$ -- 60
+text.length$ -- 45
+text.prefix$ -- 12
 top$ -- 0
-type$ -- 166
-warning$ -- 5
-while$ -- 56
-width$ -- 17
-write$ -- 244
+type$ -- 200
+warning$ -- 6
+while$ -- 74
+width$ -- 21
+write$ -- 292
 (There were 6 warnings)

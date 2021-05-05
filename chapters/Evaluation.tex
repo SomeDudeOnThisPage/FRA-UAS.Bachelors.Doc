@@ -1,0 +1,25 @@
+Dieses Kapitel befasst sich mit der Evaluation der Nutzung von WebRTC für Browserbasierte Mehrspieler-Brettspiele. Dabei werden sowohl technische Aspekte betrachtet, als auch auf Möglichkeiten und Einschränkungen, welche WebRTC mit sich bringt, eingegangen.
+
+\section{Probleme der Implementation}
+Die meisten Probleme der Implementation beziehen sich auf den potentiellen Betrug von Spielern. Dies ist dem Umstand geschuldet, dass das Spiel auf einem Webbrowser basiert. Im Gegensatz zu \glqq{}traditionellen\grqq{} Applikationen, welche kompilierten Quellcode nutzen, ist es in einem Webbrowser leicht, die JavaScript-Dateien bei Laufzeit zu editieren. Zudem kann ein Nutzer über die Browserkonsole leicht eigene Scripts in die Webseite -- und somit auch das Spiel -- einspeisen.\par
+
+Dabei lässt sich zwischen drei möglichen Betrugsaspekten unterscheiden: Vertraulichkeit, Integrität und Verfügbarkeit \cite{p2pchallenges}.
+\begin{itemize}
+
+\item \textbf{Vertraulichkeit}: Der Verteilte Spielstand macht es einem Spieler leicht, Spielinformationen auszulesen, welche dieser nicht auslesen sollte. Ein Beispiel für Betrug dieser Art ist das Auslesen von Karten weiterer Spieler bei einem Pokerspiel. Insbesondere in Browserbasierten Spielen kann ein Nutzer einfach den Quellcode ändern, und sich alle Informationen des Spiels ausgeben lassen. Beim Spiel \textit{Mensch ärgere Dich nicht} ist dies jedoch, aufgrund von Mangel solcher Vertraulichen Informationen, nicht relevant.
+
+\item \textbf{Integrität}: Der Umstand, dass das Spiel in einem Webbrowser läuft, macht es Nutzern leicht, den Quellcode des Spiels zu ändern, und unerlaubte Änderungen am Spielstand vorzunehmen. Dem kann partiell durch feste Regeln, sowie einem festen Spielablauf vorgebeugt werden. In der Implementierung generiert zum Beispiel jeder Spieler, nachdem der Spieler am zug würfelte, alle möglichen Züge. Wählt der Spieler am Zug seine Aktion, so wird diese von allen Peers nochmal eigens gegen deren Zug-Array geprüft. Zudem wird eine Aktion (Würfeln, Ziehen) eines Spielers  nur akzeptiert, falls sich das Spiel im dafür richtigen Zustand befindet, und die Nachricht über die RTCPeerConnection des Spielers am Zug gesendet wurde.
+
+\item \textbf{Verfügbarkeit}: Ein Spieler kann das vorranschreiten des Spiels verhindern, indem dieser zum Beispiel keine Zug-Nachricht schickt, oder nicht würfelt. Diese Art des desruptiven Spielerverhaltens wird von der Implementierung in keinster Weise verhindert. Ein Lösungsansatz für dieses Problem ist zum Beispiel ein Zeitlimit für Spieleraktionen, welches basierend auf Timestamps der eingehenden Nachrichten erstellt werden.
+
+\end{itemize}
+
+\section{WebRTC im Vergleich Client-Server Architekturen für Browserbasierte Brettspiele}
+
+\subsection{Technische Aspekte}
+Die technischen Vorraussetzungen, welche zur Entwicklung eines Mehrspieler-Brettspiels gegeben sein müssen, werden von WebRTC vollends erfüllt. WebRTC ermöglicht -- wie zum Beispiel Web-Sockets in einer Client-Server-Architektur -- das problemlose Erstellen von zuverlässigen, geordneten Datenkanälen.
+
+\subsection{Strukturelle Aspekte}
+
+\subsection{Komplexität}
+
