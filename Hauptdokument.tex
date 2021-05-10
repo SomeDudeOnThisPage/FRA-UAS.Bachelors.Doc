@@ -1,112 +1,58 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%Dokumentdefinition%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[oneside,11pt,a4paper,bibliography=totocnumbered,numbers=noenddot]{scrreprt} 
+\documentclass[oneside,11pt,a4paper,bibliography=totocnumbered,numbers=noenddot]{scrreprt}
 \usepackage{geometry}
 \geometry{a4paper, top=25mm, left=30mm, right=40mm, bottom=25mm, headsep=5mm, footskip=12mm}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Inputfile für Packages (hält das Dokument sauber)%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{Main_Packages.tex} 			
+\input{Packages.tex} 			
 
-
-%\sloppy 					%"schlampiger" Blocksatz
-\parindent0cm 					%Absatzeinzug
-
-\usepackage{setspace} 				%Zeilenabstand
-%\setstretch{1.2}
+\parindent0cm
+\usepackage{setspace}
 \onehalfspacing
-%\singlespacing
-%\doublespacing
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%hier startet das eigentliche Dokument%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document} 					
-\begin{titlepage}					%gesondert formatierte Titelseite
-\input{00_Deckblatt.tex} 			%extrenes .tex Dokument als Titelblatt 
+\begin{titlepage}
+\input{Deckblatt.tex}
 \end{titlepage}
+
 \thispagestyle{empty}
 \cleardoublepage
-\pagenumbering{Roman}				%Seitennummerierung auf römisch geändert
+\pagenumbering{Roman}
 
-%\includepdf[pages=-]{} 					%Aufgabenstellung als PDF einbindenfile
-%\chapter*{Aufgabenstellung}
-%\addcontentsline{toc}{chapter}{Aufgabenstellung}
-%\pagebreak
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{01_Notwendiges.tex}%Vorwort, Editorial, Erklärungen, Vermerke%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\newpage
-\begin{singlespace}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%Verzeichnisse%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\setcounter{secnumdepth}{2} 	%countertiefe für Verzeichnisse
-\setcounter{tocdepth}{2}		%Auflistungstiefe für Verzeichnisse
-\chaptermark{Inhaltsverzeichnis}
-\tableofcontents 						%Befehl für Inhaltsverzeichnis
-\newpage
-\listoffigures 							%Befehl für Abbildungsverzeichnis
-\addcontentsline{toc}{chapter}{Abbildungsverzeichnis} 		
-\chaptermark{Abbildungsverzeichnis}
-\newpage
-\listoftables							%Befehl für Tabellenverzeichnis
-\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
-\chaptermark{Tabellenverzeichnis}
-\newpage
-\lstlistoflistings
-
-\addcontentsline{toc}{chapter}{Quellcodeverzeichnis}
-\chaptermark{Quellcodeverzeichnis}
-\newpage
-
-\chapter*{Abkürzungsverzeichnis}	
-\addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
-\chaptermark{Abkürzungsverzeichnis}
-\input{acronyms.tex}
-\end{singlespace}
+\input{Notwendiges.tex}
+\input{Verzeichnisse.tex}
 
 \cleardoublepage
 \pagenumbering{arabic}			%ab hier arabische Seitenzahlen
+\begin{singlespace}
 
-%Vorlagenkapitel
 \chapter{Einleitung}
-\input{chapters/C00_Einleitung.tex}
+  \input{chapters/Einleitung.tex}
 
 \chapter{Grundlagen}
-\input{chapters/C01_Grundlagen.tex}
+  \input{chapters/Grundlagen.tex}
 
 \chapter{WebRTC in Mehrspieler-Spielen}
-\input{chapters/C01.5_WebRTCInGames.tex}
+  \input{chapters/WebRTCInSpielen.tex}
 
 \chapter{Konzept}
-\input{chapters/CXY_Konzept}
+  \input{chapters/Konzept}
 
-\chapter{Design und Implementation}
-\input{chapters/C02_ImplWebRTC.tex}
-\section{STUN- und TURN-Server}
-\input{chapters/C02_COTURN.tex}
-\input{chapters/C03_ImplSpiel.tex}
+\chapter{Implementation}
+  \input{chapters/ImplementationNetzwerk.tex}
+  \section{STUN- und TURN-Server}
+  \input{chapters/Coturn.tex}
+  \section{Implementation des Brettspiels}
+  \input{chapters/ImplementationSpiel.tex}
 
 \chapter{Evaluation}
-\input{chapters/Evaluation.tex}
+  \input{chapters/Evaluation.tex}
+
 \chapter{Zusammenfassung und Ausblick}
-%\input{}
+  \input{chapters/ZusammenfassungAusblick.tex}
 
-%%%Ab hier werden die einzelnen Kapitel als extra .tex Dateien angehängt
-%%%Die Kapitel brauchen dabei keine Formatierungen, nur Überschriften etc.
-%%%Alle .tex in einem Ordner%%%
-%\input{}
 
-\begin{singlespace}
-\bibliography{30_Literaturverzeichnis.bib}
-\end{singlespace}
-\clearpage
-\input{chapters/Anhang.tex}
+
+  \bibliography{Literaturverzeichnis.bib}
+  \clearpage
+  \input{chapters/Anhang.tex}
+  \end{singlespace}
 \end{document}

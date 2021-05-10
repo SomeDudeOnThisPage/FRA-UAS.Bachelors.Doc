@@ -1,4 +1,4 @@
-Es existieren verschiedene Quelloffene \acs{STUN}- und \acs{TURN}-Server. Ein bekannter, häufig verwendeter Server ist \glqq{}coturn\grqq{}. Coturn unterstützt sowohl die wichtigsten \acs{STUN}- (RFC3489, RFC5389), als auch \acs{TURN}-Spezifikationen (RFC5766). Zudem unterstützt Coturn die Authentifizierungsmaßnahmen der \glqq{}TURN-REST-API\grqq{}, welche das Erstellen von zeitlich limitierten Login-Daten zur Authentifizierung von Clients ermöglicht \cite{turnrestRFC}. Zur Relais-Datenübertragung unterstützt Coturn sowohl \acs{TCP}, als auch \acs{UDP}. Coturn ist zudem in den Repositories der verwendeten Linux-Distribution enthalten, was eine Installation erheblich vereinfacht.\par
+Es existieren verschiedene Quelloffene \acs{STUN}- und \acs{TURN}-Server. Ein bekannter, häufig verwendeter Server ist \glqq{}coturn\grqq{}. Coturn unterstützt sowohl die wichtigsten \acs{STUN}- (RFC3489, RFC5389), als auch \acs{TURN}-Spezifikationen (RFC5766). Zudem unterstützt Coturn die Authentifizierungsmaßnahmen der \glqq{}TURN-REST-API\grqq{}, welche das Erstellen von zeitlich limitierten Login-Daten zur Authentifizierung von Clients -- ohne die Notwendigkeit von Nutzer-Datenbanken -- ermöglicht \cite{turnrestRFC}. Zur Relais-Datenübertragung unterstützt Coturn sowohl \acs{TCP}, als auch \acs{UDP}. Coturn ist zudem in den Repositories der verwendeten Linux-Distribution enthalten, was eine Installation erheblich vereinfacht.\par
 
 \subsection{Installation}
 Auf Ubuntu Version 18.04+ lässt sich der Server einfach über den Packetmanager \textit{apt} via der Kommandozeile installieren:
@@ -22,6 +22,29 @@ $ systemd <start|stop|restart> coturn
 \subsection{Konfiguration}
 Die Server lässt sich über die Konfigurationsdatei \textit{/etc/turnserver.conf} konfigurieren. Die Konfiguration folgt einem Schlüssel-Wert Schema, getrennt durch ein Gleichheitszeichen. Der (gekürzte) Inhalt der Konfigurationsdatei ist in Abbildung~\ref{lst:coturnConfig} gelistet. Die Einstellungen werden in Tabelle~\ref{table:coturnConfig} näher erläutert.
 
+\begin{table}[ht]
+\centering
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+Einstellung&Beschreibung\\
+
+\midrule
+listening-port&Der Port, auf welchem der Server auf Anfragen reagieren soll.\\
+listening-ip&Ist dieser Wert gleich 0.0.0.0, so nutzt werden alle im System definierten IP-Adressen als Listening-Adressen verwendet.\\
+external-ip&Die Externe IP-Adresse des Servers. Der Server befindet sich in einem Subnetz, daher wird auch die interne IP-Adresse benötigt.\\
+min-port / max-port&Die Port-Reichweite, welche für Relais-Adressen verwendet werden kann.\\
+use-auth-secret&Der Server soll die zeitlimitierte Authorisierungsmethode mit statischem Schlüsselwort verwenden (siehe: Authentifizierung).\\
+static-auth-secret&Das statische Schlüsselwort zur Generierung von Passwörtern zur zeitlich limitierten Nutzung des Servers.\\
+realm&Ein TURN-Server unterstützt verschiedene \glqq{}Realms\grqq{}, um Anfragen verschiedener Ursprünge untereinander zu isolieren. In diesem Fall wird nur ein \glqq{}Realm\grqq{} benötigt. Der Wert dieser Konfiguration ist bei Verwendung der TURN-REST-API jedoch nicht relevant, und kann einen beliebigen Wert enthalten \cite{turnrestRFC}.\\
+stale-nonce&Ein Wert von 0 bewirkt, dass die Authentifizierung einer Sitzung nicht automatisch nach einiger Zeit ausläuft.\\
+%fingerprint&Fingerprinting von STUN- und TURN-Nachrichten soll für WebRTC standardmäßig aktiviert sein. Dies ist in der Konfigurations-Hilfsdatei von coturn definiert.\\
+\bottomrule
+
+\end{tabularx}
+\caption{Erläuterung der Konfigurationsparameter.}
+\label{table:coturnConfig}
+\end{table}
+
 \lstset{style=STYLE_COMMAND_LINE_ARGUMENT_SINGLE_LINE}
 \begin{singlespace}
 \begin{minipage}{\textwidth}
@@ -38,33 +61,9 @@ static-auth-secret=<my-auth-secret>
 realm=ba-webrtc.westeurope.cloudapp.azure.com
 
 stale-nonce=0
-fingerprint
 \end{lstlisting}
 \end{minipage}
 \end{singlespace}
-
-\begin{table}[ht]
-\centering
-\begin{tabularx}{\textwidth}{lX}
-\toprule
-Einstellung&Beschreibung\\
-
-\midrule
-listening-port&Der Port, auf welchem der Server auf Anfragen reagieren soll.\\
-listening-ip&Ist dieser Wert gleich 0.0.0.0, so nutzt werden alle im System definierten IP-Adressen als Listening-Adressen verwendet.\\
-external-ip&Die Externe IP-Adresse des Servers. Der Server befindet sich in einem Subnetz, daher wird auch die interne IP-Adresse benötigt.\\
-min-port / max-port&Die Port-Reichweite, welche für Relais-Adressen verwendet werden kann.\\
-use-auth-secret&Der Server soll die zeitlimitierte Authorisierungsmethode mit statischem Schlüsselwort verwenden (siehe: Authentifizierung).\\
-static-auth-secret&Das statische Schlüsselwort zur Generierung von Passwörtern zur zeitlich limitierten Nutzung des Servers.\\
-realm&Ein TURN-Server unterstützt verschiedene \glqq{}Realms\grqq{}, um Anfragen verschiedener Ursprünge untereinander zu isolieren. In diesem Fall wird nur ein \glqq{}Realm\grqq{} benötigt. Der Wert dieser Konfiguration ist bei Verwendung der TURN-REST-API jedoch nicht relevant, und kann einen beliebigen Wert enthalten \cite{turnrestRFC}.\\
-stale-nonce&Ein Wert von 0 bewirkt, dass die Authentifizierung einer Sitzung nicht automatisch nach einiger Zeit ausläuft.\\
-fingerprint&Fingerprinting von STUN- und TURN-Nachrichten soll für WebRTC standardmäßig aktiviert sein. Dies ist in der Konfigurations-Hilfsdatei von coturn definiert.\\
-\bottomrule
-
-\end{tabularx}
-\caption{Erläuterung der Konfigurationsparameter.}
-\label{table:coturnConfig}
-\end{table}
 
 \subsection{Authentifizierung}
 Coturn bietet verschiedene Möglichkeiten, Nutzer zu authentifizieren, um eine Nutzung des Servers von Dritten, außerhalb des vorgesehenen Einsatzzwecks, zu limitieren:

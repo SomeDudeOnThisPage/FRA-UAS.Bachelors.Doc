@@ -50,10 +50,10 @@ festlegen. Der für diese VM gewählte Domain-Name lautet somit:
 ba-webrtc.westeurope.cloudapp.azure.com
 \end{lstlisting}
 
-\section{Implementation der Netzwerkinfrastruktur}
+\section{Netzwerkinfrastruktur}
 Die Netzwerkinfrastruktur ist in drei Teile geteilt: Der Webserver, welcher die Seiten bereitstellt und als Signalisierungskanal dient, die Clientseitige WebRTC-Implementation und die \acs{STUN}- und \acs{TURN}-Server.
 
-\subsection{Implementation des Webservers}
+\subsection{Webserver}
 Um das Verbinden von Peers via WebRTC zu ermöglichen, muss vorerst ein Signalisierungskanal existieren, welcher Nachrichten zwischen Peers weiterleiten kann. Die Art des Signal-Kanals ist dabei nicht vom WebRTC-Standard vorgegeben. Für die Implementierung wurde daher ein Signal-Server geschaffen, welcher WebSockets zur Datenübertragung nutzt. Der Server dient zusätzlich als Webserver, welcher das Brettspiel als Webanwendung bereitstellt, und die Nutzer in \glqq{}Räume\grqq{} unterteilt, damit mehr als ein Spiel zur gleichen Zeit stattfinden kann.\par
 
 \subsubsection{Erstellen der Node-Webanwendung}
@@ -74,7 +74,7 @@ $ npm install express
 
 heruntergeladen werden. Daraufhin können diese Packete über die $require$-Funktion in ein Script eingebunden werden.
 
-\subsubsection{express Webserver}
+\subsubsection{express}
 Zur Erstellung des Webservers wird das \glqq{}express\grqq{}-Framework verwendet. Der Quellcode befindet sich in der \glqq{}Server.js\grqq{}-Datei, und ist in Abbildung~\ref{lst:express} abgebildet.
 
 \vspace{11pt}
@@ -161,7 +161,7 @@ $(document).on('DOMContentLoaded', () => {
 
 Das \textit{connect}-Event wird nicht nur beim ersten Verbindungsaufbau, sondern auch bei jeder Neuverbindung aufgerufen. Um zu vermeiden, dass Rückruffunktionen mehrfach registriert werden, werden diese außerhalb der \textit{connect}-Rückruffunktion erstellt. 
 
-\subsection{Implementation der Peer-To-Peer Funktionalität}
+\subsection{Peer-To-Peer Funktionalität}
 Zur Verwaltung der Peer-To-Peer-Funktionalität werden \glqq{}Peer\grqq{}-Objekte verwendet. Jeder Client besitzt dabei ein Peer-Objekt. Der Peer verwaltet die RTCPeerConnections, sowie die zugehörigen Datenkanäle. Es ist dem Peer möglich, ähnlich dem socket.io-Syntax Rückruffunktionen zu erstellen, welche bei Erhalt von Daten je nach Event aufgerufen werden.\par
 
 \subsubsection{Eventbasiertes Nachrichtenprotokoll}
@@ -457,6 +457,8 @@ socket.on('game-room-joined', (players, started, seed, peerID, servers, isHost) 
 Um Signalisierungsbedingte \glqq{}Race-Conditions\grqq{} beim Verbindungsaufbau zwischen Peers zu vermeiden, ist der zuletzt dem Raum beigetretene Peer stets der Peer, welcher die Verbindung zu anderen Peers initiiert. In Zeile 20 wird -- vorrausgesetzt die Peer-ID des Spielers ist nicht gleich der Peer-ID des lokalen Peers -- eine Verbindung über die \textit{connect}-Funktion zu jedem anderen Spieler im Raum erzeugt. Zuletzt müssen die Spieler dem Spieler-Array des Spiel-Objektes hinzugefügt werden.
 
 \subsubsection{Weitere Raumspezifische Events}
+Des weiteren existieren Events, welche das Verlassen von Räumen, entweder durch den Nutzer manuell ausgelöst, oder bedingt durch Verbindungsverlust, behandeln. Verlässt ein Spieler einen Raum, so erhalten alle verbliebenen Spieler ein Event darüber. Verlässt der Host-Spieler den Raum, so geht der Host-Status auf den nächsten Spieler im Spieler-Array über. Verlässt der letzte verbleibende Spieler den Raum, so wird dieser entfernt. Diese Events sind in Tabelle~\ref{table:otherevents} zusammengefasst.\par
+
 \begin{table}[ht]
 \centering
 \begin{tabularx}{\textwidth}{lX}
@@ -467,6 +469,7 @@ Event&Beschreibung\\
 game-room-join-failed&Wird vom Server zurückgegeben, wenn der Raum, dem der Client beitreten will, nicht verfügbar oder voll ist.\\
 game-room-client-leaving&Wird vom Server an alle Spieler eines Raums gesendet, wenn ein Spieler den Raum verlässt.\\
 game-room-host-migration&Ausgelöst vom Server, wenn der Host eines Raums diesen verlässt. Die Socket-ID des neuen als Host agierenden Spielers wird als Parameter dieses Events mitgegeben.\\
+game-room-kick-player&Kann vom Host ausgelöst werden, entfernt einen Spieler aus dem Raum. Wird an alle verbleibenden Spieler weitergeleitet.\\
 \bottomrule
 
 \end{tabularx}
@@ -474,13 +477,10 @@ game-room-host-migration&Ausgelöst vom Server, wenn der Host eines Raums diesen
 \label{table:otherevents}
 \end{table}
 
-Des weiteren existieren Events, welche das Verlassen von Räumen, entweder durch den Nutzer manuell ausgelöst, oder bedingt durch Verbindungsverlust, behandeln. Verlässt ein Spieler einen Raum, so erhalten alle verbliebenen Spieler ein Event darüber. Verlässt der Host-Spieler den Raum, so geht der Host-Status auf den nächsten Spieler im Spieler-Array über. Verlässt der letzte verbleibende Spieler den Raum, so wird dieser entfernt. Diese Events sind in Tabelle~\ref{table:otherevents} zusammengefasst.\par
-
 \subsection{Signalisierungskanal}
 \label{section:signalisierungskanal}
-Das Weiterleiten von Signalisierungsnachrichten zwischen Peers wird über die gleiche socket.io-Verbindung geregelt wie die Raumverwaltung. Dazu wird das \textit{signal}-Event verwendet. Zur Signalisierung muss dabei immer die ID des Raums angegeben werden, in welchem die Signalnachricht weitergeleitet werden soll. Zudem muss die Peer-ID des Ziel-Peers angegeben werden. Existieren Raum und Peer, so wird das \textit{signal}-Event an diesen weitergeleitet. Abbildung~\ref{lst:signalserver} zeigt die Serverseitige Rückruffunktion des \textit{signal}-Events.
+Das Weiterleiten von Signalisierungsnachrichten zwischen Peers wird über die gleiche socket.io-Verbindung geregelt wie die Raumverwaltung. Dazu wird das \textit{signal}-Event verwendet. Abbildung~\ref{lst:signalserver} zeigt die Serverseitige Rückruffunktion des \textit{signal}-Events.
 
-\vspace{11pt}
 \lstset{language=js, style=STYLE_CODE_JS}
 \begin{singlespace}
 \begin{minipage}{\textwidth}
@@ -502,6 +502,8 @@ io.sockets.on('connection', (socket) => {
 \end{lstlisting}
 \end{minipage}
 \end{singlespace}
+
+Zur Signalisierung muss immer die ID des Raums angegeben werden, in welchem die Signalnachricht weitergeleitet werden soll. Zudem muss die Peer-ID des Ziel-Peers angegeben werden. Existieren Raum und Peer, so wird das \textit{signal}-Event an diesen weitergeleitet.
 
 \subsection{Bereitstellung des Webservers}
 Der Webserver kann über den \textit{node}-Befehl gestartet werden. Dies ist jedoch nicht für permanente Bereitstellung geeignet, da der Server bei Neustart oder Absturz der \acs{VM} nicht automatisch neu gestartet wird. Daher wird der Prozess-Daemon-Manager \glqq{}PM2\grqq{} (Process Manager 2) verwendet. PM2 lässt sich über den Node Package Manager installieren. Eine Applikation kann über den Befehl

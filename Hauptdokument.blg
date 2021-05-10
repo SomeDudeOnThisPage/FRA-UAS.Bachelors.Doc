@@ -15,46 +15,48 @@ Warning--empty year in express
 Warning--empty year in nodejs
 Warning--empty year in socketio
 Warning--empty number in rtcpeerconnection
+Warning--empty number in stunRFC
+Warning--empty number in rtcsecurity
 Warning--empty number in turnrestRFC
-You've used 18 entries,
+You've used 23 entries,
             4793 wiz_defined-function locations,
-            1007 strings with 9096 characters,
-and the built_in function-call counts, 10280 in all, are:
-= -- 1153
-> -- 211
-< -- 205
-+ -- 226
-- -- 65
-* -- 659
-:= -- 1643
-add.period$ -- 31
-call.type$ -- 18
-change.case$ -- 79
-chr.to.int$ -- 16
-cite$ -- 24
-duplicate$ -- 295
-empty$ -- 834
-format.name$ -- 142
-if$ -- 2210
+            1029 strings with 9800 characters,
+and the built_in function-call counts, 13094 in all, are:
+= -- 1461
+> -- 278
+< -- 306
++ -- 334
+- -- 86
+* -- 805
+:= -- 2113
+add.period$ -- 40
+call.type$ -- 23
+change.case$ -- 103
+chr.to.int$ -- 21
+cite$ -- 31
+duplicate$ -- 380
+empty$ -- 1031
+format.name$ -- 189
+if$ -- 2780
 int.to.chr$ -- 3
 int.to.str$ -- 0
-missing$ -- 63
-newline$ -- 138
-num.names$ -- 54
-pop$ -- 121
+missing$ -- 78
+newline$ -- 175
+num.names$ -- 69
+pop$ -- 156
 preamble$ -- 1
-purify$ -- 115
+purify$ -- 149
 quote$ -- 0
-skip$ -- 511
+skip$ -- 705
 stack$ -- 0
-substring$ -- 753
-swap$ -- 60
-text.length$ -- 45
-text.prefix$ -- 12
+substring$ -- 869
+swap$ -- 77
+text.length$ -- 59
+text.prefix$ -- 16
 top$ -- 0
-type$ -- 200
-warning$ -- 6
-while$ -- 74
-width$ -- 21
-write$ -- 292
-(There were 6 warnings)
+type$ -- 256
+warning$ -- 8
+while$ -- 95
+width$ -- 26
+write$ -- 371
+(There were 8 warnings)

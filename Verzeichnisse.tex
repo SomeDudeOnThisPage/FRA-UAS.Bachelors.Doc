@@ -1,0 +1,29 @@
+\newpage
+\begin{singlespace}
+\setcounter{secnumdepth}{2} 	%countertiefe für Verzeichnisse
+\setcounter{tocdepth}{2}		%Auflistungstiefe für Verzeichnisse
+\chaptermark{Inhaltsverzeichnis}
+\tableofcontents 						%Befehl für Inhaltsverzeichnis
+\newpage
+\listoffigures 							%Befehl für Abbildungsverzeichnis
+\addcontentsline{toc}{chapter}{Abbildungsverzeichnis} 		
+\chaptermark{Abbildungsverzeichnis}
+\newpage
+\listoftables							%Befehl für Tabellenverzeichnis
+\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
+\chaptermark{Tabellenverzeichnis}
+\newpage
+\lstlistoflistings
+
+\addcontentsline{toc}{chapter}{Quellcodeverzeichnis}
+\chaptermark{Quellcodeverzeichnis}
+\newpage
+
+\chapter*{Abkürzungsverzeichnis}	
+\addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
+\chaptermark{Abkürzungsverzeichnis}
+\begin{acronym}[TDMA]\itemsep0pt  
+  \input{Acronyms.tex}
+\end{acronym}
+
+\end{singlespace}
