@@ -30,7 +30,7 @@ Einstellung&Beschreibung\\
 
 \midrule
 listening-port&Der Port, auf welchem der Server auf Anfragen reagieren soll.\\
-listening-ip&Ist dieser Wert gleich 0.0.0.0, so nutzt werden alle im System definierten IP-Adressen als Listening-Adressen verwendet.\\
+listening-ip&Ist dieser Wert gleich 0.0.0.0, so werden alle im System definierten IP-Adressen als Listening-Adressen verwendet.\\
 external-ip&Die Externe IP-Adresse des Servers. Der Server befindet sich in einem Subnetz, daher wird auch die interne IP-Adresse benötigt.\\
 min-port / max-port&Die Port-Reichweite, welche für Relais-Adressen verwendet werden kann.\\
 use-auth-secret&Der Server soll die zeitlimitierte Authorisierungsmethode mit statischem Schlüsselwort verwenden (siehe: Authentifizierung).\\
@@ -76,6 +76,7 @@ Coturn bietet verschiedene Möglichkeiten, Nutzer zu authentifizieren, um eine N
 
 Für die Implementierung wird die TURN-REST-API verwendet, da diese kein Aufsetzen einer Datenbank vorraussetzt. Zudem eignen sich zeitlich limitierte Zugangsdaten hier gut, da die Anwendung einen praktisch öffentlichen Service bereitstellt, welcher von jedem Nutzer, welcher die Website aufruft, verwendbar sein soll. Da dafür kein Log-In notwendig sein soll, ist es nicht notwendig Nutzerdatenbanken mit personalisierten Zugangsdaten für jeden Nutzer zu erstellen.\par
 
+\newpage
 \subsubsection{Zugangsdaten}
 Zugangsdaten bestehen immer aus einem Nutzernamen und einem Passwort. Der Nutzername setzt sich aus einer Nutzer-ID und einem Timestamp zusammen \cite{turnrestRFC}. Die Form des Nutzernamen ist wie folgt vorgegeben:
 \lstset{style=STYLE_COMMAND_LINE_ARGUMENT_SINGLE_LINE}
@@ -145,14 +146,14 @@ Port&Protokoll&Beschreibung\\
 \label{table:ports}
 \end{table}
 
-\begin{figure}[h]
+Die Ports müssen zudem für die \acs{VM} über das Azure-Webportal freigegeben werden. Dazu muss für jeden der Ports für die Ressource der VM im Unterpunkt \textit{Netzwerk} der Einstellungen eine Regel für eingehende Ports hinzugefügt werden (vgl. Abbildung~\ref{fig:azurevmconfig}).
+
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.95\textwidth]{bilder/azure-vm-network-config.png}
 \caption{Port-Regeln der VM im Azure-Webportal.}
 \label{fig:azurevmconfig}
 \end{figure}
-
-Die Ports müssen zudem für die \acs{VM} über das Azure-Webportal freigegeben werden. Dazu muss für jeden der Ports für die Ressource der VM im Unterpunkt \textit{Netzwerk} der Einstellungen eine Regel für eingehende Ports hinzugefügt werden (vgl. Abbildung~\ref{fig:azurevmconfig}).
 
 \subsection{Test}
 Um zu überprüfen, ob die STUN- und TURN-Server wie gewünscht funktionieren, müssen die vom ICE-Agenten einer RTCPeerConnection gefundenen ICE-Kandidaten geprüft werden. Wird eine neu erstellte RTCPeerConnection mit dem ICE-Server-Array konfiguriert, so werden bei Verbindungsaufbau die Folgenden ICE-Kandidaten (mit Ausnahme des \textit{host}-Kandidaten) gefunden:

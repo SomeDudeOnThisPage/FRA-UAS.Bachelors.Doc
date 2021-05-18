@@ -9,15 +9,54 @@ Dabei lässt sich zwischen drei möglichen Betrugsaspekten unterscheiden: Vertra
 
 \item \textbf{Integrität}: Der Umstand, dass das Spiel in einem Webbrowser läuft, macht es Nutzern leicht, den Quellcode des Spiels zu ändern, und unerlaubte Änderungen am Spielstand vorzunehmen. Dem kann partiell durch feste Regeln, sowie einem festen Spielablauf vorgebeugt werden. In der Implementierung generiert zum Beispiel jeder Spieler, nachdem der Spieler am Zug würfelte, alle möglichen Züge. Wählt der Spieler am Zug seine Aktion, so wird diese von allen Peers nochmal eigens gegen deren Zug-Array geprüft. Zudem wird eine Aktion (Würfeln, Ziehen) eines Spielers  nur akzeptiert, falls sich das Spiel im dafür richtigen Zustand befindet, und die Nachricht über die RTCPeerConnection des Spielers am Zug gesendet wurde.
 
-\item \textbf{Verfügbarkeit}: Ein Spieler kann das vorranschreiten des Spiels verhindern, indem dieser zum Beispiel keine Zug-Nachricht schickt, oder nicht würfelt. Diese Art des desruptiven Spielerverhaltens wird von der Implementierung in keinster Weise verhindert. Ein Lösungsansatz für dieses Problem ist zum Beispiel ein Zeitlimit für Spieleraktionen, welches basierend auf Timestamps der eingehenden Nachrichten synchronisiert wird.
+\item \textbf{Verfügbarkeit}: Ein Spieler kann das Vorranschreiten des Spiels verhindern, indem dieser zum Beispiel keine Zug-Nachricht schickt, oder nicht würfelt. Diese Art des desruptiven Spielerverhaltens wird von der Implementierung nicht verhindert. Ein Lösungsansatz für dieses Problem ist ein Zeitlimit für Spieleraktionen, welches basierend auf Timestamps der eingehenden Nachrichten synchronisiert wird.
 \end{itemize}
 
 Weiterhin war es aus zeitlichen Gründen nicht möglich, die Funktionalität des Brettspiels ausgiebig zu testen. Hier existieren eine Reihe an Problemen mit dem Beitritt und Verlassen von Räumen, während das Spiel bereits läuft. So kann es zum Beispiel passieren, dass der Spielstand, welchen ein beitretender Spieler erhält, bereits bei Erhalt veraltet ist. Hier müssen Systeme existieren, welche bei Beitritt eines Spielers das Spiel effektiv pausieren, oder Aktionen des Spielers am Zug speichern, und erst mit allen weiteren Spielern zu synchronisieren, wenn der neu beigetretene Spieler den Spielstand erhalten hat, und alle Verbindungen zu diesem offen sind.\par
 
-Ein weiterer Verbesserungsansatz ist die Fehlererkennung und -Behebung. Fehler der Signalisierung, des Verbindungsaufbaus oder des Spiels an sich werden nur in der Konsole angezeigt. Hier müssen Systeme existieren, welche bei Verbindungsfehlern einen erneuten Verbindungsversuch unternehmen. Auch sollte die Implementierung auf Datenübertragung via einem Server zurückfallen können, für den Fall, dass WebRTC-Verbindungen nicht verwendbar sind (zum Beispiel in veralteten Browsern). Diese Fallbacks können -- aufgrund des Eventbasierten Nachrichtenprotokolls -- direkt in das Peer-Objekt integriert werden. Die Nachrichten können in diesen Fällen zum Beispiel auch über die socket.io Verbindung ausgetauscht werden.\par
+Ein weiterer Verbesserungsansatz ist die Fehlererkennung und -Behebung. Fehler der Signalisierung, des Verbindungsaufbaus oder des Spiels an sich werden nur in der Konsole angezeigt. Hier müssen robuste Systeme existieren, welche bei Verbindungsfehlern einen erneuten Verbindungsversuch unternehmen. Auch sollte die Implementierung auf Datenübertragung via einem Server zurückfallen können, für den Fall, dass WebRTC-Verbindungen nicht verwendbar sind (zum Beispiel in veralteten Browsern). Diese Fallbacks können -- aufgrund des Eventbasierten Nachrichtenprotokolls -- direkt in das Peer-Objekt integriert werden. Die Nachrichten können in diesen Fällen zum Beispiel auch über die socket.io Verbindung ausgetauscht werden.\par
 
-\chapter{Fazit}
-Im Folgenden werden die Verwendung von Client-Server-Modellen und WebRTC-Netzwerkarchitekturen für die Entwicklung von Browserbasierten Mehrspieler-Brettspielen verglichen. Dies geschieht auf Basis der Folgenden Kriterien:
+Des Weiteren ist die starke Kopplung zwischen Node-Server und Brettspiel problematisch. Da der Node-Server verwendet wird, um Spielern für das Spiel \glqq{}Mensch Ärgere Dich Nicht\grqq{} spezifische Farben zuzuweisen, und den Seed der Zufallsfunktion zu generieren, ist der Server nicht ohne weitere Modifikationen für weitere Spiele verwendbar. Hier sollte zwischen der Signalisierung und spielspezifischer Serverfunktionalität getrennt werden, um die Signalisierungs- und Raummechanismen auch für andere Spiele verwenden zu können.\par
+
+%\section{Ersparnis der Datenübertragung}
+%Dieser Punkt befasst sich mit der Ersparnis an Datenvolumen, welches über WebRTC-Datenkanäle -- anstatt über einen Server -- gesendet wird. Dabei spielt keine Rolle, ob die Daten über ein TURN-Relais, oder direkt zwischen Peers ausgetauscht werden.\par
+
+%Aufgrund der zufallsbasierten Natur des Spiels, sowie dem variierenden Daten-Overhead von verschiedenen Client-Server-Protokollen ist es nicht möglich, für jeden Fall akkurate Ersparnisse der Datenübertragung zu berechnen. Daher gehen alle folgenden Berechnungen davon aus, dass Spieler dem Spiel zu Beginn beitreten, keine weiteren Spieler während des Spiels beitreten, und alle Spieler das Spiel zu Ende spielen. Zudem wird nur das Datenvolumen des Spiels an sich berechnet -- aufgrund des variierenden Datenvolumens bei Raumbeitritt von Spielern, welches auf Basis der gewählten Spielernamen, sowie der dynamischen Form der SDP-Daten der Signalnachrichten variiert. Sämtliche Berechnungen beziehen sich nur auf die tatsächlich gesendeten Daten in den Nachrichten über die \acs{P2P}-Datenkanäle, der  Overhead des \acs{SCTP}-Protokolls wird dabei ignoriert.\par
+
+%Die Daten werden als JSON-String encodiert versendet, die Größe eines Strings der Länge $S$ beträgt dabei in der Regel $S$ Bytes. Aufgrund der Encodierung als String sind Zahlen so viele Bytes groß, wie Stellen vorhanden sind \cite{jsstring}.\par
+
+%Der durch das Nachrichtenprotokoll bedingte Overhead beträgt insgesamt 17 Bytes (vgl.~\ref{nachrichtenprotokoll} Eventbasiertes Nachrichtenprotokoll). Die letztendliche Länge $l$ einer Nachricht ist die Summe aus Event-String $e$ und dem serialisierten Daten-Array $d$:
+
+%\vspace{-20pt}
+%\[ l = e + d + 17 \]
+%\vspace{-12pt}
+
+%Das Spiel nutzt zwei verschiedene Nachrichten-Events (die Synchronisation des Spielstands bei Beitritt eines Spielers wird, aufgrund der oben gesetzten Konditionen, ignoriert):
+
+%\begin{table}[ht]
+%\centering
+%\begin{tabularx}{\textwidth}{lllll}
+%\toprule
+%Event-String&$e$&Daten&$d$&$l$\\
+%\midrule
+%generate-random&15B&[zahl $\in [1,6]$,zahl $\in [0,3]$]&5B&37B\\
+%make-move&9B&[zahl $\in [-4,43]$,zahl $\in [0,43]$,zahl $\in[0,3]$]&3B--5B&29B--33B\\
+%\bottomrule
+%
+%\end{tabularx}
+%\caption{Payload des Nachrichtenprotokolls der verschiedenen Events.}
+%\label{table:idk}
+%\end{table}
+%
+%Die Länge des serialisierten Daten-Arrays des \textit{make-move} variiert zwischen %drei und fünf Bytes. Im Folgenden wird vom schlechtesten Fall ausgegangen, dass das %Payload dieser Nachricht immer 33 Bytes lang ist.\par
+%
+%\subsubsection{Anzahl der Spielzüge}
+%Die durchschnittliche Anzahl an Spielzügen lässt sich
+%
+\newpage
+
+\section{WebRTC für Browserbasierte Mehrspieler-Brettspiele}
+Im Folgenden werden die Verwendung von Client-Server-Modellen und WebRTC-Netzwerkarchitekturen für die Entwicklung von Browserbasierten Mehrspieler-Brettspielen verglichen. Dies geschieht auf Basis der folgenden Kriterien:
 
 \begin{table}[ht]
 \centering
@@ -29,6 +68,7 @@ Flexibilität&Wie flexibel sind die Netzwerkarchitekturen? Dabei ist vor allem d
 Aufwand&Wie aufwendig ist die Verwendung der Technologie? Welche Vorraussetzungen müssen gegeben sein, damit diese verwendet werden kann?\\
 Komplexität&Wie komplex fällt eine Netzwerkarchitektur aus? Wie viele Verbindungen müssen verwaltet werden, und wie viele Geräte/Server sind im Netzwerk?\\
 Sicherheit&Auf welche Art kann ein Nutzer die Nutzererfahrung von anderen Nutzern negativ beeinflussen? Wie leicht fällt dies?\\
+Skalierbarkeit&Inwiefern schränkt die Netzwerkstruktur die Skalierbarkeit des Spiels -- bezogen auf die Anzahl der Spieler -- ein?\\
 \bottomrule
 
 \end{tabularx}
@@ -40,15 +80,23 @@ Sicherheit&Auf welche Art kann ein Nutzer die Nutzererfahrung von anderen Nutzer
 Aufgrund des \acs{SCTP}-Protokolls gestaltet sich die Datenübertragung über RTCDataChannels sehr viel flexibler als bei Client-Server-Verbindungen. Diese sind meist auf entweder \acs{TCP}, oder \acs{UDP} beschränkt -- WebSockets nutzen zum Beispiel ausschließlich \acs{TCP} \cite{websocketRFC}. Die Möglichkeit, gleichzeitig sowohl UDP-artige, als auch TCP-artige Datenströme zu verwenden eröffnet zudem Möglichkeiten zur Integration von Echtzeit-Features in Rundenbasierten Brettspielen -- zum Beispiel das Anheben und Verschieben von Figuren per Drag-and-Drop, wobei die Position der Spielfigur in Echtzeit mit weiteren Spielen über einen UDP-artigen Datenkanal synchronisiert wird.
 
 \subsubsection{Aufwand}
-Der Aufwand, welcher zum Aufbau einer WebRTC-Verbindung notwendig ist, ist verglichen mit Client-Server-Architekturen hoch. Während bei Client-Server-Architekturen lediglich ein Server existiert, zu welchem eine Verbindung eröffnet werden muss -- wie zum Beispiel bei Verwendung von socket.io -- so muss zum Sitzungsaufbau via WebRTC eine zusätzliche Signalisierungsebene geschaffen werden. Zudem müssen STUN- und TURN-Server existieren, damit das \acs{ICE}-Framework die eigentliche Verbindung aufbauen kann.\par
+Der Aufwand, welcher zum Aufbau einer WebRTC-Verbindung notwendig ist, ist verglichen mit Client-Server-Architekturen hoch. Während bei Client-Server-Architekturen lediglich ein Server existiert, zu welchem eine Verbindung eröffnet werden muss -- wie zum Beispiel bei Verwendung von socket.io -- so muss zum Sitzungsaufbau via WebRTC eine zusätzliche Signalisierungsebene geschaffen werden. 
 
-Zudem macht der Umstand, dass jeder Spieler eine eigene Kopie des Spielstands verwalten muss, die Implementation eines \acs{P2P}-Spiels prinzipiell komplexer als bei einem Spiel, welches auf dem Authoritative-Server-Prinzip basiert.
+Zudem müssen STUN- und TURN-Server existieren, damit das \acs{ICE}-Framework die eigentliche Verbindung aufbauen kann. Zudem macht der Umstand, dass jeder Spieler eine eigene Kopie des Spielstands verwalten muss, die Implementation eines \acs{P2P}-Spiels prinzipiell komplexer als bei einem Spiel, welches auf dem Authoritative-Server-Prinzip basiert.
 
 \subsubsection{Komplexität der Netzwerkarchitektur}
-Die Notwendigkeit der Signalisierungsebene bringt erhöhte Komplexität der Netzwerkarchitektur im Vergleich zu Client-Server-Modellen mit sich: Die zu verwaltende Anzahl an Verbindungen im Netzwerk ist höher als in Client-Server-Modellen, da neben der Verbindung zum Signalisierungskanal auch Verbindungen zwischen den Browsern unterneinander verwaltet werden müssen. Bei $n$ Clients müssen insgesamt $n + n(n-1)$ (P2P Mesh-Topologie), beziehungsweise $2n - 1$ (P2P Stern-Topologie) Verbindungen verwaltet werden. Die Komplexität der Netzwerkarchitektur wird zudem durch die Notwendigkeit von \acs{STUN}- und \acs{TURN}-Servern erhöht. Diese müssen entweder proprietär aufgesetzt, oder via einer Infrastruktur-As-A-Service-Lösung wie \textit{Xirsys}\footnote{vgl. \url{https://xirsys.com/} (Abgerufen: 07.05.2021)} bereitgestellt werden.
+Die Notwendigkeit der Signalisierungsebene bringt erhöhte Komplexität der Netzwerkarchitektur im Vergleich zu Client-Server-Modellen mit sich: Die zu verwaltende Anzahl an Verbindungen im Netzwerk ist höher als in Client-Server-Modellen, da neben der Verbindung zum Signalisierungskanal auch Verbindungen zwischen den Browsern unterneinander verwaltet werden müssen. Bei $n$ Clients müssen insgesamt $n + n(n-1)$ (P2P Mesh-Topologie), beziehungsweise $2n - 1$ (P2P Stern-Topologie) Verbindungen verwaltet werden. Die Komplexität der Netzwerkarchitektur wird zudem durch die Notwendigkeit von \acs{STUN}- und \acs{TURN}-Servern erhöht. Diese müssen entweder proprietär aufgesetzt, oder via einer Infrastruktur-As-A-Service-Lösung wie \textit{Xirsys}\footnote{vgl. \url{https://xirsys.com/}, Stand 07.05.2021} bereitgestellt werden.
 
 \subsubsection{Sicherheit}
 Es ist leichter, in \acs{P2P}-Spielen zu betrügen, als in Client-Server-Modellen, da keine zentrale, vertrauliche Instanz in Form eines Authoritative-Servers existiert. Im Falle von Browserbasierten Spielen ist dies jedoch von besonderem Nachteil, da der Quellcode des Spiels leicht zugänglich im Browser abrufbar ist. Dieser kann während der Laufzeit ausgelesen und editiert werden. Zwar kann dem teilweise mit Quellcodeminimierung und -Verschleierung vorgebeugt werden, jedoch ist es nicht möglich, den Quellcode und Spielstand komplett zu verbergen. Dies führt zu erhöhter Komplexität der Anwendung, welche diese Nachteile in Betracht ziehen muss. Insbesondere dieses Kriterium stellte eine große Hürde bei der Implementierung dar (vgl. 6.1 Probleme der Implementierung).
+
+\subsubsection{Skalierbarkeit}
+Peer-To-Peer Systeme sind in der Regel skalierbarer als Client-Server-Modelle \cite{p2pchallenges}. WebRTC ist jedoch bei erhöhter Anzahl an Peers durch Upload-Bandbreite und Rechenressourcen der Peers limitiert. Insbesondere im Bereich der Videoübertragung ist dies bei WebRTC ein Problem, da bei hoher Teilnehmeranzahl in einer Mesh-Topologie jeder Teilnehmer gleichzeitig mehrere Videostreams encodieren, decodieren und versenden  muss.\par
+
+Bei Brettspielen ist dies jedoch weniger relevant, da weder CPU-intensive En- und Decodierung, noch hohe Datenraten benötigt werden. Bei der Implementierung dieser Arbeit werden lediglich zwei Nachrichten per Zug benötigt. Zwar kann die Nachrichtenlatenz bei erhöhter Teilnehmeranzahl steigen, bei Brettspielen spielt Latenz -- aufgrund deren Rundenbasierten Art -- nur eine untergeordnete Rolle. Die Implementierung hat gezeigt, dass Spiele mit bis zu vier Spielern problemlos möglich sind. Je nach Spiel kann die maximale Anzahl an Spielern jedoch variieren.\par
+
+%\subsection{WebRTC als Nachfolger des Adobe Flash Players}
+
 
 %\subsection{WebRTC anstelle von Client-Server-Netzwerkarchitekturen}
 %WebRTC ist technisch zwar sehr flexibel, jedoch müssen bei der Wahl der Netzwerkarchitektur einige Kriterien besonders beachtet werden:
@@ -58,7 +106,7 @@ Es ist leichter, in \acs{P2P}-Spielen zu betrügen, als in Client-Server-Modelle
 
 %\item \textbf{Telepräsenz}: WebRTC eignet sich perfekt für Telepräsenz, wie Plattformen wie \textit{Jocly} bereits gezeigt haben. Hier ist eine hybride Struktur aus WebRTC für Audio- und Videoübertragung, und einer Client-Server Verbindungen für die Datenübertragung empfehlenswert.
 
-%\item \textbf{Echtzeit-Features}: WebRTC eignet sich gut für die Übertragung von Daten, welche den Spielstand nicht verändern. Insbesondere Echtzeit-Features mit erhöhtem Datenaufkommen können von WebRTC-\acs{P2P}-Verbindungen profitieren. Darunter fallen zum Beispiel Features wie das Zeichnen auf einem Spielbrett oder Drag-and-Drop von Spielfiguren, wobei die Position der Spielfigur zwischen Spielern geteilt wird. Auch hier bietet sich eine hybride Lösung aus Authoritative-Server und WebRTC an.
+%\item \textbf{Echtzeit-Features}: WebRTC eignet sich gut für die Übertragung von Daten, welche den Spielstand nicht verändern. Insbesondere Echtzeit-Features mit erhöhtem Datenaufkommen können von WebRTC-\acs{P2P}-Verbindungen profitieren. Auch hier bietet sich eine hybride Lösung aus Authoritative-Server und WebRTC an.
 
-%\item \textbf{Aufwand}: Die Implementierung einer WebRTC-Netzwerkinfrastruktur bringt, verglichen mit Client-Server-Modellen, höheren Aufwand mit sich. Auch die Implementierung einer Applikation gestaltet sich, aufgrund des verteilten Spielstands, komplexer.
+%\item \textbf{Aufwand}: Die Implementierung einer WebRTC-Netzwerkinfrastruktur bringt, verglichen mit Client-Server-Modellen, höheren Aufwand mit sich. Auch die Implementierung einer Applikation gestaltet sich aufgrund des verteilten Spielstands, komplexer.
 %\end{itemize}

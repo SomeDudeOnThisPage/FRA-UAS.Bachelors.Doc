@@ -87,13 +87,8 @@ Peer.prototype._createConnection = function(remotePeerId) {
 
   connection.onicecandidateerror = (e) => {
     if (e.errorCode >= 300 && e.errorCode <= 699) {
-      // STUN errors are in the range 300-699. See RFC 5389, section 15.6
-      // for a list of codes. TURN adds a few more error codes; see
-      // RFC 5766, section 15 for details.
       console.warn('STUN-Server could not be reached or threw error.', e)
     } else if (e.errorCode >= 700 && e.errorCode <= 799) {
-      // Server could not be reached; a specific error number is
-      // provided but these are not yet specified.
       console.warn('TURN-Server could not be reached.', e)
     }
   }
@@ -145,11 +140,21 @@ Peer.prototype.on = function(e, cb) {
   this.callbacks[e] = cb;
 }
 
+// TODO: not needed for mesh-architecture - maybe remove?
 Peer.prototype.emit = function(target, e, ...args) { // function for the master peer to relay a targeted message
   if (this.connections[target]) {
     const data = JSON.stringify({src : this.id, event: e, data: args});
     this.connections[target].dc.send(data);
   }
+}
+
+// TODO: not needed for mesh-architecture - maybe remove?
+Peer.prototype.relay = function(exclude,packet) { // function for the master peer to relay a message
+  Object.keys(this.connections).forEach((key) => {
+    if (key !== exclude) {
+      this.connections[key].dc.send(packet);
+    }
+  });
 }
 
 Peer.prototype.broadcast = function(e, ...args) { // function for any peer to broadcast a message
@@ -158,8 +163,6 @@ Peer.prototype.broadcast = function(e, ...args) { // function for any peer to br
     connection.dc.send(data);
   });
 }
-
-});
 \end{lstlisting}
 \end{singlespace}
 
@@ -185,7 +188,6 @@ app.get('/', (req, res) => {
 
 app.get(`/game/*/`, (req, res) => {
   res.status(200);
-  console.log(__dirname);
   res.sendFile(`${__dirname}${config.server.game}`);
 });
 
@@ -209,7 +211,7 @@ io.sockets.on('connection', (socket) => {
     const id = utils.generateRoomID(rooms);
     rooms[id] = {
       id : id, // easier to identify room by player
-      players : [],
+      players : [null, null, null, null],
       started : false,
       host : null
     };
@@ -217,6 +219,7 @@ io.sockets.on('connection', (socket) => {
     // if no client joins within a minute, destroy the room again (something went wrong on the clients' side, as the redirect didn't go through)
     setTimeout(() => {
       if (rooms[id] && rooms[id].players.length === 0) {
+        console.log('DELETED ROOM DUE TO INACTIVITY TIMEOUT');
         delete rooms[id];
       }
     }, 60000);
@@ -230,12 +233,13 @@ io.sockets.on('connection', (socket) => {
     const room = rooms[roomID];
 
     if (!room) return socket.emit('game-room-join-failed', 'no such room');
-    if (Object.keys(room.players).length >= 4) return socket.emit('game-room-join-failed', 'room full');
+    if (room.players.every((p) => p !== null)) return socket.emit('game-room-join-failed', 'room full');
 
     for (let i = 0; i < 4; i++) {
       if (!room.players[PLAYER_SLOT_PRIORITY[i]]) {
         const peerID = utils.uuid4();
         const color = PLAYER_SLOT_PRIORITY[i];
+        console.log('NEW PLAYER COLOR INDEX', color);
 
         socket.join(roomID); // broadcasting for a subset of sockets is done via socket.io rooms
         sockets[peerID] = socket.id; // sockets mapped to peer-id for signaling (can't be in player object, because we don't want to send that)
@@ -263,9 +267,16 @@ io.sockets.on('connection', (socket) => {
       room.seed = Math.random();
 
       // Seed an alle Spieler des Raums senden
-      socket.to(roomId).emit('game-start', room.seed);
-      // auch an den Host-Spieler (quirk mit socket.io, socket.to(socket) funktioniert nicht bei gleichem socket)!
-      socket.emit('game-start', room.seed);
+      io.to(roomId).emit('game-start', room.seed);
+    }
+  });
+
+  socket.on('game-room-kick-player', (roomId, index) => {
+    const room = rooms[roomId];
+
+    if (room && socket.id === room.host && room.players[index]) {
+      io.to(roomId).emit('game-room-kick-player', room.players[index].peerID, index);
+      room.players[index] = null;
     }
   });
 
@@ -290,8 +301,19 @@ io.sockets.on('connection', (socket) => {
 
     if (room) {
       const leaver = room.players.find((player) => player && player.peerID === peerID);
+      console.log('LEAVER PLAYER COLOR INDEX', leaver.color)
       if (leaver) {
-        room.players = room.players.filter((player) => player && player.peerID !== peerID); // remove from room
+        room.players[leaver.color] = null;
+
+        // Host migration
+        if (socket.id === room.host && room.players.length > 0) {
+          const newHost = room.players.find((p) => p !== null);
+          if (newHost) {
+            room.host = sockets[newHost.peerID];
+            io.to(room.id).emit('game-room-host-migration', newHost.peerID);
+          }
+        }
+
         if (room.players.length > 0) {
           socket.to(room.id).emit('game-room-client-leaving', leaver.peerID, leaver.color); // notify remaining
         } else {
@@ -299,6 +321,113 @@ io.sockets.on('connection', (socket) => {
         }
       }
     }
+  });
+});
+\end{lstlisting}
+\end{singlespace}
+
+
+\chapter{Anhang -- game.js}
+\lstset{language=js, style=STYLE_CODE_JS}
+\begin{singlespace}
+\begin{lstlisting}[]
+import Peer from './network/Peer.js';
+import {Game} from './game/Game.js';
+import Player from './game/Player.js';
+import * as utils from './game/utils.js';
+
+const GAME_SERVER_CONNECTION_DEV = 'http://localhost:3000';
+const GAME_SERVER_CONNECTION_PROD = 'http://20.56.95.156:3000'; // this should probably be injected by express middleware...
+
+const DATA_CHANNELS = [{ // reliable, ordered data channel
+  label : 'game',
+  rtcDataChannelConfig : {
+    maxRetransmits : null,    // no maximum number of retransmits
+    ordered : true            // force ordered package retrieval
+  }
+}];
+
+$(window).on('load', () => {
+  const socket = io(GAME_SERVER_CONNECTION_DEV);
+  const roomID = window.location.pathname.split('/')[2];
+
+  socket.on('connect', () => {
+    socket.emit('game-room-join', roomID); // Raum beitreten
+  });
+
+  socket.on('game-room-joined', (players, started, seed, peerID, iceServers, isHost) => {
+    let localPlayerIsHost = isHost;
+
+    const peer = new Peer(peerID, iceServers, DATA_CHANNELS); // erstellen des Peers
+    peer.setSignalingCallback((data) => socket.emit('signal', roomID, data.target, data)); // Signalisierung VOM Peer weiterleiten
+    socket.on('signal', (e) => peer.onsignal(e)); // Signalisierung ZUM Peer weiterleiten
+
+    const game = new Game($('#maedn'), peer, DATA_CHANNELS[0].label);
+    socket.on('game-start', (seed) => game.start(seed));
+    if (started) {
+      game.seed(seed);
+      game.paused = true;
+    }
+    game.render();
+
+    socket.on('game-room-client-joining', (seed, peerID, color) => {
+      game.paused = true;
+      game.seed(seed);
+      game.addPlayer(new Player(color, 'TestPlayer', false));
+      utils.uiEnablePlayerKickButtons(game.players, localPlayerIsHost, roomID, socket);
+    });
+
+    socket.on('game-room-client-leaving', (peerID, color) => {
+      peer.closeConnection(peerID);
+      game.removePlayer(color);
+      utils.uiEnablePlayerKickButtons(game.players, localPlayerIsHost, roomID, socket);
+    });
+
+    socket.on('game-room-host-migration', (newHostPeerID) => {
+      console.log('HOST MIGRATION', newHostPeerID === peerID, newHostPeerID, peerID);
+      localPlayerIsHost = newHostPeerID === peerID;
+      $('#start-game').prop('disabled', newHostPeerID !== peerID).click(() => socket.emit('start-game', roomID));
+      $('#end-game').prop('disabled', newHostPeerID !== peerID).click(() => socket.emit('end-game', roomID));
+    });
+
+    socket.on('game-room-kick-player', (peerID, color) => {
+      if (game.players[color]) {
+        if (game.players[color].isLocalPlayer) {
+          // the server removes us when we are kicked, NOT when we disconnect
+          // so leave this page normally
+          window.location.href = '/';
+        } else {
+          peer.closeConnection(peerID);
+          game.removePlayer(color);
+          utils.uiEnablePlayerKickButtons(game.players, localPlayerIsHost, roomID, socket);
+        }
+      }
+    });
+
+    peer.on('onDataChannelsOpen', () => {
+      if (localPlayerIsHost) {
+        peer.broadcast('gamestate', game.gamestate);
+      }
+      // unpause whenever ALL dcs to other peers are open (meaning also new ones)
+      game.paused = false;
+    });
+
+    peer.on('gamestate', (gamestate) => {
+      game.setGamestate(gamestate);
+      game.paused = false; // unpause when receiving game state
+    });
+
+    players.forEach((player) => { // connect to other peers
+      if (!player) return;
+      player.peerID === peerID ? game.localPlayerColor = player.color : peer.connect(player.peerID);
+      game.addPlayer(new Player(player.color, 'TestPlayer', game.localPlayerColor === player.color));
+    });
+
+    utils.uiEnablePlayerKickButtons(game.players, localPlayerIsHost, roomID, socket);
+
+    // utility stuff, don't go over this in document
+    $('#start-game').prop('disabled', !localPlayerIsHost).click(() => socket.emit('start-game', roomID, socket.id));
+    $('#end-game').prop('disabled', !localPlayerIsHost).click(() => socket.emit('end-game', roomID, socket.id));
   });
 });
 \end{lstlisting}

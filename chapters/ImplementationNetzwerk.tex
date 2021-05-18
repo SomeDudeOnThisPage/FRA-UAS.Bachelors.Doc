@@ -70,14 +70,18 @@ initialisiert werden. Dieser Befehl erstellt die \glqq{}package.json\grqq{}-Date
 \begin{lstlisting}[belowskip=-0.8 \baselineskip]
 $ npm install socket.io
 $ npm install express
+$ sudo npm install -g pm2
 \end{lstlisting}
 
-heruntergeladen werden. Daraufhin können diese Packete über die $require$-Funktion in ein Script eingebunden werden.
+heruntergeladen werden. Daraufhin können die \textit{socket.io} und \textit{express.io} Packete über die $require$-Funktion in ein Script eingebunden werden. PM2 muss mit dem Parameter \textit{-g} global installiert werden, damit die Kommandozeilenfunktionalität des Prozessmanagers verwendbar ist. Dazu sind Superuser-Rechte notwending.
 
 \subsubsection{express}
-Zur Erstellung des Webservers wird das \glqq{}express\grqq{}-Framework verwendet. Der Quellcode befindet sich in der \glqq{}Server.js\grqq{}-Datei, und ist in Abbildung~\ref{lst:express} abgebildet.
+Zur Erstellung des Webservers wird das \glqq{}express\grqq{}-Framework verwendet. Der Quellcode befindet sich in der \glqq{}Server.js\grqq{}-Datei, und ist in Abbildung~\ref{lst:express} abgebildet.\par
 
-\vspace{11pt}
+Zuerst muss eine express-Anwendung über die $express()$-Funktion erstellt werden. Da für die Nutzung von socket.io allerdings ein \acs{HTTP}-Serverobjekt nötig ist, wird dieses in Zeile 5 erstellt. Dabei wird die express-Anwendung als Parameter bei der Servererstellung mitgegeben. Die express-Anwendung nutzt nun diesen \acs{HTTP}-Server für die Webserver-Funktionalität.\par
+
+Da die HTML-Dateien die notwendingen Scripts aus anderen Dateien importieren, müssen diese via \acs{URL} vom Webserver abrufbar sein. Die Funktion $app.use$ erlaubt es, Dateien via \acs{URL} öffentlich bereitzustellen. In Zeile 7 wird der Inhalt des \glqq{}public\grqq{}-Ordners statisch zur Verfügung gestellt.\par
+
 \lstset{language=js, style=STYLE_CODE_JS}
 \begin{minipage}{\textwidth}
 \begin{singlespace}
@@ -105,13 +109,7 @@ server.listen(config.server.listeningPort);
 \end{singlespace}
 \end{minipage}
 
-Zuerst muss eine express-Anwendung über die $express()$-Funktion erstellt werden. Da für die Nutzung von socket.io allerdings ein \acs{HTTP}-Serverobjekt nötig ist, wird dieses in Zeile 5 erstellt. Dabei wird die express-Anwendung als Parameter bei der Servererstellung mitgegeben. Die express-Anwendung nutzt nun diesen \acs{HTTP}-Server für die Webserver-Funktionalität.\par
-
-Da die \acs{HTML}-Dateien die notwendingen Scripts aus anderen Dateien importieren, müssen diese via \acs{URL} vom Webserver abrufbar sein. Die Funktion $app.use$ erlaubt es, Dateien via \acs{URL} öffentlich bereitzustellen. In Zeile 7 wird der Inhalt des \glqq{}public\grqq{}-Ordners statisch zur Verfügung gestellt.\par
-
-Des Weiteren werden in Zeile 9 und 14 die Pfade definiert, auf welchen die \acs{HTML}-Dateien abrufbar sind. Ruft ein Nutzer die Basis-\acs{URL} des Servers auf, so sendet der Server die \textit{index.html}-Datei. Ruft ein Nutzer den Pfad \textit{<Basis-Server-URL>/game/<Raum-ID>/} auf, so wird dieser auf die Raum-Seite (\textit{room.html}) verwiesen. Dies bewirkt, dass ein Nutzer direkt über eine \acs{URL} einem Spiel beitreten kann, und nicht über die Index-Seite beitreten muss. Die Dateipfade sind in der Server-Konfigurationsdatei definiert.
-
-Zuletzt muss in Zeile 19 noch der Port definiert werden, über welchen der Server von außen ansprechbar sein soll. Dieser ist ebenfalls via der Konfigurationsdatei definierbar.
+Des Weiteren werden in Zeile 9 und 14 die Pfade definiert, auf welchen die HTML-Dateien abrufbar sind. Ruft ein Nutzer die Basis-\acs{URL} des Servers auf, so sendet der Server die \textit{index.html}-Datei. Ruft ein Nutzer den Pfad \textit{<Basis-Server-URL>/game/<Raum-ID>/} auf, so wird dieser auf die Raum-Seite (\textit{room.html}) verwiesen. Dies bewirkt, dass ein Nutzer direkt über eine \acs{URL} einem Spiel beitreten kann, und nicht über die Index-Seite beitreten muss. Die Dateipfade sind in der Server-Konfigurationsdatei definiert. Zuletzt muss in Zeile 19 noch der Port definiert werden, über welchen der Server von außen ansprechbar sein soll. Dieser ist ebenfalls via der Konfigurationsdatei definierbar.
 
 \subsubsection{socket.io}
 Auf der Serverseite muss eine socket.io-Instanz erstellt werden. Diese nutzt den gleichen \acs{HTTP}-Server wie die express-Anwendung. Baut ein Client über die Clientseitige socket.io-Bibliothek eine Verbindung auf, so wird auf der Serverseite das \textit{connection}-Event ausgelöst, welches den Socket des Clients als Parameter enthält. Innerhalb der Rückruffunktion dieses Events müssen alle Rückruffunktionen für diesen Socket registriert werden. Der dazu notwendige Quellcode ist in Abbildung~\ref{lst:socketioserver} abgebildet.
@@ -132,7 +130,7 @@ io.sockets.on('connection', (socket) => {
 \end{singlespace}
 \end{minipage}
 
-Auf der Client-Seite muss zuerst die Clientseitige socket.io-Bibliothek eingebunden werden. Läuft socket.io auf dem gleichen Server wie der express-Webserver, so stellt socket.io die Clientseitige Script-Datei auf dem Pfad \textit{/socket.io/socket.io.js} statisch bereit. Die Datei wird im Header der jeweiligen \acs{HTML}-Datei über ein \textit{script}-Tag eingefügt:
+Auf der Client-Seite muss zuerst die Clientseitige socket.io-Bibliothek eingebunden werden. Läuft socket.io auf dem gleichen Server wie der express-Webserver, so stellt socket.io die Clientseitige Script-Datei auf dem Pfad \textit{/socket.io/socket.io.js} statisch bereit. Die Datei wird im Header der jeweiligen HTML-Datei über ein \textit{script}-Tag eingefügt:
 \lstset{style=STYLE_COMMAND_LINE_ARGUMENT_SINGLE_LINE}
 \begin{lstlisting}[belowskip=-0.8 \baselineskip]
 <script src="/socket.io/socket.io.js"></script>
@@ -142,7 +140,6 @@ Auf der Client-Seite muss zuerst die Clientseitige socket.io-Bibliothek eingebun
 \vspace{11pt}
 Clientseitig stellt socket.io die \textit{io}-Funktion zur Verfügung, welche die Adresse des zugehörigen socket.io-Servers als Parameter nimmt. Die Funktion gibt die Socket-Instanz des Clients zurück. Das \textit{connect}-Event wird bei erfolgreicher Verbindung zum Server ausgelöst. Der hierzu notwendige Quellcode ist in Abbildung~\ref{lst:socketioclient} abgebildet.
 
-\vspace{5pt}
 \lstset{language=js, style=STYLE_CODE_JS}
 \begin{minipage}{\textwidth}
 \begin{singlespace}
@@ -165,9 +162,9 @@ Das \textit{connect}-Event wird nicht nur beim ersten Verbindungsaufbau, sondern
 Zur Verwaltung der Peer-To-Peer-Funktionalität werden \glqq{}Peer\grqq{}-Objekte verwendet. Jeder Client besitzt dabei ein Peer-Objekt. Der Peer verwaltet die RTCPeerConnections, sowie die zugehörigen Datenkanäle. Es ist dem Peer möglich, ähnlich dem socket.io-Syntax Rückruffunktionen zu erstellen, welche bei Erhalt von Daten je nach Event aufgerufen werden.\par
 
 \subsubsection{Eventbasiertes Nachrichtenprotokoll}
+\label{nachrichtenprotokoll}
 Der von den Peer-Objekten zum Datenaustasuch verwendete Syntax ist an den Syntax von socket.io angelehnt. An einem Peer lassen sich über die \textit{on}-Funktion Rückruffunktionen registrieren (vgl. Abbildung~\ref{lst:registerCallback}). Diese registriert die Funktion in einem Map-Objekt.\par
 
-\vspace{5pt}
 \lstset{language=js, style=STYLE_CODE_JS}
 \begin{singlespace}
 \begin{lstlisting}[caption={Funktion zur Registrierung von Rückruffunktionen -- Peer.js}, captionpos=b, label={lst:registerCallback}]
@@ -212,6 +209,7 @@ Zur Signalisierung wird ein simples, proprietäres Protokoll verwendet. Eine Sig
 \vspace{5pt}
 \lstset{language=js, style=STYLE_CODE_JS}
 \begin{singlespace}
+\begin{minipage}{\textwidth}
 \begin{lstlisting}[caption={Format des Signalisierungsprotokolls}, captionpos=b, label={lst:protocoll}]
 {
     source : <Peer-ID>,
@@ -220,6 +218,7 @@ Zur Signalisierung wird ein simples, proprietäres Protokoll verwendet. Eine Sig
     data : <SDP-Daten>
 }
 \end{lstlisting}
+\end{minipage}
 \end{singlespace}
 
 Für ausgehende Signalnachrichten wird die \textit{signal}-Funktion des Peers verwendet. Diese muss bei Erstellen des Peer-Objekts registriert werden und Daten an das Signalisierungsmedium schicken. Werden Daten über den Signalisierungskanal erhalten, so muss die \textit{onsignal}-Funktion aufgerufen werden (vgl. Abbildung~\ref{lst:clientroomjoin}).
@@ -227,7 +226,6 @@ Für ausgehende Signalnachrichten wird die \textit{signal}-Funktion des Peers ve
 \subsubsection{Verbindungen und Datenkanäle}
 Zum Verbindungsaufbau wird die \textit{connect}-Funktion (Abbildung~\ref{lst:connectfunction}) verwendet. Als Argument nimmt diese die Peer-ID des Peers, zu welchem eine Verbindung aufgebaut werden soll. Die RTCPeerConnection wird in der Hilfsmethode \textit{createConnection} des Peers erstellt, da diese Funktionalität auch auf der Empfängerseite bei Erhalt einer \acs{JSEP}-Anfrage verwendet wird.\par
 
-\vspace{5pt}
 \lstset{language=js, style=STYLE_CODE_JS}
 \begin{minipage}{\textwidth}
 \begin{singlespace}
@@ -247,7 +245,6 @@ Peer.prototype.connect = function(remotePeerId) {
 
 Nach dem Erstellen der RTCPeerConnection wird der \acs{JSEP}-Anfrage-Antwort Prozess zwischen den Peers eingeleitet. In Zeile 5 wird die Anfrage erstellt, in Zeile 6 wird diese dem Signalisierungsprotokoll entsprechend verpackt und über den Signalisierungskanal weitergeleitet. Zuletzt muss in Zeile 7 die lokale Konfiguration des Peers -- die SDP-Daten der Anfrage -- gesetzt werden.
 
-\vspace{5pt}
 \lstset{language=js, style=STYLE_CODE_JS}
 \begin{minipage}{\textwidth}
 \begin{singlespace}
@@ -283,7 +280,7 @@ Der Quellcode zur Erstellung der RTCPeerConnection und des Datenkanals ist Abbil
 Konfiguration&Wert&Beschreibung\\
 
 \midrule
-negotiated&true&Da die Anwendung symmetrisch ist -- beide Peers wissen, dass exakt ein geordneter, zuverlässiger Datenkanal erstellt werden soll -- wird ein im vorab vereinbarter Datenkanal verwendet. Hier ist wichtig, dass die Konfiguration des Kanals auf beiden Seiten exakt übereinstimmt.\\
+negotiated&true&Da die Anwendung symmetrisch ist -- beide Peers wissen, dass exakt ein geordneter, zuverlässiger Datenkanal erstellt werden soll -- wird ein im vorab vereinbarter Datenkanal verwendet.\\
 id&0&Die numerische ID des Datenkanals, bei im Vorab vereinbarten Datenkanälen muss diese gegeben sein und zwischen beiden Peers übereinstimmen.\\
 ordered&true&Das unterliegende \acs{SCTP}-Protokoll soll die Nachrichten geordnet absenden und erhalten.\\
 maxRetransmits&null&Ist dieser Wert nicht gesetzt, so versucht das  \acs{SCTP}-Protokoll so lange ein Packet abzuschicken, bis dieses beim Empfänger angekommen ist.\\
@@ -327,7 +324,7 @@ Peer.prototype.onsignal = function(e) {
 \end{minipage}
 \end{singlespace}
 
-\subsection{Raum-Verwaltung}
+\subsection{Raumverwaltung}
 Das Spiel \glqq{}Mensch Ärgere Dich Nicht\grqq{} kann maximal von vier Spielern gespielt werden. Damit mehr als ein Spiel gleichzeitig gespielt werden kann, müssen Spieler in \glqq{}Räume\grqq{} unterteilt werden. Ein Raum besitzt dabei eine Liste an bis zu vier Sets an Spielerdaten, eine Raum-ID und eine Host-ID. Bei der Host-ID handelt es sich um die Socket-ID des Spielers, welcher den Raum zuerst betritt. Dieser hat als einziger Spieler die Befugnis, weitere Spieler aus dem Raum zu entfernen. Spielerdaten enthalten jeweils die Peer-ID eines Spielers, einen Namen und die Spielfarbe des Spielers.
 
 \subsubsection{Erstellen eines Raums}
@@ -362,9 +359,7 @@ io.sockets.on('connection', (socket) => {
 Erstellt ein Nutzer einen Raum, so sendet dieser das \textit{game-room-create}-Event zum Server (vgl. Abbildung~\ref{lst:imamakedaroom}). Der Server generiert eine vierstellige Zeichenkette, welche als Raum-ID dient. Ein Raum-Objekt wird erzeugt, welches die zuvor beschriebenen Daten enthält. Ist der Raum erstellt, so wird ein Event an den erstellenden Client zurückgeschickt, um diesem mitzuteilen, dass der Raum nun beitretbar ist.\par
 
 \subsubsection{Beitritt eines Raums}
-Das Betreten eines Raums ist über das \textit{game-room-join}-Event geregelt. Versucht ein Nutzer einem Raum beizutreten, so sendet dieser das Event an den Server (vgl. Abbildung~\ref{lst:join}). Falls der Raum noch keinen Host-Spieler besitzt, so wird der erste Beitretende Spieler zum Host ernannt. Bei erfolgreichem Beitritt erhält der Nutzer das \textit{game-room-joined}-Event zurück, welches sämtliche, zum Verbindungsaufbau mit den weiteren Spielern, benötigten Daten enthält. Dazu gehören das Array der weiteren Spieler im Raum, die eigene Peer-ID und die Zugangsdaten zu den \acs{STUN}- und \acs{TURN}-Servern. Zusätzlich wird dem Nutzer mitgeteilt, ob dieser der Host des Raums ist. Zudem werden -- in Zeile 22 -- alle weiteren Spieler des Raums benachrichtigt, dass ein weiterer Spieler beigetreten ist.\par
-
-In den Spielregeln von \glqq{}Mensch Ärgere Dich Nicht\grqq{} ist geregelt, dass beim Spielen mit zwei Spielern die Farben Gelb und Rot gewählt werden sollen, damit die Spieler gegenüberstehende Startfelder haben. Daher werden die Spieler beim Betreten eines Raums nicht nach aufsteigender Reihenfolge in das Spieler-Array eingefügt, sondern nach der in Zeile 1 definierten Reihenfolge [0, 2, 1, 3]. Ab Zeile 6 wird dieses Array durchlaufen. Ist ein Array-Index nicht definiert, so wird der neu beigetretene Spieler an diese Stelle des Spieler-Arrays gesetzt.\par
+Das Betreten eines Raums ist über das \textit{game-room-join}-Event geregelt. Versucht ein Nutzer einem Raum beizutreten, so sendet dieser das Event an den Server (vgl. Abbildung~\ref{lst:join}). Falls der Raum noch keinen Host-Spieler besitzt, so wird der erste beitretende Spieler zum Host ernannt. Bei erfolgreichem Beitritt erhält der Nutzer das \textit{game-room-joined}-Event zurück, welches sämtliche, zum Verbindungsaufbau mit den weiteren Spielern, benötigten Daten enthält. Dazu gehören das Array der weiteren Spieler im Raum, die eigene Peer-ID und die Zugangsdaten zu den \acs{STUN}- und \acs{TURN}-Servern. Zusätzlich wird dem Nutzer mitgeteilt, ob dieser der Host des Raums ist. Zudem werden -- in Zeile 22 -- alle weiteren Spieler des Raums benachrichtigt, dass ein weiterer Spieler beigetreten ist.\par
 
 \begin{table}[ht]
 \centering
@@ -382,9 +377,8 @@ Spieler-Index&Farbe im Spiel\\
 \label{table:playercolors}
 \end{table}
 
-Dazu wird in Zeile 8 zuerst eine Peer-ID generiert, welche zu Signalisierungszwecken genutzt wird. Die \glqq{}Farbe\grqq{} des Spielers ist dabei der Index des Spielers im Spieler-Array (vgl. Tabelle~\ref{table:playercolors}).\par
+In den Spielregeln von \glqq{}Mensch Ärgere Dich Nicht\grqq{} ist geregelt, dass beim Spielen mit zwei Spielern die Farben Gelb und Rot gewählt werden sollen, damit die Spieler gegenüberstehende Startfelder haben. Daher werden die Spieler beim Betreten eines Raums nicht nach aufsteigender Reihenfolge in das Spieler-Array eingefügt, sondern nach der in Zeile 1 definierten Reihenfolge [0, 2, 1, 3]. Ab Zeile 6 wird dieses Array durchlaufen. Ist ein Array-Index nicht definiert, so wird der neu beigetretene Spieler an diese Stelle des Spieler-Arrays gesetzt.\par
 
-\vspace{11pt}
 \lstset{language=js, style=STYLE_CODE_JS}
 \begin{minipage}{\textwidth}
 \begin{singlespace}
@@ -420,6 +414,8 @@ io.sockets.on('connection', (socket) => {
 \end{lstlisting}
 \end{singlespace}
 \end{minipage}
+
+Dazu wird in Zeile 8 zuerst eine Peer-ID generiert, welche zu Signalisierungszwecken genutzt wird. Die \glqq{}Farbe\grqq{} des Spielers ist dabei der Index des Spielers im Spieler-Array (vgl. Tabelle~\ref{table:playercolors}).\par
 
 Der Zugehörige Clientseitige Quellcode ist Abbildung~\ref{lst:clientroomjoin} zu entnehmen. Bei Beitritt eines Raums wird zuerst das Peer-Objekt erstellt, welches die \acs{WebRTC} Verbindungen und Datenkanäle verwaltet. Zudem wird in Zeile 3 die Funktion für ausgehende Signale gesetzt. Diese nutzt die socket.io-Verbindung zur Datenübertragung. In Zeile 4 wird die Rückruffunktion für das \textit{signal}-Event erstellt, welche die Signaldaten an \textit{onsignal}-Funktion des Peer-Objekts weitergibt. In Zeile 6--9 wird das Spiel an sich erstellt und initialisiert. Tritt ein weiterer Spieler dem Spiel bei, so wird die in Zeile 11 definierte Rückruffunktion ausgeführt. Wichtig beim Beitritt eines neuen Spielers ist, dass die Zufallsfunktion des Spiels für alle Spieler mit einem neuen Seed initialisiert wird. Ansonsten ist der Zufallszahlen-Generator des neu beigetretenen Spielers nicht synchron mit denen der weiteren Spieler.
 
@@ -481,6 +477,7 @@ game-room-kick-player&Kann vom Host ausgelöst werden, entfernt einen Spieler au
 \label{section:signalisierungskanal}
 Das Weiterleiten von Signalisierungsnachrichten zwischen Peers wird über die gleiche socket.io-Verbindung geregelt wie die Raumverwaltung. Dazu wird das \textit{signal}-Event verwendet. Abbildung~\ref{lst:signalserver} zeigt die Serverseitige Rückruffunktion des \textit{signal}-Events.
 
+\vspace{6pt}
 \lstset{language=js, style=STYLE_CODE_JS}
 \begin{singlespace}
 \begin{minipage}{\textwidth}
@@ -502,23 +499,30 @@ io.sockets.on('connection', (socket) => {
 \end{lstlisting}
 \end{minipage}
 \end{singlespace}
-
+\newpage
 Zur Signalisierung muss immer die ID des Raums angegeben werden, in welchem die Signalnachricht weitergeleitet werden soll. Zudem muss die Peer-ID des Ziel-Peers angegeben werden. Existieren Raum und Peer, so wird das \textit{signal}-Event an diesen weitergeleitet.
 
 \subsection{Bereitstellung des Webservers}
-Der Webserver kann über den \textit{node}-Befehl gestartet werden. Dies ist jedoch nicht für permanente Bereitstellung geeignet, da der Server bei Neustart oder Absturz der \acs{VM} nicht automatisch neu gestartet wird. Daher wird der Prozess-Daemon-Manager \glqq{}PM2\grqq{} (Process Manager 2) verwendet. PM2 lässt sich über den Node Package Manager installieren. Eine Applikation kann über den Befehl
+Der Webserver kann über den \textit{node}-Befehl gestartet werden. Dies ist jedoch nicht für permanente Bereitstellung geeignet, da der Server bei Neustart oder Absturz der \acs{VM} nicht automatisch neu gestartet wird. Daher wird der Prozess-Daemon-Manager \glqq{}PM2\grqq{} (Process Manager 2) verwendet. Eine Applikation kann über den Befehl
 \lstset{style=STYLE_COMMAND_LINE_ARGUMENT_SINGLE_LINE}
 \begin{lstlisting}[belowskip=-0.8 \baselineskip]
-$ pm2 start Server.js
+$ pm2 start Server.js --watch
 \end{lstlisting}
-gestartet werden. Auf Ubuntu 16+ nutzt PM2 \textit{systemd} zur internen Verwaltung der Prozesse. Um das Programm bei Neustart des Servers auszuführen, muss noch ein entsprechendes \glqq{}Startup-Script\grqq{} erstellt werden. PM2 bietet dazu den \textit{startup}-Befehl:
+gestartet werden. Der \textit{watch} Parameter lädt das Script erneut, falls eine Änderung an der Datei vorgenommen wurde. Dies ist insbesondere bei der Entwicklung hilfreich.\par
+
+Auf Ubuntu 16+ nutzt PM2 \textit{systemd} zur internen Verwaltung der Prozesse. Um das Programm bei Neustart des Servers auszuführen, muss ein entsprechendes \glqq{}Startup-Script\grqq{} erstellt werden. PM2 bietet dazu den \textit{startup}-Befehl:
 \lstset{style=STYLE_COMMAND_LINE_ARGUMENT_SINGLE_LINE}
 \begin{lstlisting}[belowskip=-0.8 \baselineskip]
 $ pm2 startup
 \end{lstlisting}
-Dieser Befehl generiert die Start-Konfiguration und aktiviert die Startup-Funktionalität. Nun muss die momentane Konfiguration in die Start-Konfiguration geschrieben werden. Der Befehl 
+Dieser Befehl generiert einen Kommandozeilenbefehl zum Erstellen einer Start-Konfiguration für das genutzte Betriebssystem, in diesem Fall:
+\lstset{style=STYLE_COMMAND_LINE_ARGUMENT_SINGLE_LINE}
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+$ sudo env PATH=$PATH:/usr/bin /usr/local/lib/node_modules/pm2/bin/pm2 startup systemd -u robin --hp /home/robin
+\end{lstlisting}
+Nachdem dieser Befehl ausgeführt wurde, muss die momentane Prozess-Konfiguration in die Start-Konfiguration geschrieben werden. Der Befehl 
 \lstset{style=STYLE_COMMAND_LINE_ARGUMENT_SINGLE_LINE}
 \begin{lstlisting}[belowskip=-0.8 \baselineskip]
 $ pm2 save
 \end{lstlisting}
-schreibt die Konfiguration aller momentan laufenden PM2-Services in das Start-Script. Bei Neustart des Servers, oder Absturz der Anwendung, wird die Webanwendung nun automatisch als System-Daemon gestartet.
+schreibt die Konfiguration aller momentan laufenden PM2-Services in das Start-Script. Bei Neustart des Servers, oder Absturz der Anwendung, wird die Webanwendung nun automatisch als System-Daemon neu gestartet.

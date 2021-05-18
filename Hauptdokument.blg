@@ -3,60 +3,80 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Hauptdokument.aux
 Reallocating 'name_of_file' (item size: 1) to 9 items.
 The style file: alphadin.bst
-Reallocating 'name_of_file' (item size: 1) to 28 items.
+Reallocating 'name_of_file' (item size: 1) to 25 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'wiz_functions' (item size: 4) to 6000 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
-Database file #1: 30_Literaturverzeichnis.bib
+Database file #1: Literaturverzeichnis.bib
+Warning--to sort, need author or key in BGMarket
+Warning--to sort, need author or key in rtcpeerconnection
+Warning--to sort, need author or key in rtcdatachannel
+Warning--to sort, need author or key in rtcconnectivity
+Warning--to sort, need author or key in rtcprotocols
+Warning--to sort, need author or key in rtctrickleice
+Warning--to sort, need author or key in nod
+Warning--to sort, need author or key in sio
+Warning--to sort, need author or key in exp
+Warning--to sort, need author or key in pm2
+Warning--to sort, need author or key in roll20
+Warning--to sort, need author or key in construct
+Warning--to sort, need author or key in godot
+Warning--empty author in construct
+Warning--empty year in exp
 Warning--empty year in authservermodel
-Warning--empty year in express
-Warning--empty year in nodejs
-Warning--empty year in socketio
-Warning--empty number in rtcpeerconnection
+Warning--empty year in godot
+Warning--empty year in nod
 Warning--empty number in stunRFC
+Warning--empty year in pm2
 Warning--empty number in rtcsecurity
+Warning--empty year in rtcprotocols
+Warning--empty year in rtcdatachannel
+Warning--empty year in rtcpeerconnection
+Warning--empty year in rtctrickleice
+Warning--empty year in rtcconnectivity
+Warning--empty year in sio
 Warning--empty number in turnrestRFC
-You've used 23 entries,
+You've used 32 entries,
             4793 wiz_defined-function locations,
-            1029 strings with 9800 characters,
-and the built_in function-call counts, 13094 in all, are:
-= -- 1461
-> -- 278
-< -- 306
-+ -- 334
-- -- 86
-* -- 805
-:= -- 2113
+            1059 strings with 11189 characters,
+and the built_in function-call counts, 15077 in all, are:
+= -- 1701
+> -- 259
+< -- 308
++ -- 337
+- -- 78
+* -- 934
+:= -- 2295
 add.period$ -- 40
-call.type$ -- 23
-change.case$ -- 103
-chr.to.int$ -- 21
-cite$ -- 31
-duplicate$ -- 380
-empty$ -- 1031
-format.name$ -- 189
-if$ -- 2780
-int.to.chr$ -- 3
+call.type$ -- 32
+change.case$ -- 126
+chr.to.int$ -- 28
+cite$ -- 73
+duplicate$ -- 472
+empty$ -- 1255
+format.name$ -- 165
+if$ -- 3283
+int.to.chr$ -- 5
 int.to.str$ -- 0
-missing$ -- 78
-newline$ -- 175
-num.names$ -- 69
-pop$ -- 156
+missing$ -- 118
+newline$ -- 205
+num.names$ -- 57
+pop$ -- 203
 preamble$ -- 1
-purify$ -- 149
+purify$ -- 190
 quote$ -- 0
-skip$ -- 705
+skip$ -- 810
 stack$ -- 0
-substring$ -- 869
-swap$ -- 77
-text.length$ -- 59
-text.prefix$ -- 16
+substring$ -- 1018
+swap$ -- 85
+text.length$ -- 52
+text.prefix$ -- 12
 top$ -- 0
-type$ -- 256
-warning$ -- 8
-while$ -- 95
-width$ -- 26
-write$ -- 371
-(There were 8 warnings)
+type$ -- 346
+warning$ -- 28
+while$ -- 85
+width$ -- 35
+write$ -- 441
+(There were 28 warnings)

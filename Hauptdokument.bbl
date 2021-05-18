@@ -29,11 +29,31 @@
 \newblock Springer Vieweg, 2019. --
 \newblock ISBN 978--3--662--59896--2
 
+\bibitem[BGM20]{BGMarket}
+\emph{Global Browser Games Market 2020-2030: COVID-19 Implications and Growth -
+  ResearchAndMarkets.com}.
+\newblock
+  \url{https://www.businesswire.com/news/home/20200513005313/en/Global-Browser-Games-Market-2020-2030-COVID-19-Implications-and-Growth---ResearchAndMarkets.com},
+  Mai 2020. --
+\newblock Abgerufen: 17.04.2021
+
 \bibitem[Bis14]{altanai2014}
 \textsc{Bisht}, Altanai:
 \newblock \emph{WebRTC Integrator's Guide}.
 \newblock Packt Publishing, 2014. --
 \newblock ISBN 978--1--78398--126--7
+
+\bibitem[con16]{construct}
+Multiplayer Game Design: Performance Enhancement with Employment of Novel
+  Technology.
+\newblock {In: }\emph{International Journal of Computer Applications} 145
+  (2016), Juli, Nr. 1, S. 27--32
+
+\bibitem[exp]{exp}
+\emph{Express/Node Introduction}. --
+\newblock
+  \textit{\url{https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Introduction}},
+  Abgerufen 28.04.2021
 
 \bibitem[FM11]{websocketRFC}
 \textsc{Fette}, Ian ; \textsc{Melnikov}, Alexey:
@@ -53,6 +73,13 @@
   \url{https://www.gabrielgambetta.com/client-server-game-architecture.html}, .
   --
 \newblock Abgerufen 21.04.2021
+
+\bibitem[god]{godot}
+\emph{WebRTC}.
+\newblock
+  \url{https://docs.godotengine.org/en/stable/tutorials/networking/webrtc.html},
+  . --
+\newblock Abgerufen: 15.05.2021
 
 \bibitem[HS01]{natproblemsRFC}
 \textsc{Holdrege}, Matt ; \textsc{Srisuresh}, Pyda:
@@ -84,51 +111,17 @@
 \newblock O’Reilly Media, 2014. --
 \newblock ISBN 978--1--449--37187--6
 
+\bibitem[nod]{nod}
+\emph{Node.js Introduction}. --
+\newblock \textit{\url{https://www.w3schools.com/nodejs/nodejs_intro.asp}},
+  Abgerufen: 07.04.2021
+
 \bibitem[NPVS07]{p2pchallenges}
 \textsc{Neumann}, Cristoph ; \textsc{Prigent}, Nicolas ; \textsc{Varvello},
   Matteo  ; \textsc{Suh}, Kyoungwon:
 \newblock Challenges in Peer-to-Peer Gaming.
 \newblock {In: }\emph{ACM SIGCOMM Computer Communication Review}  (2007),
   Januar
-
-\bibitem[o.Aa]{express}
-\textsc{o.A}:
-\newblock \emph{Express/Node introduction}.
-\newblock
-  \url{https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Introduction},
-  . --
-\newblock Abgerufen 28.04.2021
-
-\bibitem[o.Ab]{nodejs}
-\textsc{o.A}:
-\newblock \emph{Node.js Introduction}.
-\newblock \url{https://www.w3schools.com/nodejs/nodejs_intro.asp}, . --
-\newblock Abgerufen: 07.04.2021
-
-\bibitem[o.Ac]{socketio}
-\textsc{o.A}:
-\newblock \emph{Socket.io Documentation}.
-\newblock \url{https://socket.io/docs/v4}, . --
-\newblock Abgerufen: 08.04.2021
-
-\bibitem[o.A20]{BGMarket}
-\textsc{o.A}:
-\newblock \emph{Global Browser Games Market 2020-2030: COVID-19 Implications
-  and Growth - ResearchAndMarkets.com}.
-\newblock
-  \url{https://www.businesswire.com/news/home/20200513005313/en/Global-Browser-Games-Market-2020-2030-COVID-19-Implications-and-Growth---ResearchAndMarkets.com},
-  Mai 2020. --
-\newblock Abgerufen: 17.04.2021
-
-\bibitem[o.A21]{rtcpeerconnection}
-\textsc{o.A}:
-\newblock RTCPeerConnection.
-\newblock \,Version:\,Januar 2021.
-\newblock
-  \url{https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection}.
-\newblock Mozilla Development Network, Januar 2021. --
-\newblock Forschungsbericht. --
-\newblock Abgerufen: 10.04.2021
 
 \bibitem[PHRW{\etalchar{+}}20]{stunRFC}
 \textsc{Petit-Huguenin}, Marc ; \textsc{Rosenberg}, Jonathan ; \textsc{Wing},
@@ -140,6 +133,12 @@
 \newblock RFC. --
 \newblock ISSN 2070--1721. --
 \newblock Abgerufen: 06.05.2021
+
+\bibitem[pm2]{pm2}
+\emph{PM2 Documentation}. --
+\newblock
+  \textit{\url{https://pm2.keymetrics.io/docs/usage/pm2-doc-single-page/}},
+  Abgerufen 14.05.2021
 
 \bibitem[r19]{realtimeapp}
 \textsc{r}, Ilan\textunderscore r\textunderscore:
@@ -156,11 +155,62 @@
 \newblock Internet-Draft. --
 \newblock Abgerufen: 06.05.2021
 
+\bibitem[rol20]{roll20}
+\emph{Video and Voice Chat}.
+\newblock
+  \url{https://help.roll20.net/hc/en-us/articles/360041544734-Video-and-Voice-Chat},
+  Mai 2020. --
+\newblock Abgerufen: 16.05.2021
+
+\bibitem[rtca]{rtcprotocols}
+\emph{Introduction to WebRTC protocols}. --
+\newblock
+  \textit{\url{https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Protocols}},
+  Abgerufen: 16.05.2021
+
+\bibitem[rtcb]{rtcdatachannel}
+\emph{RTCDataChannel}.
+\newblock
+  \url{https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel}, . --
+\newblock Abgerufen: 10.04.2021
+
+\bibitem[rtcc]{rtcpeerconnection}
+\emph{RTCPeerConnection}.
+\newblock
+  \url{https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection}, .
+  --
+\newblock Abgerufen: 10.04.2021
+
+\bibitem[rtcd]{rtctrickleice}
+\emph{RTCPeerConnection.canTrickleIceCandidates}. --
+\newblock
+  \textit{\url{https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/canTrickleIceCandidates}},
+  Abgerufen: 16.05.2021
+
+\bibitem[rtce]{rtcconnectivity}
+\emph{WebRTC connectivity}. --
+\newblock
+  \textit{\url{https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Connectivity}},
+  Abgerufen: 16.05.2021
+
+\bibitem[San19]{unity}
+\textsc{Santore}, Laetitia:
+\newblock \emph{Stream high-quality real-time graphics through your browser
+  with our new WebRTC framework}.
+\newblock
+  \url{https://blogs.unity3d.com/2019/09/17/stream-high-quality-real-time-graphics-through-your-browser-with-our-new-webrtc-framework/},
+  September 2019. --
+\newblock Abgerufen: 15.05.2021
+
 \bibitem[Sil15]{silveira2015}
 \textsc{Silveira}, Rodrigo:
 \newblock \emph{Multiplayer Game Development with HTML5}.
 \newblock Packt, 2015. --
 \newblock ISBN 978--1--78528--310--9
+
+\bibitem[sio]{sio}
+\emph{Socket.io Documentation}. --
+\newblock \textit{\url{https://socket.io/docs/v4}}, Abgerufen: 08.04.2021
 
 \bibitem[Ste07]{sctpRFC}
 \textsc{Stewart}, Randall~R.:

@@ -21,17 +21,6 @@ export default function Game([...]) {
 \end{singlespace}
 \end{minipage}
 
-\subsubsection{Begriffserklärungen}
-Um den Ablauf von Brettspielen zu beschreiben, und diesen als Zustandsmaschine darzustellen, werden hier einige Begriffe definiert, welche im Weiteren verwendet werden:
-
-\begin{itemize}
-    \item Ein \textit{Spieler} ist eine agierende Person, welche am Spiel teilnimmt. An einem Spiel nehmen stets $N$ ($1 \leq N \leq M$) Spieler teil. Im Falle des Spiels \textit{Mensch ärgere Dich nicht} gilt $M = 4 \geq N$.
-    
-    \item Eine \textit{Runde} ist ein Ablauf von $N$ \textit{Zügen}, wobei jeder      \textit{Spieler} je einmal \textit{am Zug} ist. War jeder Spieler je einmal am Zug, so wird eine neue Runde gestartet.
-    
-    \item Ein \textit{Zug} ist ein Ablauf an Aktionen eines Spielers. Der \textit{Zug} beginnt, wenn ein Spieler die Kontrolle über das Spiel zugewiesen bekommt. Der \textit{Zug} endet entweder, falls der Spieler aufgrund der Spielregeln keine valide Modifikation am Spielstand vornehmen darf, oder mit dem Modifikation des Spielstands. Gewinnt der Spieler am Zug das Spiel, so wird das Spiel beendet - es folgen keine weiteren Züge und Runden. Falls nicht wird die Kontrolle an den nächsten Spieler übergeben, welcher dann wiederrum am Zug ist.
-\end{itemize}
-
 \subsubsection{Synchronisation des Spielstands bei Spielbeitritt}
 Ist das Spiel gestartet, so weicht der Spielstand von den in Abbildung~\ref{lst:spielstand} gelisteten Standartwerten ab. In diesem Fall muss ein neu beitretender Spieler den gesamten Spielstand von einem weiteren Spieler zugeschickt bekommen. Dies wird immer vom Host des Spielraums übernommen, wenn der Datenkanal zum neuen Spieler geöffnet ist (vgl. Quellcode~\ref{lst:sendspielstand}). Dazu wird das \textit{gamestate}-Event verwendet.
 
@@ -42,7 +31,7 @@ Ist das Spiel gestartet, so weicht der Spielstand von den in Abbildung~\ref{lst:
 \begin{lstlisting}[caption={Senden des Spielstands -- game.js}, captionpos=b, label={lst:sendspielstand}]
 // aufgerufen wenn alle (neuen) Datenkanaele offen sind
 peer.on('dataChannelsOpen', () => {
-  if (isHost && game.gamestate.fsm !== 'started') {
+  if (isHost && game.gamestate.fsm !== 'start') {
     peer.emit(peerID, 'gamestate', game.gamestate);
   }
   [...]
@@ -51,11 +40,9 @@ peer.on('dataChannelsOpen', () => {
 \end{singlespace}
 \end{minipage}
 
-Auf der Empfängerseite muss der Spielstand entsprechend aktualisiert, und die Figuren an deren jeweilige Positionen bewegt werden.
+Auf der Empfängerseite muss der Spielstand entsprechend aktualisiert, und die Figuren an deren jeweiligen Positionen bewegt werden.
 
 \subsection{Spielablauf}
-Das Spiel lässt sich als Zustandsmaschine modellieren. Ein vereinfachtes Ablaufdiagramm des Spielverlaufs ist in Abbildung~\ref{fig:maednablauf} dargestellt. Die \glqq{}Zustände\grqq{} sind dabei in eckigen Klammern definiert. \textit{Kann erneut Würfeln} ist keine einzelne Kondition, sondern eine Ansammlung verschiedener Konditionen: Ein Spieler kann erneut würfeln, falls sich alle dessen Figuren in den A-Feldern befinden, und dieser in diesem Zug unter drei mal gewürfelt hat. Ein Spieler darf zudem immer neu würfeln, falls dieser eine sechs geworfen hat.
-
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.95\textwidth]{bilder/PDF_SVG/MAEDN_ABLAUF.pdf}
@@ -63,20 +50,24 @@ Das Spiel lässt sich als Zustandsmaschine modellieren. Ein vereinfachtes Ablauf
 \label{fig:maednablauf}
 \end{figure}
 
+Das Spiel lässt sich als Zustandsmaschine modellieren. Ein vereinfachtes Ablaufdiagramm des Spielverlaufs ist in Abbildung~\ref{fig:maednablauf} dargestellt. Die \glqq{}Zustände\grqq{} sind dabei in eckigen Klammern definiert. \textit{Kann erneut Würfeln} ist keine einzelne Kondition, sondern eine Ansammlung verschiedener Konditionen: Ein Spieler kann erneut würfeln, falls sich alle dessen Figuren in den A-Feldern befinden, und dieser in diesem Zug unter drei mal gewürfelt hat. Ein Spieler darf zudem immer neu würfeln, falls dieser eine sechs geworfen hat.
+
 Die in orange hervorgehobenen Zustände \glqq{}Würfeln\grqq{} und \glqq{}Ziehen\grqq{} sind von besonderer Bedeutung, da an diesen Punkten ein Datenaustausch zwischen Spielern notwendig ist. Die ausgeführte Logik unterscheidet sich hier basierend darauf, ob ein Spieler am Zug ist oder nicht.\par
 
 \subsubsection{Würfeln}
-JavaScript bietet standartmäßig keine Möglichkeit, einen \textit{Seeded-Random-Number-Generator} zu erstellen. Aus diesem Grund wird die \glqq{}seedrandom\grqq{}-Bibliothek eingebunden\footnote{seedrandom: \url{https://github.com/davidbau/seedrandom}}. Die Bibliothek stellt die \textit{Math.seedrandom}-Funktion bereit, welche einen Pseudozufallszahl-Generator erstellt. Standartmäßig nutzt dieser die Stromverschlüsselung \acf{RC4} zum Generieren von Zufallszahlen \cite{seedrandom}.
+JavaScript bietet standartmäßig keine Möglichkeit, einen \textit{Seeded-Random-Number-Generator} zu erstellen. Aus diesem Grund wird die \glqq{}seedrandom\grqq{}-Bibliothek eingebunden\footnote{seedrandom: \url{https://github.com/davidbau/seedrandom}, Stand 12.05.2021}. Die Bibliothek stellt die \textit{Math.seedrandom}-Funktion bereit, welche einen Pseudozufallszahl-Generator erstellt. Standartmäßig nutzt dieser die Stromverschlüsselung \acf{RC4} zum Generieren von Zufallszahlen \cite{seedrandom}.
 
 \vspace{6pt}
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.95\textwidth]{bilder/PDF_SVG/MAEDN_WUERFELN.pdf}
+\includegraphics[width=0.90\textwidth]{bilder/PDF_SVG/MAEDN_WUERFELN.pdf}
 \caption{Würfel-Nachrichtenaustausch.}
 \label{fig:maednwuerfeln}
 \end{figure}
 
-Würfelt ein Spieler, so wird über den \textit{Seeded-Random-Number-Generator} eine Pseudozufallszahl generiert. Damit die Zufallszahlgeneratoren der weiteren Spieler synchron sind, muss diese Aktion den weiteren Spielern mitgeteilt werden. Dazu wird das \textit{generate-random}-Event an alle weiteren Peers gesendet. Die Parameter dieses Events enthalten die Zufallszahl des Spielers am Zug. Erhält ein weiterer Spieler das Event, so generiert dieser eine eigene Zufallszahl, welche -- falls der Spieler am Zug nicht betrügt, und die Zufallszahlgeneratoren der Spieler synchron sind -- gleich der vom Spieler am Zug generierten Zufallszahl sein sollte (vgl. Abbildung~\ref{fig:maednwuerfeln}). Mit der gewürfelten Zahl wird daraufhin ein Array mit allen möglichen Spielzügen generiert, welche der Spieler am Zug basierend auf der gewürfelten Zahl ausführen kann. Ein Zug setzt sich aus einer Start- und Zielposition zusammen:\par
+Würfelt ein Spieler, so wird über den \textit{Seeded-Random-Number-Generator} eine Pseudozufallszahl generiert. Damit die Zufallszahlgeneratoren der weiteren Spieler synchron sind, muss diese Aktion den weiteren Spielern mitgeteilt werden. Dazu wird das \textit{generate-random}-Event an alle weiteren Peers gesendet. Die Parameter dieses Events enthalten die Zufallszahl des Spielers am Zug. Erhält ein weiterer Spieler das Event, so generiert dieser eine eigene Zufallszahl, welche -- falls der Spieler am Zug nicht betrügt, und die Zufallszahlgeneratoren der Spieler synchron sind -- gleich der vom Spieler am Zug generierten Zufallszahl sein sollte (vgl. Abbildung~\ref{fig:maednwuerfeln}).\par 
+
+Mit der gewürfelten Zahl wird daraufhin ein Array mit allen möglichen Spielzügen generiert, welche der Spieler am Zug basierend auf der gewürfelten Zahl ausführen kann. Ein Zug setzt sich aus einer Start- und Zielposition zusammen:
 
 \lstset{style=STYLE_COMMAND_LINE_ARGUMENT_SINGLE_LINE}
 \begin{minipage}{\textwidth}
@@ -89,6 +80,7 @@ move = {
 \end{lstlisting}
 \end{singlespace}
 \end{minipage}
+\vspace{5pt}
 
 Die Start- und Zielposition eines Zugs ist dabei immer relativ zum Start-Feld des Spielers am Zug. Sowohl der Spieler am Zug, als auch alle weiteren Spieler generieren das Array an Spielzügen.\par
 
@@ -98,7 +90,7 @@ Der Spieler am Zug kann durch Klicken auf eine Spielfigur einen Zug wählen. Exi
 \vspace{6pt}
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.95\textwidth]{bilder/PDF_SVG/MAEDN_ZIEHEN.pdf}
+\includegraphics[width=0.90\textwidth]{bilder/PDF_SVG/MAEDN_ZIEHEN.pdf}
 \caption{Ziehen-Nachrichtenaustausch.}
 \label{fig:maednziehen}
 \end{figure}
@@ -108,15 +100,7 @@ Das Spielbrett wird aus stilisierten \acf{DOM}-Elementen generiert. Diese Elemen
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.95\textwidth]{bilder/PDF_SVG/MAEDN_BOARD_DIAGRAM.pdf}
+\includegraphics[width=0.90\textwidth]{bilder/PDF_SVG/MAEDN_BOARD_DIAGRAM.pdf}
 \caption{Schemenhafte Darstellung des Spielbretts, mit Positionen und Farben.}
 \label{fig:maednbrett}
-\end{figure}
-
-\vspace{6pt}
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.95\textwidth]{bilder/game-in-progress.png}
-\caption{Laufendes Spiel mit drei Spielern. Gelb ist am Zug.}
-\label{fig:maedngame}
 \end{figure}

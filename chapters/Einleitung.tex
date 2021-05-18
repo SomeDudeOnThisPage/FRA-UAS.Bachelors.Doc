@@ -1,13 +1,30 @@
-Am 26. Januar 2021 veröffentlichte das \ac{W3C} die \ac{WebRTC} Recommendation. Eine Recommendation des \acs{W3C} ist ein offizieller Web-Standard in seiner -- bezüglich der zentralen Funktionalität -- finalen Form. \acs{WebRTC} ist eine Peer-To-Peer Web-Technologie, und wird primär für Webbrowserbasierte Echtzeit-Anwendungen wie Audio- und Videokommunikation verwendet.\par
+Am 26. Januar 2021 veröffentlichte das \ac{W3C} die \ac{WebRTC} Recommendation. Eine Recommendation des \acs{W3C} ist ein offizieller Webstandard in seiner -- bezüglich der zentralen Funktionalität -- finalen Form. \acs{WebRTC} ist eine Peer-To-Peer Webtechnologie, und wird primär für browserbasierte Echtzeitanwendungen wie Audio- und Videokommunikation verwendet.\par
 
-Die Beliebtheit von interaktiven Mehrspieler-Spielen, welche durch das einfache Abrufen einer Webseite spielbar sind, steigt von Jahr zu Jahr, und wird zudem durch die seit Beginn 2020 anhaltende Corona-Pandemie weiter gefördert \cite{BGMarket}.\par
+Die Beliebtheit von interaktiven Mehrspielerspielen, welche durch das einfache Abrufen einer Webseite spielbar sind, steigt von Jahr zu Jahr, und wird zudem durch die seit Beginn 2020 anhaltende Corona-Pandemie weiter gefördert \cite{BGMarket}.\par
 
-In der Regel basieren Browserbasierte Mehrspieler-Spiele auf einer Client-Server-Architektur, wobei der Server die Rolle des bestimmenden Spielleiters übernimmt.\par
+In der Regel basieren browserbasierte Mehrspielerspiele auf einer Client-Server-Architektur, wobei der Server die Rolle des bestimmenden Spielleiters übernimmt.\par
 
-Bei Browserbasierten Mehrspieler-Spielen ist Nutzung von \acf{P2P}-Netzwerken zum Datenaustausch  begrenzt. Dies ist nicht zuletzt auf das Lebensende des Adobe Flash Players im Dezember 2020 zurückzuführen, welcher über Peer-To-Peer Fähigkeiten, ermöglicht durch das Real-Time Media Flow Protocol von Adobe \cite{adobeRFC}, verfügte. Seitdem existiert -- mit Ausnahme von \acs{WebRTC} -- keine alternative Möglichkeit um Nutzer von Webanwendungen, ohne die Nutzung von Plug-Ins oder Drittanbietersoftware, direkt untereinander zu vernetzen.\par
+Bei browserbasierten Mehrspielerspielen ist die Nutzung von \acf{P2P}-Netzwerken zum Datenaustausch  begrenzt. Dies ist nicht zuletzt auf das Lebensende des Adobe Flash Players im Dezember 2020 zurückzuführen, welcher über Peer-To-Peer Fähigkeiten, ermöglicht durch das Real-Time Media Flow Protocol von Adobe \cite{adobeRFC}, verfügte. Seitdem existiert -- mit Ausnahme von \acs{WebRTC} -- keine alternative Möglichkeit, um Nutzer von Webanwendungen, ohne die Nutzung von Plug-Ins oder Drittanbietersoftware, direkt untereinander zu vernetzen.\par
 
 \section{Zielsetzung}
-In dieser Arbeit soll ein Brettspiel, sowie sämtliche benötigten Komponenten zum Aufbau von Peer-To-Peer Netzwerken via \acs{WebRTC} prototypisch entworfen, implementiert und aufgesetzt werden. Ziel ist es, darauf basierend die Anwendbarkeit von \acs{WebRTC} für die Entwicklung von Brettspielen im Browser unter Nutzung von Peer-To-Peer Netzwerken zu evaluieren. Dabei soll primär auf Vor- und Nachteile einer Nutzung von Peer-To-Peer Netzwerken via \acs{WebRTC} im Vergleich zu Client-Server Modellen eingegangen werden.
+In dieser Arbeit sollen ein Brettspiel, sowie sämtliche benötigten Komponenten zum Aufbau von Peer-To-Peer Netzwerken via \acs{WebRTC} prototypisch entworfen, implementiert und aufgesetzt werden. Ziel ist es, darauf basierend die Anwendbarkeit von \acs{WebRTC} für die Entwicklung von Brettspielen im Browser unter Nutzung von Peer-To-Peer Netzwerken zu evaluieren. Dabei soll primär auf Vor- und Nachteile einer Nutzung von Peer-To-Peer Netzwerken via \acs{WebRTC} im Vergleich zu Client-Server Modellen eingegangen werden.
 
 \section{Aufbau der Arbeit}
-// TODO: logischerweise als letztes...
+Die vorliegende Arbeit ist -- neben diesem Einleitungskapitel -- in insgesamt sechs weitere Kapitel unterteilt:
+
+\begin{enumerate}
+\setcounter{enumi}{1}
+
+\item \textbf{Grundlagen}: Dieses Kapitel befasst sich mit den für die Implementation und Evaluation notwendigen technischen Grundlagen. Hier wird insbesondere auf die Struktur von WebRTC, sowie die verwendeten Protokolle eingegangen.
+
+\item \textbf{WebRTC in Mehrspielerspielen}: Dieses Kapitel befasst sich mit dem Stand der Verwendung von WebRTC in Mehrspielerspielen, und warum diese Technik in diesem Themenbereich relevant ist.
+
+\item \textbf{Konzept}: In diesem Kapitel werden die Anforderungen an die Netzwerkstruktur und das Brettspiel erläutert. Dabei handelt es sich nicht um eine formale Anforderungsanalyse, es soll lediglich ein Überblick über die zu implementierenden Komponenten gegeben werden. Zudem werden Konzepte, welche für die Implementation relevant sind, diskutiert.
+
+\item \textbf{Implementation}: Dieses Kapitel behandelt die Implementation der WebRTC- und Serverinfrastruktur, sowie des Brettspiels.
+
+\item \textbf{Evaluation}: In diesem Kapitel werden sowohl aufgetretene Probleme bei der Implementierung, als auch die Verwendung von WebRTC für browserbasierte Mehrspielerbrettspiele, diskutiert.
+
+\item \textbf{Zusammenfassung und Ausblick}: Zuletzt wird der Inhalt der Arbeit reflektiert, und Ansätze für zukünftige, weiterführende Arbeiten gegeben.
+
+\end{enumerate}

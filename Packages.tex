@@ -185,7 +185,11 @@ allcolors = black] {hyperref}
 % \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
 
 % nicht alle wörter breaken...
-\tolerance=1
-\emergencystretch=\maxdimen
-\hyphenpenalty=10000
-\hbadness=10000
+\tolerance=5000
+%\sloppy
+%\emergencystretch=1em
+%\hyphenpenalty=10
+\hbadness=5000
+
+% The word "WebRTC" gets hyphenated like "We-bRTC" or "W-ebRTC" or "WebR-TC" for some reason, so just disable it completely at this point...
+\hyphenation{WebRTC}
